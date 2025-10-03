@@ -20,4 +20,7 @@ Developer Documentation
    :maxdepth: 2
    :caption: Contents
 
-   dft_notes
+   statement_of_need
+   type_erasure
+   operations
+   extending

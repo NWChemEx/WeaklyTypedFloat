@@ -16,9 +16,9 @@
 Why do we need WTF?
 ###################
 
-*******
-Problem
-*******
+**********
+Motivation
+**********
 
 The standard C++ library already includes a host of FP types including:
 
@@ -32,63 +32,46 @@ The standard C++ library already includes a host of FP types including:
 ...and that's before we discuss the types introduced by C++23. Conceptually,
 these types are all used to do the same thing: represent real (or more
 generally complex) numbers. In practice, the difference among these FP types
-is that they represent the number with different numbers of bits. Consequently,
+is that they represent the number with different amounts of bits. Consequently,
 the range and precision of numbers that can be represented differs by FP type.
 Unfortunately, the performance of numerics is intimately tied to the FP type
 used.
 
-In many scientific computing applications, ``double`` or
-``std::complex<double>`` is used as the "universal" FP type. When higher
-precision is needed the values are converted to ``long double``. When lower
-precision ia acceptable, the values are converted to ``float``. This leads to
-a pattern like:
+.. note::
 
-.. code-block:: cpp
+   For brevity we will focus on the real FP types. Everything we say here
+   readily generalizes to complex FP types as well.
 
-   std::vector<double> my_function(const std::vector<double>& data) {
-       // Conversion 1: occurs if the user's data was not stored as a
-       // std::vector<double>.
+A fundamental problem in the software engineering of scientific libraries is
+dealing with FP types. Historically, for simplicity many scientific libraries 
+have assumed ``double`` as the FP type at all interfaces. If the user is
+storing their data as ``float``, they must convert it to ``double`` to call the
+interface, and then convert the result back to ``float`` after the call.
+Admittedly, this is why many scientific libraries provide overloads for other
+FP types, but this in turn requires the developer to maintain one interface
+per FP type. 
 
-       // Conversion 2: double to long double
-       std::vector<long double> high_precision_data(data.begin(), data.end());
+C++ libraries can avoid the need to support multiple overloads by using 
+templates. As long as the user of the library is calling the function from C++, 
+this solution works well. However, it is becoming increasingly important to
+be able to interface scientific software to other languages (e.g., Python). In
+most cases, interfacing is done through a C-like interface, precluding the use
+of templates.
 
-        // Perform high precision computations
-        // ...
+*****************
+Problem Statement
+*****************
 
-        // Conversion 3: Convert back to double
-        return std::vector<double>(high_precision_data.begin(),
-                                   high_precision_data.end());
-    }
+Scientific software developers increasingly need to support multiple FP types.
+At the same time, they want their software to be callable from multiple
+languages. Unfortunately, this precludes the use of templates at user-facing
+interfaces. 
 
-If ``my_function`` is called from a routine that already stores its data as
-``long double`` then the conversions to and from ``double`` are wasteful. To
-avoid this the maintainer of ``my_function`` may maintain an overload with a
-signature like
-``std::vector<long double> my_function(const std::vector<long double>& data)``.
-This quickly leads to a combinatorial explosion of overloads as one can
-imagine that you would need one overload per FP type you want to support. The
-situation is even worse if you realize that you may want to allow the user to
-control the FP type used for intermediate computations and the result type
-separately.
+*****
+Goals
+*****
 
-To avoid the combinatorial explosion of overloads, one may be tempted to
-implement ``my_function`` as a function template. An attempt to do so may look
-like:
-
-.. code-block:: cpp
-
-   template<typename InputT, typename IntermediateT, typename ResultT>
-   std::vector<ResultT> my_function(const std::vector<InputT>& data) {
-       // Conversion 1: If InputT != ResultT then convert
-       std::vector<IntermediateT> intermediate_data(data.begin(), data.end());
-
-        // Perform high precision computations
-        // ...
-
-        // Conversion 2: If IntermediateT != ResultT then convert
-        return std::vector<ResultT>(intermediate_data.begin(),
-                                    intermediate_data.end());
-    }
-
-While this solution removes one of the three conversions, it couples the logic
-of ``my_function`` to the logic for converting the FP types.
+- Provide a series of abstractions that are capable of holding
+  arbitrary FP types.
+- Make it easy for users of WTF to compose algorithms with these abstractions.  
+- Ensure that the abstractions can be used in a performant manner.
