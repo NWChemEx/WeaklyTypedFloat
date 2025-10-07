@@ -21,6 +21,6 @@ Developer Documentation
    :caption: Contents
 
    statement_of_need
+   scope
    type_erasure
    operations
-   extending

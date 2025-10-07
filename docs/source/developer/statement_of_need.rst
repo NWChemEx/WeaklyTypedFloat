@@ -40,7 +40,8 @@ used.
 .. note::
 
    For brevity we will focus on the real FP types. Everything we say here
-   readily generalizes to complex FP types as well.
+   readily generalizes to complex FP types as well. WTF fully supports complex
+   values, we just don't want to keep bringing it up.
 
 A fundamental problem in the software engineering of scientific libraries is
 dealing with FP types. Historically, for simplicity many scientific libraries 
@@ -73,5 +74,7 @@ Goals
 
 - Provide a series of abstractions that are capable of holding
   arbitrary FP types.
-- Make it easy for users of WTF to compose algorithms with these abstractions.  
+- Make it easy for users of WTF to compose algorithms with these abstractions.
+- Ensure that the user can extend WTF to support their own custom FP types
+  without needing to modify the WTF source.  
 - Ensure that the abstractions can be used in a performant manner.
