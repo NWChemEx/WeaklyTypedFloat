@@ -18,11 +18,12 @@
 #include <catch2/catch_template_test_macros.hpp>
 #include <catch2/catch_test_macros.hpp>
 #include <string>
+#include <wtf/types.hpp>
 
 namespace test_wtf {
 
 /// The types that C++20 by default considers floating point types
-using default_fp_types = std::tuple<float, double, long double>;
+using default_fp_types = wtf::wtf_default_fp_types;
 
 /// Some types that C++20 by default does not consider floating point types
 using not_fp_types = std::tuple<char, bool, std::string>;
@@ -35,6 +36,7 @@ public:
     MyCustomFloat(MyCustomFloat&&)                 = default;
     MyCustomFloat& operator=(const MyCustomFloat&) = default;
     MyCustomFloat& operator=(MyCustomFloat&&)      = default;
+    MyCustomFloat(double v) : MyCustomFloat(v, "") {}
     MyCustomFloat(double v, std::string d) : value(v), desc(std::move(d)) {}
 
     bool operator==(const MyCustomFloat& other) const {

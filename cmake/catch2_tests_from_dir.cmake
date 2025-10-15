@@ -14,16 +14,6 @@
 
 include_guard()
 
-function(find_catch2 fc_version)
-    include(FetchContent)
-    FetchContent_Declare(
-        catch2 
-        GIT_REPOSITORY https://github.com/catchorg/Catch2
-        GIT_TAG "${fc_version}"
-    )
-    FetchContent_MakeAvailable(catch2)
-endfunction()
-
 function(catch2_tests_from_dir ctfd_target_name ctfd_dir)
     file(GLOB_RECURSE ctfd_test_files CONFIGURE_DEPENDS ${ctfd_dir}/*.cpp)
     

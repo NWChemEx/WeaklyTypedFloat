@@ -1,5 +1,6 @@
 #pragma once
-#include <wtf/concepts.hpp>
+#include <utility> // for std::move, std::swap
+#include <wtf/concepts/floating_point.hpp>
 #include <wtf/detail_/float_holder.hpp>
 #include <wtf/type_traits/float_traits.hpp>
 
@@ -8,13 +9,13 @@ namespace wtf::detail_ {
 /** @brief Implements the FloatHolder API for floats of type @p FloatType.
  *
  *  @tparam FloatType The type of floating-point value being held. Must satisfy
- *                    the wtf::FloatingPoint concept.
+ *                    the concepts::UnmodifiedFloatingPoint concept.
  *
  *  This class is responsible for holding and knowing the type of a single
  *  floating-point value. It implements the FloatHolder API defined by the
  *  base so that the held value can be manipulated in a type-erased manner.
  */
-template<FloatingPoint FloatType>
+template<concepts::FloatingPoint FloatType>
 class FloatModel : public FloatHolder {
 public:
     /// Type defining the traits for FloatType

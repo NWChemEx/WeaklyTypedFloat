@@ -21,10 +21,12 @@ set(CMAKE_CXX_STANDARD 20)
 set(BUILD_TESTING TRUE)
 set(CMAKE_BUILD_SHARED_LIBS ON)
 
+include(cmake/get_dependencies.cmake)
 
 file(GLOB_RECURSE WTF_HEADER_FILES CONFIGURE_DEPENDS include/wtf/*.hpp)
 file(GLOB_RECURSE WTF_SOURCE_FILES CONFIGURE_DEPENDS src/wtf/*.cpp)
 add_library(${PROJECT_NAME} ${WTF_SOURCE_FILES})
+target_link_libraries(${PROJECT_NAME})
 target_include_directories(${PROJECT_NAME}
     PUBLIC 
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -32,9 +34,8 @@ target_include_directories(${PROJECT_NAME}
 )
 if(${BUILD_TESTING})
     include(CTest)
+    get_dependencies(catch2)
     include(cmake/catch2_tests_from_dir.cmake)
-
-    find_catch2("v3.11.0")
     catch2_tests_from_dir(
         "unit_test_${PROJECT_NAME}" 
         tests/unit_tests/wtf 

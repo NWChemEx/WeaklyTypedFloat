@@ -1,5 +1,5 @@
 #pragma once
-#include <wtf/concepts.hpp>
+#include <wtf/concepts/floating_point.hpp>
 
 namespace wtf::type_traits {
 
@@ -14,10 +14,13 @@ namespace wtf::type_traits {
  *  specialize the class for custom floating-point classes when those classes
  *  have custom reference/pointer classes.
  */
-template<QualifiedFloatingPoint T>
+template<concepts::FloatingPoint T>
 struct float_traits {
     /// The type of an object declared with type @p T
     using value_type = T;
+
+    /// The type of a const-qualified object declared with type @p T
+    using const_value_type = const value_type;
 
     /// Type acting like a reference to an object of value_type
     using reference = value_type&;
@@ -30,6 +33,10 @@ struct float_traits {
 
     /// Type acting like a const pointer to an object of value_type
     using const_pointer = const value_type*;
+
+    /// True if value_type is const-qualified, false otherwise
+    static constexpr bool is_const =
+      std::is_const_v<std::remove_reference_t<T>>;
 };
 
 } // namespace wtf::type_traits

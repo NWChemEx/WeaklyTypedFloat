@@ -85,6 +85,22 @@ TEMPLATE_LIST_TEST_CASE("FloatModel", "[float_model]",
         REQUIRE(m.get_value() == float_t(1.23));
         REQUIRE(m2.get_value() == val);
     }
+
+    SECTION("are_equal_") {
+        model_t m2(val);
+        REQUIRE(m.are_equal(m2));
+
+        // Different value
+        model_t m3(float_t(1.23));
+        REQUIRE_FALSE(m.are_equal(m3));
+
+        // Different type
+        using other_type =
+          std::conditional_t<std::is_same_v<float_t, float>, double, float>;
+
+        FloatModel<other_type> m4(other_type(3.14));
+        REQUIRE_FALSE(m.are_equal(m4));
+    }
 }
 
 WTF_REGISTER_FP_TYPE(test_wtf::MyCustomFloat);
@@ -167,5 +183,17 @@ TEST_CASE("FloatModel (custom type)", "[float_model][custom_type]") {
         m.swap(m2);
         REQUIRE(m.get_value() == pi);
         REQUIRE(m2.get_value() == val);
+    }
+
+    SECTION("are_equal_") {
+        model_t m2(val);
+        REQUIRE(m.are_equal(m2));
+
+        // Different value
+        model_t m3(pi);
+        REQUIRE_FALSE(m.are_equal(m3));
+
+        FloatModel<float> m4(float(3.14));
+        REQUIRE_FALSE(m.are_equal(m4));
     }
 }

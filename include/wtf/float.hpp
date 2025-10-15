@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include <wtf/concepts.hpp>
+#include <wtf/concepts/floating_point.hpp>
 #include <wtf/detail_/float_model.hpp>
 
 namespace wtf {
@@ -22,19 +22,19 @@ public:
 
 private:
     template<typename T>
-        requires FloatingPoint<std::decay_t<T>>
+        requires concepts::FloatingPoint<std::decay_t<T>>
     friend T float_cast(Float& f);
 
     holder_pointer m_holder_;
 };
 
-template<FloatingPoint T>
+template<concepts::FloatingPoint T>
 Float make_float(T value) {
     return Float(std::make_unique<detail_::FloatModel<T>>(std::move(value)));
 }
 
 template<typename T>
-    requires FloatingPoint<std::decay_t<T>>
+    requires concepts::FloatingPoint<std::decay_t<T>>
 T float_cast(Float& f) {
     auto* p            = f.m_holder_.get();
     using derived_type = detail_::FloatModel<std::decay_t<T>>;
