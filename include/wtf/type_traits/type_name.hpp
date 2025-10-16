@@ -34,4 +34,15 @@ struct TypeName<long double> {
     static constexpr auto value = "long double";
 };
 
+/** @brief A variable template for converting @p T to a string.
+ *
+ *  @tparam T A floating-point type without any type modifiers.
+ *
+ *  This variable template is simply a convenient shorthand for getting at the
+ *  `value` member of the TypeName<T> struct.
+ *
+ */
+template<concepts::UnmodifiedFloatingPoint T>
+constexpr auto type_name_v = TypeName<T>::value;
+
 } // namespace wtf::type_traits
