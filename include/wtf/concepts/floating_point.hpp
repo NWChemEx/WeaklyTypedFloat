@@ -4,17 +4,36 @@
 
 namespace wtf::concepts {
 
-/// Establishes that T is an unmodified type of floating point value
+/** @brief Is @p T an unmodified floating point type?
+ *
+ *  @tparam T The type being checked.
+ *
+ *  This concept establishes that @p T is a floating point type and that it is
+ *  not const- or volatile-qualified, nor is it a reference or pointer type,
+ *  i.e., it is unmodified.
+ */
 template<typename T>
 concept UnmodifiedFloatingPoint =
   Unmodified<T> && wtf::type_traits::is_floating_point_v<T>;
 
-/// Establishes that T is a floating point type, possibly with
-/// const-qualification
+/** @brief Is @p T a possibly cv-qualified floating point type?
+ *
+ *  @tparam T The type being checked.
+ *
+ *  This concept establishes that @p T is a floating point type, allowing it to
+ *  be cv-qualified, but not a reference or pointer type.
+ */
 template<typename T>
-concept FloatingPoint = UnmodifiedFloatingPoint<std::remove_const_t<T>>;
+concept FloatingPoint =
+  UnmodifiedFloatingPoint<std::remove_volatile_t<std::remove_const_t<T>>>;
 
-/// Establishes that T is a const-qualified floating point type
+/** @brief Is @p T a const-qualified floating point type?
+ *
+ *  @tparam T The type being checked.
+ *
+ *  This concept establishes that @p T is a floating point type and that it is
+ *  const-qualified.
+ */
 template<typename T>
 concept ConstFloatingPoint = FloatingPoint<T> && ConstQualified<T>;
 

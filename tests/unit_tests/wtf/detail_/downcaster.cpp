@@ -1,11 +1,12 @@
 #include "../../../test_wtf.hpp"
 #include <wtf/detail_/downcaster.hpp>
-#include <wtf/rtti/type_model.hpp>
+#include <wtf/rtti/detail_/type_model.hpp>
 
-using namespace wtf::rtti;
 using namespace wtf::detail_;
+using wtf::rtti::detail_::TypeModel;
 
 using traits_type = VariantFromTuple<TypeModel, test_wtf::default_fp_types>;
+
 using const_traits_type =
   ConstVariantFromTuple<TypeModel, test_wtf::default_fp_types>;
 

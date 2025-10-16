@@ -19,6 +19,9 @@ struct float_traits {
     /// The type of an object declared with type @p T
     using value_type = T;
 
+    /// The type resulting from removing all qualifiers from @p T.
+    using unqualified_type = std::remove_cv_t<T>;
+
     /// The type of a const-qualified object declared with type @p T
     using const_value_type = const value_type;
 

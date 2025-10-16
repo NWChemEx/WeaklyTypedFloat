@@ -62,16 +62,23 @@ type of the value being passed in.
     };
 
 The polymoprhic solution we used for single dispatch only works on one type at
-a time, so we need a different solution.
+a time (the type of ``*this``), so we need a different solution.
 
 What won't work?
 ================
 
 At this point note that though ``std::variant`` is a common C++ solution for 
-multiple dispatch, it only works when we know ALL of the types ahead of time. We
-don't want to assume a list of FP types, so that won't work. Another common
-solution is the traditional visitor pattern, but ultimately that will require a
-class like:
+multiple dispatch. Instead of using the standard type-erasure pattern we'd
+hold the value in ``std::variant`` (the ``std::variant`` would live in the
+the class that is currently the interface or the class that is the holder and
+the model class would no longer be needed). However, this solution only works if
+we know ALL of the types ahead of time. Alternatively, we could template the
+interface on the ``std::variant`` (or the types in the ``std::variant``) to 
+avoid assuming a set of types, but this then destroys the type-erasure WTF is
+trying to implement since the interface is now templated!
+
+Another common solution is the visitor pattern, but ultimately that 
+will require a class like:
 
 .. code-block:: c++
 
@@ -86,15 +93,23 @@ class like:
         virtual void visit(long double, double) = 0;
         virtual void visit(long double, long double) = 0;
     };
+    
+    // With some template trickery we could then get the following to work:
+    Visitor& v = ...; // User-defined derived class passed by base
+    wtf::Buffer val0;
+    wtf::Buffer val1;
+    dispatch(v, val0, val1); 
 
-(n.b., for double dispatch we can make it linear in the number of FP types by 
-relying on polymorphism to work out one of the types; however, it will still
-result in a combinatorial explosion for dispatching on three or more inputs). 
-This suffers from the same problem as ``std::variant``: we don't want to assume 
-a list of FP types (in fact, as the name ``std::visit`` suggest, the two 
-are related...). FWIW, there's a name for wanting to have multiple dispatch
-while not wanting to assume a list of types: it's called the "expression 
-problem".
+(n.b., for double dispatch we can make the visitor's interface linear in the 
+number of FP types by relying on polymorphism to work out one of the types; 
+however, it will still result in a combinatorial explosion for dispatching on 
+three or more inputs).  This suffers from the same problem as ``std::variant``: 
+we don't want to assume a list of FP types (in fact, as the name ``std::visit`` 
+suggest, the two are related...). 
+
+
+FWIW, there's a name for wanting to have multiple dispatch while not wanting to 
+assume a list of types: it's called the "expression  problem".
 
 Solving the Expression Problem
 ==============================
@@ -119,3 +134,17 @@ construct is. While this could eventually be worked through, we also noted that
 the author of Yomm2 appears to be in the process of moving Yomm2 to Boost. If
 we want to consider Yomm2, we should probably wait until it's in Boost, and then
 use the Boost version.
+
+For now our solution is to assume that the user of WTF is only supporting a
+finite set of floating point types and that they know what those types are. If
+that is the case, the user can provide us with the list of types they support
+when they want to dispatch. WTF can then use that list to create a series of
+``std::variant`` objects for the operation, use ``std::visit`` to do the
+multiple dispatch, and then return the result. By comparison, the usual 
+``std::variant`` solution forces the same set of types on all type-erased 
+objects in the hierarchy and on all operations using those types. Our solution
+still allows the objects to erase arbitrary floating point types, but now
+restricts each execution of an operation to a set of types. Of note, each time
+an operation is invoked it can be invoked with a different set of types. Of
+course, if the held floating-point type is not convertible to one of the types
+in the set, an exception will be thrown at runtime.

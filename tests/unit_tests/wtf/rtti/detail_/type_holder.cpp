@@ -1,0 +1,147 @@
+#include "../../../../test_wtf.hpp"
+#include <wtf/rtti/detail_/type_model.hpp>
+#include <wtf/type_traits/type_traits.hpp>
+
+using namespace wtf::rtti::detail_;
+using TypeModelf = TypeModel<float>;
+using TypeModeld = TypeModel<double>;
+using TypeModell = TypeModel<long double>;
+
+TEMPLATE_LIST_TEST_CASE("TypeHolder", "[wtf][rtti]",
+                        test_wtf::default_fp_types) {
+    std::string type_name = typeid(TestType).name();
+    TypeModel<TestType> model(type_name);
+    TypeModel<const TestType> const_model(type_name);
+
+    TypeHolder& model_holder       = model;
+    TypeHolder& const_model_holder = const_model;
+
+    SECTION("get_model") {
+        auto m1 = model_holder.get_model();
+        auto m2 = const_model_holder.get_model();
+
+        REQUIRE(m1->are_equal(model));
+        REQUIRE(m2->are_equal(const_model));
+
+        // Must return the SAME pointer each time
+        REQUIRE(m1 == model_holder.get_model());
+        REQUIRE(m2 == const_model_holder.get_model());
+    }
+
+    SECTION("name") {
+        REQUIRE(model_holder.name() == type_name);
+        REQUIRE(const_model_holder.name() == "const " + type_name);
+    }
+
+    SECTION("precision") {
+        constexpr auto corr = wtf::type_traits::precision_v<TestType>;
+        REQUIRE(model_holder.precision() == corr);
+        REQUIRE(const_model_holder.precision() == corr);
+    }
+
+    SECTION("is_const") {
+        REQUIRE_FALSE(model_holder.is_const());
+        REQUIRE(const_model_holder.is_const());
+    }
+
+    SECTION("make_const") {
+        auto cm = model_holder.make_const();
+        REQUIRE(cm->are_equal(const_model));
+        REQUIRE(cm->is_const());
+        REQUIRE(const_model.make_const()->are_equal(const_model));
+    }
+
+    SECTION("are_equal") {
+        REQUIRE(model_holder.are_equal(model));
+        REQUIRE(const_model_holder.are_equal(const_model));
+
+        REQUIRE_FALSE(model_holder.are_equal(const_model));
+        REQUIRE_FALSE(const_model_holder.are_equal(model));
+    }
+
+    SECTION("is_implicitly_convertible_to") {
+        using types = test_wtf::default_fp_types;
+        REQUIRE(model_holder.is_implicitly_convertible_to<types>(model));
+        REQUIRE(model_holder.is_implicitly_convertible_to<types>(const_model));
+
+        REQUIRE(
+          const_model_holder.is_implicitly_convertible_to<types>(const_model));
+        REQUIRE_FALSE(
+          const_model_holder.is_implicitly_convertible_to<types>(model));
+    }
+}
+
+WTF_REGISTER_FP_TYPE(test_wtf::MyCustomFloat);
+
+TEST_CASE("TypeHolder (custom type)", "[wtf][rtti][custom_type]") {
+    using TestType        = test_wtf::MyCustomFloat;
+    std::string type_name = typeid(TestType).name();
+    TypeModel<TestType> model(type_name);
+    TypeModel<const TestType> const_model(type_name);
+
+    TypeHolder& model_holder       = model;
+    TypeHolder& const_model_holder = const_model;
+
+    SECTION("get_model") {
+        auto m1 = model_holder.get_model();
+        auto m2 = const_model_holder.get_model();
+
+        REQUIRE(m1->are_equal(model));
+        REQUIRE(m2->are_equal(const_model));
+
+        // Must return the SAME pointer each time
+        REQUIRE(m1 == model_holder.get_model());
+        REQUIRE(m2 == const_model_holder.get_model());
+    }
+
+    SECTION("name") {
+        REQUIRE(model_holder.name() == type_name);
+        REQUIRE(const_model_holder.name() == "const " + type_name);
+    }
+
+    SECTION("precision") {
+        constexpr auto corr = wtf::type_traits::precision_v<TestType>;
+        REQUIRE(model_holder.precision() == corr);
+        REQUIRE(const_model_holder.precision() == corr);
+    }
+
+    SECTION("is_const") {
+        REQUIRE_FALSE(model_holder.is_const());
+        REQUIRE(const_model_holder.is_const());
+    }
+
+    SECTION("make_const") {
+        auto cm = model_holder.make_const();
+        REQUIRE(cm->are_equal(const_model));
+        REQUIRE(cm->is_const());
+        REQUIRE(const_model.make_const()->are_equal(const_model));
+    }
+
+    SECTION("are_equal") {
+        REQUIRE(model_holder.are_equal(model));
+        REQUIRE(const_model_holder.are_equal(const_model));
+
+        REQUIRE_FALSE(model_holder.are_equal(const_model));
+        REQUIRE_FALSE(const_model_holder.are_equal(model));
+    }
+
+    SECTION("is_implicitly_convertible_to") {
+        using default_types = test_wtf::default_fp_types;
+        using types =
+          wtf::type_traits::tuple_append_t<default_types, std::tuple<TestType>>;
+
+        TypeModel<double> dmodel("double");
+        REQUIRE(model_holder.is_implicitly_convertible_to<types>(model));
+        REQUIRE(model_holder.is_implicitly_convertible_to<types>(const_model));
+        REQUIRE_FALSE(model_holder.is_implicitly_convertible_to<types>(dmodel));
+        REQUIRE(dmodel.is_implicitly_convertible_to<types>(model));
+
+        REQUIRE(
+          const_model_holder.is_implicitly_convertible_to<types>(const_model));
+        REQUIRE_FALSE(
+          const_model_holder.is_implicitly_convertible_to<types>(model));
+        REQUIRE_FALSE(
+          const_model_holder.is_implicitly_convertible_to<types>(dmodel));
+        REQUIRE(dmodel.is_implicitly_convertible_to<types>(const_model));
+    }
+}

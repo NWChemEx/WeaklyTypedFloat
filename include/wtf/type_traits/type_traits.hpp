@@ -1,6 +1,10 @@
 #pragma once
 #include <wtf/type_traits/float_traits.hpp>
+#include <wtf/type_traits/is_convertible.hpp>
 #include <wtf/type_traits/is_floating_point.hpp>
+#include <wtf/type_traits/precision.hpp>
+#include <wtf/type_traits/tuple_append.hpp>
+#include <wtf/type_traits/type_name.hpp>
 
 /** @brief Macro for quickly registering a @p T for use with WTF.
  *
@@ -18,4 +22,8 @@
     namespace wtf::type_traits {                   \
     template<>                                     \
     struct IsFloatingPoint<T> : std::true_type {}; \
+    template<>                                     \
+    struct TypeName<T> {                           \
+        static constexpr const char* value = #T;   \
+    };                                             \
     } // namespace wtf::type_traits

@@ -6,6 +6,7 @@
 // define a macro for aliasing the members of the traits class.
 #define UNPACK_TRAITS(traits)                                   \
     using value_type       = typename traits::value_type;       \
+    using unqualified_type = typename traits::unqualified_type; \
     using const_value_type = typename traits::const_value_type; \
     using reference        = typename traits::reference;        \
     using const_reference  = typename traits::const_reference;  \
@@ -18,6 +19,7 @@ TEMPLATE_LIST_TEST_CASE("float_traits", "[type_traits]",
         using traits_type = wtf::type_traits::float_traits<TestType>;
         UNPACK_TRAITS(traits_type);
         STATIC_REQUIRE(std::is_same_v<value_type, TestType>);
+        STATIC_REQUIRE(std::is_same_v<unqualified_type, TestType>);
         STATIC_REQUIRE(std::is_same_v<const_value_type, const TestType>);
         STATIC_REQUIRE(std::is_same_v<reference, TestType&>);
         STATIC_REQUIRE(std::is_same_v<const_reference, const TestType&>);
@@ -30,6 +32,7 @@ TEMPLATE_LIST_TEST_CASE("float_traits", "[type_traits]",
         using traits_type = wtf::type_traits::float_traits<const TestType>;
         UNPACK_TRAITS(traits_type);
         STATIC_REQUIRE(std::is_same_v<value_type, const TestType>);
+        STATIC_REQUIRE(std::is_same_v<unqualified_type, TestType>);
         STATIC_REQUIRE(std::is_same_v<const_value_type, const TestType>);
         STATIC_REQUIRE(std::is_same_v<reference, const TestType&>);
         STATIC_REQUIRE(std::is_same_v<const_reference, const TestType&>);
@@ -47,6 +50,7 @@ TEST_CASE("float_traits (custom type)", "[type_traits][custom_type]") {
         using traits_type = wtf::type_traits::float_traits<TestType>;
         UNPACK_TRAITS(traits_type);
         STATIC_REQUIRE(std::is_same_v<value_type, TestType>);
+        STATIC_REQUIRE(std::is_same_v<unqualified_type, TestType>);
         STATIC_REQUIRE(std::is_same_v<const_value_type, const TestType>);
         STATIC_REQUIRE(std::is_same_v<reference, TestType&>);
         STATIC_REQUIRE(std::is_same_v<const_reference, const TestType&>);
@@ -59,6 +63,7 @@ TEST_CASE("float_traits (custom type)", "[type_traits][custom_type]") {
         using traits_type = wtf::type_traits::float_traits<const TestType>;
         UNPACK_TRAITS(traits_type);
         STATIC_REQUIRE(std::is_same_v<value_type, const TestType>);
+        STATIC_REQUIRE(std::is_same_v<unqualified_type, TestType>);
         STATIC_REQUIRE(std::is_same_v<const_value_type, const TestType>);
         STATIC_REQUIRE(std::is_same_v<reference, const TestType&>);
         STATIC_REQUIRE(std::is_same_v<const_reference, const TestType&>);

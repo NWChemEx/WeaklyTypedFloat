@@ -1,14 +1,14 @@
 #include "../../../test_wtf.hpp"
 #include <wtf/detail_/dispatcher.hpp>
-#include <wtf/rtti/type_model.hpp>
+#include <wtf/rtti/detail_/type_model.hpp>
 
 using namespace wtf::detail_;
-
+using wtf::rtti::detail_::TypeModel;
 namespace {
 
-using fmodel_type  = wtf::rtti::TypeModel<float>;
-using dmodel_type  = wtf::rtti::TypeModel<const double>;
-using ldmodel_type = wtf::rtti::TypeModel<long double>;
+using fmodel_type  = TypeModel<float>;
+using dmodel_type  = TypeModel<const double>;
+using ldmodel_type = TypeModel<long double>;
 
 } // namespace
 
@@ -167,6 +167,7 @@ TEST_CASE("DispatchHelper") {
 }
 
 TEST_CASE("dispatch") {
+    using fp_types = test_wtf::default_fp_types;
     fmodel_type float_model("float");
     dmodel_type double_model("double");
     ldmodel_type long_double_model("long double");
@@ -178,39 +179,32 @@ TEST_CASE("dispatch") {
         // Zero idea why we would ever do this, but...it should work so we test
         // it.
         auto zero_fxn = []() { return 42; };
-        REQUIRE(dispatch<wtf::rtti::TypeModel, test_wtf::default_fp_types>(
-                  zero_fxn) == 42);
+        REQUIRE(dispatch<TypeModel, fp_types>(zero_fxn) == 42);
     }
 
     SECTION("One holder") {
-        REQUIRE(dispatch<wtf::rtti::TypeModel, test_wtf::default_fp_types>(
-                  fxn, float_model) == 42);
+        REQUIRE(dispatch<TypeModel, fp_types>(fxn, float_model) == 42);
 
         // Check that acallable is perfectly forwarded
         ACallable acallable;
         acallable.m_address = &acallable;
-        REQUIRE(dispatch<wtf::rtti::TypeModel, test_wtf::default_fp_types>(
-                  acallable, float_model) == 42);
+        REQUIRE(dispatch<TypeModel, fp_types>(acallable, float_model) == 42);
     }
 
     SECTION("Two holders") {
-        REQUIRE(dispatch<wtf::rtti::TypeModel, test_wtf::default_fp_types>(
-                  fxn, float_model, double_model) == 42);
+        REQUIRE(dispatch<TypeModel, fp_types>(fxn, float_model, double_model) ==
+                42);
     }
 
     SECTION("Testing the various cv-qualifications") {
         auto lambda = [](auto&& fm, auto&& dm) { return 42; };
 
-        wtf::rtti::TypeModel<float> fm0("float");
-        wtf::rtti::TypeModel<const float> fm1("float");
+        TypeModel<float> fm0("float");
+        TypeModel<const float> fm1("float");
 
-        REQUIRE(dispatch<wtf::rtti::TypeModel, test_wtf::default_fp_types>(
-                  lambda, fm0, fm0) == 42);
-        REQUIRE(dispatch<wtf::rtti::TypeModel, test_wtf::default_fp_types>(
-                  lambda, fm0, fm1) == 42);
-        REQUIRE(dispatch<wtf::rtti::TypeModel, test_wtf::default_fp_types>(
-                  lambda, fm1, fm0) == 42);
-        REQUIRE(dispatch<wtf::rtti::TypeModel, test_wtf::default_fp_types>(
-                  lambda, fm1, fm1) == 42);
+        REQUIRE(dispatch<TypeModel, fp_types>(lambda, fm0, fm0) == 42);
+        REQUIRE(dispatch<TypeModel, fp_types>(lambda, fm0, fm1) == 42);
+        REQUIRE(dispatch<TypeModel, fp_types>(lambda, fm1, fm0) == 42);
+        REQUIRE(dispatch<TypeModel, fp_types>(lambda, fm1, fm1) == 42);
     }
 }

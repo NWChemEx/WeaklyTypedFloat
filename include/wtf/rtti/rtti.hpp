@@ -1,7 +1,7 @@
 #pragma once
-#include <wtf/rtti/type_holder.hpp>
+#include <wtf/rtti/detail_/type_holder.hpp>
+#include <wtf/rtti/detail_/type_model.hpp>
 #include <wtf/rtti/type_info.hpp>
-#include <wtf/rtti/type_model.hpp>
 
 /** @brief Classes and functions for managing runtime type information (RTTI).
  *
