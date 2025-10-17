@@ -18,6 +18,9 @@ namespace wtf::detail_ {
 template<concepts::FloatingPoint FloatType>
 class FloatModel : public FloatHolder {
 public:
+    /// Type *this derives from
+    using holder_type = FloatHolder;
+
     /// Type defining the traits for FloatType
     using float_traits = wtf::type_traits::float_traits<FloatType>;
 
@@ -41,7 +44,8 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    explicit FloatModel(value_type value) : value_(std::move(value)) {}
+    explicit FloatModel(value_type value) :
+      FloatHolder(rtti::wtf_typeid<FloatType>()), value_(std::move(value)) {}
 
     // *************************************************************************
     // Data Access and Modification
@@ -145,6 +149,20 @@ public:
     bool operator!=(const FloatModel& other) const { return !(*this == other); }
 
 private:
+    /// Implements clone() by making a new FloatModel with the copy
+    holder_type* clone_() const override { return new FloatModel(*this); }
+
+    /// Implements FloatHolder::change_value by downcasting and calling
+    /// set_value
+    void change_value_(const FloatHolder& other) override {
+        if(auto* p = dynamic_cast<const FloatModel*>(&other)) {
+            set_value(p->get_value());
+        } else {
+            throw std::invalid_argument(
+              "FloatModel::change_value_: Dynamic cast failed");
+        }
+    }
+
     /// Implements FloatHolder::are_equal by downcasting and calling operator==
     bool are_equal_(const FloatHolder& other) const override {
         if(auto* p = dynamic_cast<const FloatModel*>(&other)) {
