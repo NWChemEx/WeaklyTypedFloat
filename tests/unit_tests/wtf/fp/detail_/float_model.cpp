@@ -1,8 +1,8 @@
-#include "../../../test_wtf.hpp"
-#include <wtf/detail_/float_model.hpp>
+#include "../../../../test_wtf.hpp"
+#include <wtf/fp/detail_/float_model.hpp>
 #include <wtf/type_traits/type_traits.hpp>
 
-using namespace wtf::detail_;
+using namespace wtf::fp::detail_;
 
 TEMPLATE_LIST_TEST_CASE("FloatModel", "[float_model]",
                         test_wtf::default_fp_types) {

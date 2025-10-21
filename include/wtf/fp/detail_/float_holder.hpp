@@ -1,7 +1,7 @@
 #pragma once
 #include <wtf/rtti/type_info.hpp>
 
-namespace wtf::detail_ {
+namespace wtf::fp::detail_ {
 
 /** @brief Defines the interface used to interact with the type-erased float.
  *
@@ -121,4 +121,4 @@ private:
     type_info m_type_;
 };
 
-} // namespace wtf::detail_
+} // namespace wtf::fp::detail_

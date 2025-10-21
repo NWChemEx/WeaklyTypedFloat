@@ -1,16 +1,16 @@
 #pragma once
 #include <utility> // for std::move, std::swap
 #include <wtf/concepts/floating_point.hpp>
-#include <wtf/detail_/float_view_holder.hpp>
 #include <wtf/forward.hpp>
+#include <wtf/fp/detail_/float_view_holder.hpp>
 #include <wtf/type_traits/float_traits.hpp>
 
-namespace wtf::detail_ {
+namespace wtf::fp::detail_ {
 
 /** @brief Implements the FloatViewHolder API for floats of type @p FloatType.
  *
  *  @tparam FloatType The type of floating-point value being held. Must satisfy
- *                    the concepts::UnmodifiedFloatingPoint concept.
+ *                    the concepts::FloatingPoint concept.
  *
  *  This class is responsible for aliasing and knowing the type of a single
  *  floating-point value. It implements the FloatViewHolder API defined by the
@@ -21,7 +21,7 @@ class FloatViewModel
   : public FloatViewHolder<
       std::conditional_t<std::is_const_v<FloatType>, const Float, Float>> {
 private:
-    /// Is this a view of a const Float?
+    /// Is `FloatType` const-qualified, making *this a model of a const FP type?
     static constexpr bool is_const_model_ = std::is_const_v<FloatType>;
 
     /// Accounting for const-ness what are we a view of?
@@ -29,11 +29,18 @@ private:
       std::conditional_t<is_const_model_, const Float, Float>;
 
 public:
+    /// Type of *this
+    using model_type = FloatViewModel<FloatType>;
+
+    /// Type of a model aliasing a const FloatType
+    using const_model_type = FloatViewModel<const FloatType>;
+
     /// Type *this derives from
     using holder_type = FloatViewHolder<wtf_float_type>;
 
     /// Pull in types from the base
     ///@{
+    using const_holder_type = typename holder_type::const_holder_type;
     using typename holder_type::const_holder_reference;
     ///@}
 
@@ -49,14 +56,14 @@ public:
     using const_pointer   = typename float_traits::const_pointer;
     ///@}
 
-    /** @brief Makes @p value adhere to our Float API.
+    /** @brief Makes @p value adhere to our FloatView API.
      *
-     *  This constructor takes the address to a floating-point value and stores
+     * This constructor takes the address to a floating-point value and stores
      * it in *this. When accessed through the FloatViewModel API the value's
      * type is still known. Type-erasure occurs when FloatViewModel is accessed
      * through the base class, FloatViewHolder.
      *
-     *  @param[in] value The floating-point value to be held.
+     *  @param[in] value The floating-point value to be aliased.
      *
      *  @throw None No throw guarantee.
      */
@@ -84,7 +91,8 @@ public:
      *
      *  @param[in] value The new value to be held.
      *
-     *  @throw None No throw guarantee.
+     *  @throw std::runtime_error if *this is aliasing a constant value. Strong
+     *                            throw guarantee.
      */
     void set_value(value_type value) {
         if constexpr(!is_const_model_) {
@@ -94,7 +102,7 @@ public:
               "FloatViewModel::set_value: Attempt to modify const value");
         }
     }
-    /** @brief Provides mutable access directly to the held value.
+    /** @brief Provides (possibly) mutable access directly to the held value.
      *
      *  Get/set are designed to be one-directional, i.e., you can't use
      *  get_value to also set the value. Sometimes we need to return the value
@@ -128,8 +136,8 @@ public:
      *  This method swaps the state of *this with that of @p other.
      *
      *  @param[in,out] other The other FloatViewModel to swap with *this. After
-     * the operation @p other will contain the state that *this had before the
-     * call.
+     *  the operation @p other will alias the state that *this had aliased
+     *  before the call.
      *
      *  @throw None No throw guarantee.
      */
@@ -140,8 +148,8 @@ public:
 
     /** @brief  Determines if *this is exactly equal to @p other.
      *
-     *  Two FloatModels are exactly equal if the values they hold compare equal
-     *  using operator==. Note that this is bitwise equality for built-in
+     *  Two FloatViewModels are exactly equal if the values they alias compare
+     *  equal using operator==. Note that this is bitwise equality for built-in
      *  floating-point types (and should realistically be implemented similarly
      *  for user-defined types as well). This check will also require that the
      *  types of the objects being compared are the same.
@@ -176,19 +184,17 @@ private:
     /// Implements clone() by making a new FloatViewModel with the copy
     holder_type* clone_() const override { return new FloatViewModel(*this); }
 
-    /// Implements FloatHolder::change_value by downcasting and calling
-    /// set_value
+    const_holder_type* const_clone_() const override {
+        return new const_model_type(m_pvalue_);
+    }
+
+    /// Downcasts and calls set_value
     void change_value_(const_holder_reference other) override {
-        if constexpr(!is_const_model_) {
-            if(auto* p = dynamic_cast<const FloatViewModel*>(&other)) {
-                set_value(p->get_value());
-            } else {
-                throw std::invalid_argument(
-                  "FloatViewModel::change_value_: Dynamic cast failed");
-            }
+        if(auto* p = dynamic_cast<const FloatViewModel*>(&other)) {
+            set_value(p->get_value());
         } else {
-            throw std::runtime_error(
-              "FloatViewModel::change_value_: Attempt to modify const value");
+            throw std::invalid_argument(
+              "FloatViewModel::change_value_: Dynamic cast failed");
         }
     }
 
@@ -200,8 +206,8 @@ private:
         return false;
     }
 
-    /// The value being held
+    /// The value being aliased
     pointer m_pvalue_;
 };
 
-} // namespace wtf::detail_
+} // namespace wtf::fp::detail_

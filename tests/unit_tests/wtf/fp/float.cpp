@@ -1,8 +1,8 @@
-#include "../../test_wtf.hpp"
-#include <wtf/float.hpp>
+#include "../../../test_wtf.hpp"
+#include <wtf/fp/float.hpp>
 #include <wtf/type_traits/type_traits.hpp>
 
-using namespace wtf;
+using namespace wtf::fp;
 using namespace test_wtf;
 
 TEMPLATE_LIST_TEST_CASE("Float", "[wtf]", test_wtf::default_fp_types) {

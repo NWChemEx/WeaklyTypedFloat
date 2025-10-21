@@ -1,9 +1,9 @@
-#include "../../../test_wtf.hpp"
-#include <wtf/detail_/float_model.hpp>
+#include "../../../../test_wtf.hpp"
+#include <wtf/fp/detail_/float_model.hpp>
 #include <wtf/type_traits/type_traits.hpp>
 
 using namespace test_wtf;
-using namespace wtf;
+using namespace wtf::fp;
 WTF_REGISTER_FP_TYPE(MyCustomFloat);
 
 TEMPLATE_LIST_TEST_CASE("FloatHolder", "[wtf]", default_fp_types) {
@@ -13,14 +13,14 @@ TEMPLATE_LIST_TEST_CASE("FloatHolder", "[wtf]", default_fp_types) {
     using other_type =
       std::conditional_t<std::is_same_v<float_t, float>, double, float>;
 
-    using holder_t = wtf::detail_::FloatHolder;
-    using model_t  = wtf::detail_::FloatModel<float_t>;
+    using holder_t = wtf::fp::detail_::FloatHolder;
+    using model_t  = wtf::fp::detail_::FloatModel<float_t>;
 
     float_t val = 3.14;
     model_t m(val);
     holder_t& h = m;
 
-    SECTION("type()") { REQUIRE(h.type() == rtti::wtf_typeid<float_t>()); }
+    SECTION("type()") { REQUIRE(h.type() == wtf::rtti::wtf_typeid<float_t>()); }
 
     SECTION("clone") { REQUIRE(h.clone()->are_equal(m)); }
 
@@ -58,14 +58,14 @@ TEST_CASE("FloatHolder (custom type)", "[wtf][custom_type]") {
     // Different type
     using other_type = double;
 
-    using holder_t = wtf::detail_::FloatHolder;
-    using model_t  = wtf::detail_::FloatModel<float_t>;
+    using holder_t = wtf::fp::detail_::FloatHolder;
+    using model_t  = wtf::fp::detail_::FloatModel<float_t>;
 
     float_t val = 3.14;
     model_t m(val);
     holder_t& h = m;
 
-    SECTION("type()") { REQUIRE(h.type() == rtti::wtf_typeid<float_t>()); }
+    SECTION("type()") { REQUIRE(h.type() == wtf::rtti::wtf_typeid<float_t>()); }
     SECTION("clone") { REQUIRE(h.clone()->are_equal(m)); }
 
     SECTION("change_value") {

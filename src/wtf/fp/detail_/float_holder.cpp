@@ -1,6 +1,6 @@
-#include <wtf/detail_/float_holder.hpp>
+#include <wtf/fp/detail_/float_holder.hpp>
 
-namespace wtf::detail_ {
+namespace wtf::fp::detail_ {
 
 void FloatHolder::change_value(const FloatHolder& other) {
     if(type() == other.type()) {
@@ -11,4 +11,4 @@ void FloatHolder::change_value(const FloatHolder& other) {
     }
 }
 
-} // namespace wtf::detail_
+} // namespace wtf::fp::detail_

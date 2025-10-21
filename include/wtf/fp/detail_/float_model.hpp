@@ -1,10 +1,10 @@
 #pragma once
 #include <utility> // for std::move, std::swap
 #include <wtf/concepts/floating_point.hpp>
-#include <wtf/detail_/float_holder.hpp>
+#include <wtf/fp/detail_/float_holder.hpp>
 #include <wtf/type_traits/float_traits.hpp>
 
-namespace wtf::detail_ {
+namespace wtf::fp::detail_ {
 
 /** @brief Implements the FloatHolder API for floats of type @p FloatType.
  *
@@ -175,4 +175,4 @@ private:
     value_type value_;
 };
 
-} // namespace wtf::detail_
+} // namespace wtf::fp::detail_

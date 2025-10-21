@@ -1,9 +1,9 @@
 #pragma once
 #include <memory>
 #include <wtf/concepts/floating_point.hpp>
-#include <wtf/detail_/float_model.hpp>
+#include <wtf/fp/detail_/float_model.hpp>
 
-namespace wtf {
+namespace wtf::fp {
 
 /** @brief Type-erases a floating-point number.
  *
@@ -274,4 +274,4 @@ T float_cast(Float& f) {
     }
     return *pderived->data();
 }
-} // namespace wtf
+} // namespace wtf::fp

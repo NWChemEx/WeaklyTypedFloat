@@ -9,6 +9,7 @@ namespace wtf::concepts {
  *  @tparam T The type to check.
  */
 template<typename T>
-concept WTFFloat = std::is_same_v<T, Float> || std::is_same_v<T, const Float>;
+concept WTFFloat =
+  std::is_same_v<T, fp::Float> || std::is_same_v<T, const fp::Float>;
 
 } // namespace wtf::concepts

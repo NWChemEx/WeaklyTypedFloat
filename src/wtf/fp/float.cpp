@@ -1,10 +1,10 @@
-#include <wtf/float.hpp>
+#include <wtf/fp/float.hpp>
 
-namespace wtf {
+namespace wtf::fp {
 
 Float& Float::operator=(const Float& other) {
     if(this != &other) { m_holder_ = other.m_holder_->clone(); }
     return *this;
 }
 
-} // namespace wtf
+} // namespace wtf::fp

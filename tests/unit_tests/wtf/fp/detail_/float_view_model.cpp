@@ -1,8 +1,8 @@
-#include "../../../test_wtf.hpp"
-#include <wtf/detail_/float_view_model.hpp>
+#include "../../../../test_wtf.hpp"
+#include <wtf/fp/detail_/float_view_model.hpp>
 #include <wtf/type_traits/type_traits.hpp>
 
-using namespace wtf::detail_;
+using namespace wtf::fp::detail_;
 
 TEMPLATE_LIST_TEST_CASE("FloatViewModel", "[float_model]",
                         test_wtf::default_fp_types) {
@@ -132,7 +132,7 @@ TEMPLATE_LIST_TEST_CASE("FloatViewModel", "[float_model]",
         REQUIRE(m2.get_value() == val);
 
         const_model_t cm2(&other_val);
-        cm.swap(cm2); // Should not compile
+        cm.swap(cm2);
     }
 
     SECTION("are_equal_") {
@@ -166,97 +166,160 @@ TEMPLATE_LIST_TEST_CASE("FloatViewModel", "[float_model]",
     }
 }
 
-WTF_REGISTER_FP_TYPE(test_wtf::MyCustomFloat);
+using namespace test_wtf;
+WTF_REGISTER_FP_TYPE(MyCustomFloat);
 
-// TEST_CASE("FloatViewModel (custom type)", "[float_model][custom_type]") {
-//     using float_t = test_wtf::MyCustomFloat;
-//     using model_t = FloatViewModel<float_t>;
+TEST_CASE("FloatViewModel (custom type)", "[float_model][custom_type]") {
+    using float_t       = test_wtf::MyCustomFloat;
+    using model_t       = FloatViewModel<float_t>;
+    using const_model_t = FloatViewModel<const float_t>;
 
-//     float_t val(1.23, "a value"), pi(3.14, "Pi");
-//     model_t m(val);
+    float_t val(1.23, "a value"), pi(3.14, "Pi");
+    model_t m(&val);
+    const_model_t cm(&val);
 
-//     SECTION("Ctors and assignment") {
-//         SECTION("Value ctor") {
-//             model_t m1(val);
-//             REQUIRE(m1.get_value() == val);
-//         }
-//         SECTION("Copy ctor") {
-//             model_t m2(m);
-//             REQUIRE(m2 == m);
-//             REQUIRE(m2.data() != m.data()); // Is deep?
-//         }
-//         SECTION("Copy assignment") {
-//             model_t m2(pi);
-//             auto pm2 = &(m2 = m);
-//             REQUIRE(m2.get_value() == val);
-//             REQUIRE(m2.data() != m.data()); // Is deep?
-//             REQUIRE(pm2 == &m2);            // Returns *this
-//         }
-//         SECTION("Move ctor") {
-//             model_t m2(m);
-//             model_t m3(std::move(m2));
-//             REQUIRE(m3 == m);
-//         }
-//         SECTION("Move assignment") {
-//             model_t m2(pi);
-//             model_t m3(m);
-//             auto pm2 = &(m2 = std::move(m3));
-//             REQUIRE(m2 == m);
-//             REQUIRE(pm2 == &m2); // Returns *this
-//         }
-//     }
+    SECTION("Ctors and assignment") {
+        SECTION("Value ctor") {
+            REQUIRE(m.get_value() == val);
+            REQUIRE(cm.get_value() == val);
+            REQUIRE(m.data() == &val);
+            REQUIRE(cm.data() == &val);
+        }
+        SECTION("Copy ctor") {
+            model_t m2(m);
+            REQUIRE(m2 == m);
+            REQUIRE(m2.data() == &val);
 
-//     SECTION("get_value") { REQUIRE(m.get_value() == val); }
+            const_model_t cm2(cm);
+            REQUIRE(cm2 == cm);
+            REQUIRE(cm2.data() == &val);
+        }
+        SECTION("Copy assignment") {
+            model_t m2(&pi);
+            auto pm2 = &(m2 = m);
+            REQUIRE(m2.get_value() == val);
+            REQUIRE(m2.data() == &val);
+            REQUIRE(pm2 == &m2); // Returns *this
 
-//     SECTION("set_value") {
-//         m.set_value(pi);
-//         REQUIRE(m.get_value() == pi);
-//     }
+            const_model_t cm2(&pi);
+            auto pcm2 = &(cm2 = cm);
+            REQUIRE(cm2.get_value() == val);
+            REQUIRE(cm2.data() == &val);
+            REQUIRE(pcm2 == &cm2); // Returns *this
+        }
+        SECTION("Move ctor") {
+            model_t m2(m);
+            model_t m3(std::move(m2));
+            REQUIRE(m3 == m);
 
-//     SECTION("data()") {
-//         auto p = m.data();
-//         REQUIRE(*p == val);
-//         *p = pi;
-//         REQUIRE(m.get_value() == pi);
-//     }
+            const_model_t cm2(cm);
+            const_model_t cm3(std::move(cm2));
+            REQUIRE(cm3 == cm);
+        }
+        SECTION("Move assignment") {
+            model_t m2(&pi);
+            model_t m3(m);
+            auto pm2 = &(m2 = std::move(m3));
+            REQUIRE(m2 == m);
+            REQUIRE(pm2 == &m2); // Returns *this
 
-//     SECTION("data() const") {
-//         auto p = std::as_const(m).data();
-//         REQUIRE(*p == val);
-//     }
+            const_model_t cm2(&pi);
+            const_model_t cm3(cm);
+            auto pcm2 = &(cm2 = std::move(cm3));
+            REQUIRE(cm2 == cm);
+            REQUIRE(pcm2 == &cm2); // Returns *this
+        }
+    }
 
-//     SECTION("operator==") {
-//         model_t m2(val);
-//         REQUIRE(m == m2);
+    SECTION("get_value") {
+        REQUIRE(m.get_value() == val);
+        REQUIRE(cm.get_value() == val);
+        REQUIRE(&m.get_value() == &val);
+        REQUIRE(&cm.get_value() == &val);
+    }
 
-//         model_t m3(pi);
-//         REQUIRE_FALSE(m == m3);
-//     }
+    SECTION("set_value") {
+        m.set_value(pi);
+        REQUIRE(m.get_value() == pi);
+        REQUIRE_THROWS_AS(cm.set_value(pi), std::runtime_error);
+    }
 
-//     SECTION("operator!=") {
-//         model_t m2(val);
-//         REQUIRE_FALSE(m != m2);
+    SECTION("data()") {
+        auto p = m.data();
+        REQUIRE(*p == val);
+        *p = pi;
+        REQUIRE(m.get_value() == pi);
 
-//         model_t m3(pi);
-//         REQUIRE(m != m3);
-//     }
+        REQUIRE(cm.data() == &val);
+    }
 
-//     SECTION("swap") {
-//         model_t m2(pi);
-//         m.swap(m2);
-//         REQUIRE(m.get_value() == pi);
-//         REQUIRE(m2.get_value() == val);
-//     }
+    SECTION("data() const") {
+        auto p = std::as_const(m).data();
+        REQUIRE(*p == val);
 
-//     SECTION("are_equal_") {
-//         model_t m2(val);
-//         REQUIRE(m.are_equal(m2));
+        auto p2 = std::as_const(cm).data();
+        REQUIRE(p2 == &val);
+    }
 
-//         // Different value
-//         model_t m3(pi);
-//         REQUIRE_FALSE(m.are_equal(m3));
+    SECTION("operator==") {
+        model_t m2(&val);
+        REQUIRE(m == m2);
 
-//         FloatViewModel<float> m4(float(3.14));
-//         REQUIRE_FALSE(m.are_equal(m4));
-//     }
-// }
+        const_model_t cm2(&val);
+        REQUIRE(cm == cm2);
+
+        model_t m3(&pi);
+        REQUIRE_FALSE(m == m3);
+
+        const_model_t cm3(&pi);
+        REQUIRE_FALSE(cm == cm3);
+    }
+
+    SECTION("operator!=") {
+        model_t m2(&val);
+        REQUIRE_FALSE(m != m2);
+
+        const_model_t cm2(&val);
+        REQUIRE_FALSE(cm != cm2);
+
+        model_t m3(&pi);
+        REQUIRE(m != m3);
+
+        const_model_t cm3(&pi);
+        REQUIRE(cm != cm3);
+    }
+
+    SECTION("swap") {
+        model_t m2(&pi);
+        m.swap(m2);
+        REQUIRE(m.get_value() == pi);
+        REQUIRE(m2.get_value() == val);
+
+        const_model_t cm2(&pi);
+        cm.swap(cm2);
+        REQUIRE(cm.get_value() == pi);
+        REQUIRE(cm2.get_value() == val);
+    }
+
+    SECTION("are_equal_") {
+        model_t m2(&val);
+        REQUIRE(m.are_equal(m2));
+
+        const_model_t cm2(&val);
+        REQUIRE(cm.are_equal(cm2));
+
+        // Different value
+        model_t m3(&pi);
+        REQUIRE_FALSE(m.are_equal(m3));
+
+        const_model_t cm3(&pi);
+        REQUIRE_FALSE(cm.are_equal(cm3));
+
+        float other_val(3.14);
+        FloatViewModel<float> m4(&other_val);
+        REQUIRE_FALSE(m.are_equal(m4));
+
+        FloatViewModel<const float> cm4(&other_val);
+        REQUIRE_FALSE(cm.are_equal(cm4));
+    }
+}

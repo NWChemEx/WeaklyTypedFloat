@@ -2,7 +2,7 @@
 #include <wtf/concepts/wtf_float.hpp>
 #include <wtf/rtti/type_info.hpp>
 
-namespace wtf::detail_ {
+namespace wtf::fp::detail_ {
 
 /** @brief Defines the interface used to interact with aliased type-erased
  *         floats.
@@ -20,8 +20,14 @@ public:
     /// Type of *this
     using holder_type = FloatViewHolder<FloatType>;
 
+    /// Type of a holder aliasing a const FloatType
+    using const_holder_type = FloatViewHolder<const FloatType>;
+
     /// Type of a pointer to a holder_type object
     using holder_pointer = std::unique_ptr<holder_type>;
+
+    /// Type of a pointer to a const_holder_type object
+    using const_holder_pointer = std::unique_ptr<const_holder_type>;
 
     /// Type of a read-only reference to a holder_type object
     using const_holder_reference = const holder_type&;
@@ -37,27 +43,73 @@ public:
 
     /** @brief Makes a deep polymorphic copy of *this.
      *
-     *  This method is used to make deep copy of *this polymorphically. This
+     *  This method is used to make a copy of *this polymorphically. This
      *  means it will copy the state in any derived classes as well. This
-     *  method is implemented by calling clone_().
+     *  method is implemented by calling clone_(). View copies are such that
+     *  the result still aliases the same value as *this, but can be made to
+     *  alias a different value without modifying *this.
      *
      *  @return A unique_ptr to a deep copy of *this.
      */
     holder_pointer clone() const { return holder_pointer(clone_()); }
 
+    /** @brief Makes a polymorphic copy of *this such that the copy is read-only
+     *
+     *  This method is used to make a copy of *this polymorphically, adding
+     *  read-only character to the result. This means it will copy the state
+     *  in any derived classes as well. This method is implemented by calling
+     *  const_clone_().
+     *
+     *  @return A unique_ptr to a read-only copy of *this.
+     *
+     *  @throw std::bad_alloc if memory could not be allocated for the copy.
+     *                        Strong throw guarantee.
+     */
+    const_holder_pointer const_clone() const {
+        return const_holder_pointer(const_clone_());
+    }
+
     /** @brief Wraps the process of changing the held value.
      *
      *  This method is used to change the value held by *this to that held by
-     *  @p other. The types of the held values must match and *this must not be
-     *  holding a constant value.
+     *  @p other. The types of the held values must match.
+     *
+     *  To avoid complicating the implementation we simply throw if we're
+     *  trying to change a constant alias. The user-facing FloatView class will
+     *  rely on SFINAE to prevent such calls from being made in the first place.
      *
      *  @param[in] other The value to change to.
      *
      *  @throw std::invalid_argument if the type of the held value does not
      *                               match that of @p other. Strong throw
      *                               guarantee.
+     *  @throw std::runtime_error if *this is holding a constant value. Strong
+     *                            throw guarantee.
      */
     void change_value(const_holder_reference other);
+
+    /** @brief Provides access to the RTTI of the derived type.
+     *
+     *  @return A read-only reference to the RTTI object for the type held by
+     *          the derived class.
+     *
+     *  @throw None No throw guarantee.
+     */
+    const_type_info_reference type() const { return m_type_; }
+
+    /** @brief Does *this contain an object of type @p T?
+     *
+     *  @tparam T The type to check against. Must satisfy the
+     *            concepts::FloatingPoint concept.
+     *
+     *  @return True if the type held by *this is exactly @p T, false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    template<concepts::FloatingPoint T>
+    bool is_type() const {
+        return m_type_ == rtti::wtf_typeid<T>();
+    }
 
     /** @brief Determines if the object held by *this can be converted to the
      *         type in @p other.
@@ -85,7 +137,7 @@ public:
     /** @brief Polymorphic value comparison.
      *
      *  This method determines if the value held by *this is exactly equal
-     *  to that held by @p other. The comparison is done polymophically, i.e.,
+     *  to that held by @p other. The comparison is done polymorphically, i.e.,
      *  it will also ensure the state in the derived parts of *this and @p other
      *  are value equal.  This method is implemented by calling are_equal_.
      *
@@ -109,15 +161,6 @@ public:
         }
     }
 
-    /** @brief Provides access to the RTTI of the derived type.
-     *
-     *  @return A read-only reference to the RTTI object for the type held by
-     *          the derived class.
-     *
-     *  @throw None No throw guarantee.
-     */
-    const_type_info_reference type() const { return m_type_; }
-
 protected:
     /// Initializes *this with the given type info object
     explicit FloatViewHolder(type_info ti) : m_type_(std::move(ti)) {}
@@ -125,6 +168,9 @@ protected:
 private:
     /// Clones *this polymorphically
     virtual holder_type* clone_() const = 0;
+
+    /// Clones *this polymorphically and adding read-only character to it
+    virtual const_holder_type* const_clone_() const = 0;
 
     /// Base checked that types are equal, derived need only change values
     virtual void change_value_(const_holder_reference other) = 0;
@@ -136,4 +182,18 @@ private:
     type_info m_type_;
 };
 
-} // namespace wtf::detail_
+// -----------------------------------------------------------------------------
+// Out-of-line definitions
+// -----------------------------------------------------------------------------
+
+template<concepts::WTFFloat FloatType>
+void FloatViewHolder<FloatType>::change_value(const FloatViewHolder& other) {
+    if(type() == other.type()) {
+        change_value_(other);
+    } else {
+        throw std::invalid_argument(
+          "FloatHolder::set_value: Types do not match");
+    }
+}
+
+} // namespace wtf::fp::detail_

@@ -1,7 +1,7 @@
 #pragma once
 
-namespace wtf {
+namespace wtf::fp {
 
 class Float;
 
-} // namespace wtf
+} // namespace wtf::fp

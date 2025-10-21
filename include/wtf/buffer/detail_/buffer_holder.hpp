@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <wtf/fp/float_view.hpp>
 #include <wtf/rtti/type_info.hpp>
 
 namespace wtf::detail_ {
