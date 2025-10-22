@@ -43,7 +43,7 @@ TEST_CASE("VariantFromTuple") {
         STATIC_REQUIRE(std::is_same_v<variant::cvalue, cvalue_corr>);
     }
     SECTION("default types") {
-        using tuple   = wtf::wtf_default_fp_types;
+        using tuple   = wtf::default_fp_types;
         using variant = wtf::detail_::VariantFromTuple<Model, tuple>;
 
         using value_corr  = std::variant<f*, d*, l*>;
@@ -82,7 +82,7 @@ TEST_CASE("ConstVariantFromTuple") {
         STATIC_REQUIRE(std::is_same_v<variant::cvalue, cvalue_corr>);
     }
     SECTION("default types") {
-        using tuple   = wtf::wtf_default_fp_types;
+        using tuple   = wtf::default_fp_types;
         using variant = wtf::detail_::ConstVariantFromTuple<Model, tuple>;
 
         using value_corr  = std::variant<const f*, const d*, const l*>;

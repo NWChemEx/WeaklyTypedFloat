@@ -5,8 +5,6 @@
 using namespace wtf::type_traits;
 using namespace test_wtf;
 
-WTF_REGISTER_FP_TYPE(MyCustomFloat);
-
 TEST_CASE("TypeName") {
     REQUIRE(TypeName<float>::value == std::string("float"));
     REQUIRE(type_name_v<float> == std::string("float"));
@@ -15,6 +13,7 @@ TEST_CASE("TypeName") {
     REQUIRE(TypeName<long double>::value == std::string("long double"));
     REQUIRE(type_name_v<long double> == std::string("long double"));
 
-    REQUIRE(TypeName<MyCustomFloat>::value == std::string("MyCustomFloat"));
-    REQUIRE(type_name_v<MyCustomFloat> == std::string("MyCustomFloat"));
+    std::string custom_corr = "test_wtf::MyCustomFloat";
+    REQUIRE(TypeName<MyCustomFloat>::value == custom_corr);
+    REQUIRE(type_name_v<MyCustomFloat> == custom_corr);
 }

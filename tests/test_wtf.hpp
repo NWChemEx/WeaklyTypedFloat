@@ -18,12 +18,13 @@
 #include <catch2/catch_template_test_macros.hpp>
 #include <catch2/catch_test_macros.hpp>
 #include <string>
+#include <wtf/type_traits/type_traits.hpp>
 #include <wtf/types.hpp>
 
 namespace test_wtf {
 
 /// The types that C++20 by default considers floating point types
-using default_fp_types = wtf::wtf_default_fp_types;
+using default_fp_types = wtf::default_fp_types;
 
 /// Some types that C++20 by default does not consider floating point types
 using not_fp_types = std::tuple<char, bool, std::string>;
@@ -48,5 +49,14 @@ private:
 
     std::string desc;
 };
+
+} // namespace test_wtf
+
+WTF_REGISTER_FP_TYPE(test_wtf::MyCustomFloat);
+
+namespace test_wtf {
+
+using all_fp_types =
+  wtf::type_traits::tuple_append_t<default_fp_types, std::tuple<MyCustomFloat>>;
 
 } // namespace test_wtf

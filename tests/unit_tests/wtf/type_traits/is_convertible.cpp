@@ -15,8 +15,6 @@ void check_conversions(std::array<bool, 3> expected) {
     REQUIRE(is_convertible_v<FromType, long double> == expected[2]);
 }
 
-WTF_REGISTER_FP_TYPE(test_wtf::MyCustomFloat);
-
 TEST_CASE("IsConvertible") {
     using namespace wtf::type_traits;
     check_conversions<float>({true, true, true});

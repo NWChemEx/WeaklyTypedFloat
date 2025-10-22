@@ -14,38 +14,7 @@
     using const_pointer    = typename traits::const_pointer
 
 TEMPLATE_LIST_TEST_CASE("float_traits", "[type_traits]",
-                        test_wtf::default_fp_types) {
-    SECTION("unqualified type") {
-        using traits_type = wtf::type_traits::float_traits<TestType>;
-        UNPACK_TRAITS(traits_type);
-        STATIC_REQUIRE(std::is_same_v<value_type, TestType>);
-        STATIC_REQUIRE(std::is_same_v<unqualified_type, TestType>);
-        STATIC_REQUIRE(std::is_same_v<const_value_type, const TestType>);
-        STATIC_REQUIRE(std::is_same_v<reference, TestType&>);
-        STATIC_REQUIRE(std::is_same_v<const_reference, const TestType&>);
-        STATIC_REQUIRE(std::is_same_v<pointer, TestType*>);
-        STATIC_REQUIRE(std::is_same_v<const_pointer, const TestType*>);
-        STATIC_REQUIRE_FALSE(traits_type::is_const);
-    }
-
-    SECTION("const-qualified type") {
-        using traits_type = wtf::type_traits::float_traits<const TestType>;
-        UNPACK_TRAITS(traits_type);
-        STATIC_REQUIRE(std::is_same_v<value_type, const TestType>);
-        STATIC_REQUIRE(std::is_same_v<unqualified_type, TestType>);
-        STATIC_REQUIRE(std::is_same_v<const_value_type, const TestType>);
-        STATIC_REQUIRE(std::is_same_v<reference, const TestType&>);
-        STATIC_REQUIRE(std::is_same_v<const_reference, const TestType&>);
-        STATIC_REQUIRE(std::is_same_v<pointer, const TestType*>);
-        STATIC_REQUIRE(std::is_same_v<const_pointer, const TestType*>);
-        STATIC_REQUIRE(traits_type::is_const);
-    }
-}
-
-WTF_REGISTER_FP_TYPE(test_wtf::MyCustomFloat);
-
-TEST_CASE("float_traits (custom type)", "[type_traits][custom_type]") {
-    using TestType = test_wtf::MyCustomFloat;
+                        test_wtf::all_fp_types) {
     SECTION("unqualified type") {
         using traits_type = wtf::type_traits::float_traits<TestType>;
         UNPACK_TRAITS(traits_type);

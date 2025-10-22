@@ -2,8 +2,6 @@
 #include <wtf/type_traits/precision.hpp>
 #include <wtf/type_traits/type_traits.hpp>
 
-WTF_REGISTER_FP_TYPE(test_wtf::MyCustomFloat);
-
 using namespace wtf::type_traits;
 
 TEST_CASE("Precision") {

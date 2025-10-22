@@ -4,5 +4,5 @@
 namespace wtf {
 
 /// A tuple holding C++'s default, real, floating-point types
-using wtf_default_fp_types = std::tuple<float, double, long double>;
+using default_fp_types = std::tuple<float, double, long double>;
 } // namespace wtf
