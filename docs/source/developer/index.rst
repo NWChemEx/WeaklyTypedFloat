@@ -24,3 +24,4 @@ Developer Documentation
    scope
    type_erasure
    operations
+   architecture

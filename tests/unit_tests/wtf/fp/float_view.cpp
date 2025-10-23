@@ -263,26 +263,6 @@ TEST_CASE("float_cast(FloatView)", "[wtf]") {
     REQUIRE_THROWS_AS(float_cast<double&>(f), std::runtime_error);
 }
 
-TEST_CASE("float_cast(const FloatView)", "[wtf]") {
-    float val      = 3.14f;
-    auto f         = make_float_view(val);
-    const auto& cf = f;
-
-    auto cf_        = make_float_view(std::as_const(val));
-    const auto& ccf = cf_;
-
-    // By value
-    REQUIRE(float_cast<float>(cf) == val);
-    REQUIRE(float_cast<const float>(ccf) == val);
-
-    // By reference
-    REQUIRE(&float_cast<const float&>(cf) == &val);
-    REQUIRE(&float_cast<const float&>(ccf) == &std::as_const(val));
-
-    // Can't use to convert
-    REQUIRE_THROWS_AS(float_cast<double>(cf), std::runtime_error);
-}
-
 TEST_CASE("make_float_view", "[wtf]") {
     float val = 3.14f;
     auto f1   = make_float_view(val);

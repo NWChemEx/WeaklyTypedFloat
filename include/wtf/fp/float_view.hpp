@@ -324,7 +324,8 @@ private:
  *  This function calls FloatView<FloatType>::value<T>() internally, but affords
  *  the user a cleaner syntax for unwrapping the held floating-point value.
  *
- *  @param[in] fview The FloatView to unwrap.
+ *  @param[in] fview The FloatView to unwrap. Taken by copy to allow passing
+ *                   in rvalues.
  *
  *  @return The held floating-point value as type T.
  *
@@ -332,34 +333,7 @@ private:
  */
 template<typename T, concepts::WTFFloat FloatType>
     requires concepts::FloatingPoint<std::decay_t<T>>
-T float_cast(FloatView<FloatType>& fview) {
-    return fview.template value<T>();
-}
-
-/** @brief Helper function for unwrapping a FloatView object.
- *
- *  @related FloatView
- *
- *  @tparam T The type of floating-point value to return. Must satisfy the
- *            concepts::FloatingPoint concept and be either const-qualified or
- *            unmodified. The user must provide this template type parameter
- *            explicitly.
- *  @tparam FloatType The type of wtf::Float being aliased by @p fview. The
- *                    compiler will deduce this type parameter.
- *
- *  This function calls FloatView<FloatType>::value<T>() internally, but affords
- *  the user a cleaner syntax for unwrapping the held floating-point value.
- *
- *  @param[in] fview The FloatView to unwrap.
- *
- *  @return The held floating-point value as type T.
- *
- *  @throw std::runtime_error if the held value can not be cast to T. Strong
- *                            throw guarantee.
- */
-template<typename T, concepts::WTFFloat FloatType>
-    requires concepts::FloatingPoint<std::decay_t<T>>
-T float_cast(const FloatView<FloatType>& fview) {
+T float_cast(FloatView<FloatType> fview) {
     return fview.template value<T>();
 }
 
