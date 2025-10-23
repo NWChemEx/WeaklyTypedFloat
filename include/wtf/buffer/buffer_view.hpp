@@ -367,6 +367,29 @@ auto make_buffer_view(Args&&... args) {
     return BufferView(std::forward<Args>(args)...);
 }
 
+/** @brief Used to retrieve the raw contiguous memory from a buffer view.
+ *
+ *  @related BufferView
+ *
+ *  @tparam T The type of floating-point value being held. Must satisfy
+ *            the concepts::FloatingPoint concept. The user must explicitly
+ *            provide this template type parameter.
+ *  @tparam FloatType The type of buffer the BufferView is acting like. Must
+ *                    satisfy the concepts::WTFFloat concept. The compiler
+ *                    will deduce this parameter.
+ *
+ *  This function is the preferred way to get the typed contiguous memory back
+ *  from a BufferView. It will check that the held buffer is contiguous.
+ *
+ *  @param[in] buffer The BufferView to get the contiguous memory from.
+ *
+ *  @return A span aliasing the contiguous memory held by @p buffer.
+ *
+ *  @throw std::runtime_error if the held buffer is not contiguous. Strong
+ *                            throw guarantee.
+ *  @throw std::runtime_error if the held buffer is not of type T. Strong
+ *                           throw guarantee.
+ */
 template<concepts::FloatingPoint T, concepts::WTFFloat FloatType>
 std::span<T> contiguous_buffer_cast(BufferView<FloatType>& buffer) {
     if(!buffer.is_contiguous()) {
