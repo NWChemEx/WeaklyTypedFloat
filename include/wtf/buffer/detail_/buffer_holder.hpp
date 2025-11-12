@@ -102,6 +102,14 @@ public:
      */
     const_rtti_reference type() const { return m_rtti_; }
 
+    /** @brief Are the held elements read-only?
+     *
+     *  @return true if the held elements are read-only, false otherwise.
+     *
+     *  @throw None No-throw guarantee.
+     */
+    bool is_const() const noexcept { return is_const_(); }
+
     /** @brief Are the elements in the buffer contiguous?
      *
      *  This method indicates whether the held buffer stores its elements
@@ -151,6 +159,9 @@ private:
 
     /// The size of the held buffer
     virtual size_type size_() const noexcept = 0;
+
+    /// Does the derived class hold read-only data
+    virtual bool is_const_() const noexcept = 0;
 
     /// Does the derived class store the buffer contiguously in memory?
     virtual bool is_contiguous_() const = 0;

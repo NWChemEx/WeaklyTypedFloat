@@ -8,8 +8,8 @@ namespace wtf::buffer {
 
 /** @brief A type-erased buffer of floating-point values.
  *
- *  @tparam FloatType The type of buffer this is acing like. Must satisfy the
- *                     concepts::FloatBuffer concept.
+ *  @tparam FloatType The type of the elements in the buffer. Must satisfy the
+ *                     concepts::WTFFloat concept.
  *
  *  This class aliases an existing buffer and allows the user to interact with
  *  it as if it were a FloatBuffer object.

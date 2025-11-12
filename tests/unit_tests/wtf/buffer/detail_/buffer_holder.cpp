@@ -56,6 +56,11 @@ TEMPLATE_LIST_TEST_CASE("BufferHolder", "[wtf]", default_fp_types) {
         REQUIRE(empty_holder.type() == wtf::rtti::wtf_typeid<TestType>());
     }
 
+    SECTION("is_const()") {
+        REQUIRE_FALSE(holder.is_const());
+        REQUIRE_FALSE(empty_holder.is_const());
+    }
+
     SECTION("is_contiguous()") {
         REQUIRE(holder.is_contiguous());
         REQUIRE(empty_holder.is_contiguous());

@@ -55,6 +55,19 @@ TEMPLATE_LIST_TEST_CASE("ContiguousModel", "[wtf]", all_fp_types) {
         REQUIRE(cmodel.data() == pdata);
     }
 
+    SECTION("span()") {
+        auto span = model.span();
+        REQUIRE(span.data() == pdata);
+        REQUIRE(span.size() == 3);
+    }
+
+    SECTION("span() const") {
+        const auto& cmodel = model;
+        auto span          = cmodel.span();
+        REQUIRE(span.data() == pdata);
+        REQUIRE(span.size() == 3);
+    }
+
     SECTION("operator==") {
         REQUIRE(model == model_type(vector_type{one, two, three}));
 
@@ -85,6 +98,8 @@ TEMPLATE_LIST_TEST_CASE("ContiguousModel", "[wtf]", all_fp_types) {
 
     SECTION("size_()") { REQUIRE(model.size() == 3); }
 
+    SECTION("is_const_()") { REQUIRE_FALSE(model.is_const()); }
+
     SECTION("is_contiguous_()") { REQUIRE(model.is_contiguous()); }
 
     SECTION("are_equal_") {
@@ -99,5 +114,58 @@ TEMPLATE_LIST_TEST_CASE("ContiguousModel", "[wtf]", all_fp_types) {
         using other_model_type = ContiguousModel<other_t>;
         std::vector<other_t> other_vector{1.0, 2.0, 3.0};
         REQUIRE_FALSE(model.are_equal(other_model_type(other_vector)));
+    }
+}
+
+struct CheckVisitContiguousModel {
+    CheckVisitContiguousModel(float* pdataf, double* pdatad) :
+      pdataf_corr(pdataf), pdatad_corr(pdatad) {}
+
+    auto operator()(std::span<const float> span) const {
+        REQUIRE(span.data() == pdataf_corr);
+        REQUIRE(span.size() == 3);
+    }
+
+    auto operator()(std::span<const double> span) const {
+        REQUIRE(span.data() == pdatad_corr);
+        REQUIRE(span.size() == 3);
+    }
+
+    auto operator()(std::span<float> lhs, std::span<double> rhs) const {
+        REQUIRE(lhs.data() == pdataf_corr);
+        REQUIRE(lhs.size() == 3);
+        REQUIRE(rhs.data() == pdatad_corr);
+        REQUIRE(rhs.size() == 3);
+    }
+
+    template<typename T, typename U>
+    auto operator()(std::span<T> lhs, std::span<U> rhs) const {
+        throw std::runtime_error("Only float, double supported");
+    }
+
+    float* pdataf_corr;
+    double* pdatad_corr;
+};
+
+TEST_CASE("visit_contiguous_model") {
+    std::vector<float> valf{1.0, 2.0, 3.0};
+    std::vector<double> vald{1.0, 2.0, 3.0};
+    auto pdataf = valf.data();
+    auto pdatad = vald.data();
+
+    CheckVisitContiguousModel visitor(pdataf, pdatad);
+
+    ContiguousModel<float> modelf(std::move(valf));
+    ContiguousModel<double> modeld(std::move(vald));
+
+    using type_tuple = std::tuple<float, double>;
+
+    SECTION("one argument") {
+        visit_contiguous_model<type_tuple>(visitor, modelf);
+        visit_contiguous_model<type_tuple>(visitor, modeld);
+    }
+
+    SECTION("Two arguments") {
+        visit_contiguous_model<type_tuple>(visitor, modelf, modeld);
     }
 }

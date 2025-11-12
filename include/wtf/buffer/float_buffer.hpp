@@ -216,17 +216,18 @@ public:
 
     template<typename T>
     std::span<T> value() {
-        auto& model = downcast_<T>();
-        return std::span<T>(model.data(), model.size());
+        return downcast_<T>().span();
     }
 
     template<typename T>
     std::span<const T> value() const {
-        const auto& model = downcast_<T>();
-        return std::span<const T>(model.data(), model.size());
+        return downcast_<T>().span();
     }
 
 private:
+    template<typename TupleType, typename Visitor, typename... Args>
+    friend auto visit_contiguous_buffer(Visitor&& visitor, Args&&... args);
+
     template<typename T>
     auto& downcast_() {
         using model_type = detail_::ContiguousModel<T>;
@@ -274,6 +275,41 @@ std::span<T> contiguous_buffer_cast(FloatBuffer& buffer) {
           "Cannot cast non-contiguous FloatBuffer to span");
     }
     return buffer.template value<T>();
+}
+
+/** @brief Wraps the process of calling a visitor with zero or more
+ *         FloatBuffer objects.
+ *
+ *  @relates FloatBuffer
+ *
+ *  @tparam TupleType A std::tuple of floating-point types to try. Must be
+ *                   explicitly provided by the user.
+ *  @tparam Visitor The type of the visitor to call. Must be a callable object
+ *                  capable of accepting `std::span<T>` objects for each
+ *                  possible T in @p TupleType. Will be inferred by the
+ *                  compiler.
+ *  @tparam Args The types of the arguments to forward to the visitor. Each
+ *               is expected to be downcastable to a ContiguousModel holding
+ *               one of the types in @p TupleType. Will be inferred by the
+ *               compiler.
+ *
+ *  @param[in] visitor The visitor to call with the unwrapped std::span<T>
+ *                     objects.
+ *  @param[in] args The ContiguousModel objects to unwrap and pass to the
+ *                  visitor.
+ *
+ *  @return The return value of calling @p visitor with the unwrapped
+ *          std::span<T> objects.
+ *
+ *  @throw std::runtime_error if any of the @p args cannot be downcast to a
+ *                            ContiguousModel holding one of the types in
+ *                            @p TupleType. Strong throw guarantee.
+ *  @throw ??? if calling @p visitor throws. Same throw guarantee.
+ */
+template<typename TupleType, typename Visitor, typename... Args>
+auto visit_contiguous_buffer(Visitor&& visitor, Args&&... args) {
+    return detail_::visit_contiguous_model<TupleType>(
+      std::forward<Visitor>(visitor), *args.m_pholder_...);
 }
 
 // -----------------------------------------------------------------------------
