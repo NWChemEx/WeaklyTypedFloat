@@ -40,7 +40,7 @@ template<template<concepts::FloatingPoint> typename ModelType,
          concepts::UnmodifiedFloatingPoint... Args>
 struct VariantFromTuple<ModelType, std::tuple<Args...>> {
     /// How each ModelType is represented in the variant
-    template<typename T>
+    template<concepts::FloatingPoint T>
     using model_type = ModelType<T>*;
 
     /// A variant where the ModelType's types are unqualified
@@ -78,7 +78,7 @@ template<template<concepts::FloatingPoint> typename ModelType,
          concepts::UnmodifiedFloatingPoint... Args>
 struct ConstVariantFromTuple<ModelType, std::tuple<Args...>> {
     /// How each ModelType is represented in the variant
-    template<typename T>
+    template<concepts::FloatingPoint T>
     using model_type = const ModelType<T>*;
 
     /// A variant where the ModelType's types are unqualified
