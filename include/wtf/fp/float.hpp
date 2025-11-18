@@ -199,7 +199,7 @@ private:
  */
 template<concepts::UnmodifiedFloatingPoint T>
 bool operator==(T lhs, const Float& rhs) {
-    return rhs == lhs;
+    return Float(lhs) == rhs;
 }
 
 /** @brief Allows floating-point objects to be compared to Floats.
@@ -222,7 +222,7 @@ bool operator==(T lhs, const Float& rhs) {
  */
 template<concepts::UnmodifiedFloatingPoint T>
 bool operator!=(T lhs, const Float& rhs) {
-    return !(rhs == lhs);
+    return !(lhs == rhs);
 }
 
 /** @brief Helps create a Float object from an object of type @p T.

@@ -25,5 +25,6 @@ header:
     - LICENSE
     - version.txt
     - build/
+    - .vscode/
 
   comment: never

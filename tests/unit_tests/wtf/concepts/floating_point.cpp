@@ -16,6 +16,7 @@
 
 #include "../../../test_wtf.hpp"
 #include <wtf/concepts/floating_point.hpp>
+#include <wtf/fp/float.hpp>
 #include <wtf/type_traits/type_traits.hpp>
 
 using namespace wtf::concepts;
@@ -34,6 +35,7 @@ TEMPLATE_LIST_TEST_CASE("UnmodifiedFloatingPoint", "[wtf][concepts]",
     STATIC_REQUIRE_FALSE(UnmodifiedFloatingPoint<const volatile TestType>);
     STATIC_REQUIRE_FALSE(UnmodifiedFloatingPoint<const volatile TestType*>);
     STATIC_REQUIRE_FALSE(UnmodifiedFloatingPoint<const volatile TestType&>);
+    STATIC_REQUIRE_FALSE(UnmodifiedFloatingPoint<wtf::fp::Float>);
 }
 
 TEMPLATE_LIST_TEST_CASE("FloatingPoint", "[wtf][concepts]",
