@@ -18,7 +18,7 @@ Developer Documentation
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents
+   :caption: Design and Technical Documents
 
    statement_of_need
    scope

@@ -12,6 +12,10 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
+###############################
+Registering a New Type with WTF
+###############################
+
 These are notes on how to register a new type with WTF.
 
 .. note::

@@ -24,10 +24,10 @@ working with floating-point (FP) numbers in a type-erased manner.
    :caption: Contents
 
    developer/index
+   adding_a_new_type
 
 .. toctree::
    :maxdepth: 2
    :caption: APIs:
 
-   module_api/index
    C++ API <https://nwchemex.github.io/WeaklyTypedFloat/wtf_cxx_api/index.html>
