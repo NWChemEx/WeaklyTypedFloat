@@ -27,6 +27,4 @@ jobs:
 
   deploy_nwx_docs:
     uses: NWChemEx/.github/.github/workflows/deploy_nwx_docs.yaml@master
-    with:
-      doc_target: "wtf_cxx_api"
     secrets: inherit
