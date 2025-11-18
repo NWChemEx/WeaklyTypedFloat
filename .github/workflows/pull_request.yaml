@@ -26,6 +26,8 @@ jobs:
 
   test_nwx_docs:
     uses: NWChemEx/.github/.github/workflows/test_nwx_docs.yaml@master
+    with:
+      doc_target: "wtf_cxx_api"
 
   test_library:
     uses: NWChemEx/.github/.github/workflows/test_nwx_library.yaml@master
