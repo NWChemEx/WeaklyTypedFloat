@@ -17,6 +17,7 @@
 #pragma once
 #include <iostream>
 #include <map>
+#include <memory>
 #include <string>
 #include <wtf/concepts/floating_point.hpp>
 #include <wtf/detail_/dispatcher.hpp>
