@@ -1,6 +1,24 @@
+/*
+ * Copyright 2025 NWChemEx-Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #pragma once
+#include <span>
 #include <wtf/buffer/detail_/buffer_holder.hpp>
 #include <wtf/concepts/floating_point.hpp>
+#include <wtf/detail_/dispatcher.hpp>
 #include <wtf/type_traits/float_traits.hpp>
 
 namespace wtf::buffer::detail_ {
@@ -39,7 +57,7 @@ public:
     ///@}
 
     /// Type used to manage the floating-point buffer
-    using vector_type = std::vector<FloatType>;
+    using vector_type = std::vector<std::decay_t<FloatType>>;
 
     /** @brief Takes ownership of @p buffer.
      *
@@ -106,6 +124,28 @@ public:
      */
     const_pointer data() const { return m_buffer_.data(); }
 
+    /** @brief Returns the wrapped data as a std::span.
+     *
+     *  Starting with C++20 this is the preferred way to access raw contiguous
+     *  buffers.
+     *
+     *  @return A std::span wrapping the underlying buffer.
+     *
+     *  @throw None No-throw guarantee.
+     */
+    auto span() { return std::span(data(), size()); }
+
+    /** @brief Returns the wrapped data as a std::span.
+     *
+     *  This method is the same as the non-const version except that it ensures
+     *  the resulting span is read-only.
+     *
+     *  @return A std::span wrapping the underlying buffer.
+     *
+     *  @throw None No-throw guarantee.
+     */
+    auto span() const { return std::span(data(), size()); }
+
     /** @brief Compares the elements in the buffer for exact equality.
      *
      *  Value equal is defined as having the same elements in the same order.
@@ -139,6 +179,11 @@ private:
     /// Calls vector_type's size()
     size_type size_() const noexcept override { return m_buffer_.size(); }
 
+    /// Checks FloatType for "const"
+    bool is_const_() const noexcept override {
+        return std::is_const_v<FloatType>;
+    }
+
     /// *this always store data contiguously (unless FloatType == bool)
     bool is_contiguous_() const override { return true; }
 
@@ -153,5 +198,43 @@ private:
     /// The held buffer
     vector_type m_buffer_;
 };
+
+/** @brief Wraps the process of calling a visitor with zero or more
+ *         ContiguousModel objects.
+ *
+ *  @relates ContiguousModel
+ *
+ *  @tparam TupleType A std::tuple of floating-point types to try. Must be
+ *                   explicitly provided by the user.
+ *  @tparam Visitor The type of the visitor to call. Must be a callable object
+ *                  capable of accepting `std::span<T>` objects for each
+ *                  possible T in @p TupleType. Will be inferred by the
+ *                  compiler.
+ *  @tparam Args The types of the arguments to forward to the visitor. Each
+ *               is expected to be downcastable to a ContiguousModel holding
+ *               one of the types in @p TupleType. Will be inferred by the
+ *               compiler.
+ *
+ *  @param[in] visitor The visitor to call with the unwrapped std::span<T>
+ *                     objects.
+ *  @param[in] args The ContiguousModel objects to unwrap and pass to the
+ *                  visitor.
+ *
+ *  @return The return value of calling @p visitor with the unwrapped
+ *          std::span<T> objects.
+ *
+ *  @throw std::runtime_error if any of the @p args cannot be downcast to a
+ *                            ContiguousModel holding one of the types in
+ *                            @p TupleType. Strong throw guarantee.
+ *  @throw ??? if calling @p visitor throws. Same throw guarantee.
+ */
+template<typename TupleType, typename Visitor, typename... Args>
+auto visit_contiguous_model(Visitor&& visitor, Args&&... args) {
+    auto lambda = [=](auto&&... inner_args) {
+        return visitor(inner_args.span()...);
+    };
+    return wtf::detail_::dispatch<ContiguousModel, TupleType>(
+      lambda, std::forward<Args>(args)...);
+}
 
 } // namespace wtf::buffer::detail_

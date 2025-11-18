@@ -1,4 +1,4 @@
-# Copyright 2023 NWChemEx-Project
+# Copyright 2021 NWChemEx-Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,21 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+header:
+  license:
+    spdx-id: Apache-2.0
+    copyright-owner: NWChemEx-Project
 
-name: Merge Workflow
+  paths-ignore:
+    - .github/
+    - docs/Makefile
+    - docs/build/
+    - docs/requirements.txt
+    - cmake/generate_module_docs.cpp.in
+    - LICENSE
+    - version.txt
+    - build/
+    - .vscode/
 
-on:
-  push:
-    branches:
-      - master
-
-jobs:
-  tag-commit:
-    uses: NWChemEx/.github/.github/workflows/tag.yaml@master
-    secrets: inherit
-
-  deploy_nwx_docs:
-    uses: NWChemEx/.github/.github/workflows/deploy_nwx_docs.yaml@master
-    with:
-      doc_target: "wtf_cxx_api"
-    secrets: inherit
+  comment: never

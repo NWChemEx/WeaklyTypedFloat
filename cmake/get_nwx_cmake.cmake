@@ -1,4 +1,4 @@
-# Copyright 2023 NWChemEx-Project
+# Copyright 2024 NWChemEx Community
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,22 +11,21 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-name: Merge Workflow
+include_guard()
 
-on:
-  push:
-    branches:
-      - master
+macro(get_nwx_cmake)
+    include(FetchContent)
+    FetchContent_Declare(
+        nwx_cmake
+        GIT_REPOSITORY https://github.com/NWChemEx/NWXCMake
+    )
+    FetchContent_MakeAvailable(nwx_cmake)
+    set(
+        CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${nwx_cmake_SOURCE_DIR}/cmake"
+        CACHE STRING ""
+        FORCE
+    )
+endmacro()
 
-jobs:
-  tag-commit:
-    uses: NWChemEx/.github/.github/workflows/tag.yaml@master
-    secrets: inherit
-
-  deploy_nwx_docs:
-    uses: NWChemEx/.github/.github/workflows/deploy_nwx_docs.yaml@master
-    with:
-      doc_target: "wtf_cxx_api"
-    secrets: inherit
+get_nwx_cmake()

@@ -1,4 +1,4 @@
-# Copyright 2023 NWChemEx-Project
+# Copyright 2025 NWChemEx-Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,22 +11,5 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-name: Merge Workflow
-
-on:
-  push:
-    branches:
-      - master
-
-jobs:
-  tag-commit:
-    uses: NWChemEx/.github/.github/workflows/tag.yaml@master
-    secrets: inherit
-
-  deploy_nwx_docs:
-    uses: NWChemEx/.github/.github/workflows/deploy_nwx_docs.yaml@master
-    with:
-      doc_target: "wtf_cxx_api"
-    secrets: inherit
+venv/

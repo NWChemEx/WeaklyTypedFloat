@@ -1,3 +1,19 @@
+/*
+ * Copyright 2025 NWChemEx-Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #pragma once
 #include <memory>
 #include <wtf/concepts/floating_point.hpp>
@@ -183,7 +199,7 @@ private:
  */
 template<concepts::UnmodifiedFloatingPoint T>
 bool operator==(T lhs, const Float& rhs) {
-    return rhs == lhs;
+    return Float(lhs) == rhs;
 }
 
 /** @brief Allows floating-point objects to be compared to Floats.
@@ -206,7 +222,7 @@ bool operator==(T lhs, const Float& rhs) {
  */
 template<concepts::UnmodifiedFloatingPoint T>
 bool operator!=(T lhs, const Float& rhs) {
-    return !(rhs == lhs);
+    return !(lhs == rhs);
 }
 
 /** @brief Helps create a Float object from an object of type @p T.

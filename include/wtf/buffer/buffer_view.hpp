@@ -1,3 +1,19 @@
+/*
+ * Copyright 2025 NWChemEx-Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #pragma once
 #include <span>
 #include <wtf/buffer/detail_/contiguous_view_model.hpp>
@@ -8,8 +24,8 @@ namespace wtf::buffer {
 
 /** @brief A type-erased buffer of floating-point values.
  *
- *  @tparam FloatType The type of buffer this is acing like. Must satisfy the
- *                     concepts::FloatBuffer concept.
+ *  @tparam FloatType The type of the elements in the buffer. Must satisfy the
+ *                     concepts::WTFFloat concept.
  *
  *  This class aliases an existing buffer and allows the user to interact with
  *  it as if it were a FloatBuffer object.

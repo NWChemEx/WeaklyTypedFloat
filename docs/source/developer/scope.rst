@@ -32,24 +32,24 @@ erased FP value. In practice users will rarely want to work with a single value
 so we will also need to provide a way to work with collections of these values,
 of particular note is that users will want to work with collections of these
 values that are stored in contiguous memory. To provide an object-oriented API,
-it must be possible for the user to grab an element from the collection in a 
-way that the element is assignable, but still stored in the full collection 
-(e.g., think of it as a reference or view of the element). Similarly, it must 
-be possible to grab a sub-collection of the full collection in a way that the 
+it must be possible for the user to grab an element from the collection in a
+way that the element is assignable, but still stored in the full collection
+(e.g., think of it as a reference or view of the element). Similarly, it must
+be possible to grab a sub-collection of the full collection in a way that the
 sub-collection is assignable, but still stored in the full collection. The
 latter also enables the user to interface already allocated memory with WTF.
 
 In summary:
 
 - ``wtf::Float`` class that holds a type-erased floating point value. Owns the
-    underlying value.
+  underlying value.
 - ``wtf::FloatBuffer`` class that acts like it holds a series of ``wtf::Float``
   objects, but actually unwraps the underlying type into contiguous memory. Owns
-    the underlying memory.
+  the underlying memory.
 - ``wtf::FloatView`` class that acts like it is aliasing a ``wtf::Float``
   object, but actually wraps a pointer to the raw memory.
-- ``wtf::FloatBufferView`` class that acts like an alias to a 
- ``wtf::FloatBuffer`` object, but actually wraps pointer(s) to the contiguous
+- ``wtf::FloatBufferView`` class that acts like an alias to a
+  ``wtf::FloatBuffer`` object, but actually wraps pointer(s) to the contiguous
   memory.
 
 In practice, we will also need ``const`` versions of the view classes (views
@@ -67,10 +67,11 @@ Under typical circumstances all C++ objects should provide:
 - Copy and move assignment operators.
   - Deep copy for objects that own memory. Shallow for those that alias.
 - Equality/Inequality operators.
+
   - Exact equality. Good for testing that state is set correctly. Not used for
     checking results of numerical calculations (vide infra).
 
-Since these will be numerical types it will also be nice if our objects 
+Since these will be numerical types it will also be nice if our objects
 provided:
 
 - Operations to establish order (e.g., ``<``, ``>``, etc...).
@@ -93,6 +94,7 @@ Maybe We Support
 ****************
 
 - Element-wise arithmetic operations (e.g., ``+``, ``-``, ``*``, ``/``).
+
   - Implementing these in a performant manner may require us to use specialized
     math libraries, which in turn makes this start to look like linear
     algebra.

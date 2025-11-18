@@ -1,3 +1,19 @@
+/*
+ * Copyright 2025 NWChemEx-Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #include "../../../test_wtf.hpp"
 #include <wtf/buffer/float_buffer.hpp>
 
@@ -191,4 +207,57 @@ TEMPLATE_LIST_TEST_CASE("contiguous_buffer_cast", "[wtf]", all_fp_types) {
     REQUIRE(span[0] == one);
     REQUIRE(span[1] == two);
     REQUIRE(span[2] == three);
+}
+
+struct CheckVisitContiguousModel {
+    CheckVisitContiguousModel(float* pdataf, double* pdatad) :
+      pdataf_corr(pdataf), pdatad_corr(pdatad) {}
+
+    auto operator()(std::span<const float> span) const {
+        REQUIRE(span.data() == pdataf_corr);
+        REQUIRE(span.size() == 3);
+    }
+
+    auto operator()(std::span<const double> span) const {
+        REQUIRE(span.data() == pdatad_corr);
+        REQUIRE(span.size() == 3);
+    }
+
+    auto operator()(std::span<float> lhs, std::span<double> rhs) const {
+        REQUIRE(lhs.data() == pdataf_corr);
+        REQUIRE(lhs.size() == 3);
+        REQUIRE(rhs.data() == pdatad_corr);
+        REQUIRE(rhs.size() == 3);
+    }
+
+    template<typename T, typename U>
+    auto operator()(std::span<T> lhs, std::span<U> rhs) const {
+        throw std::runtime_error("Only float, double supported");
+    }
+
+    float* pdataf_corr;
+    double* pdatad_corr;
+};
+
+TEST_CASE("visit_contiguous_buffer") {
+    std::vector<float> valf{1.0, 2.0, 3.0};
+    std::vector<double> vald{1.0, 2.0, 3.0};
+    auto pdataf = valf.data();
+    auto pdatad = vald.data();
+
+    CheckVisitContiguousModel visitor(pdataf, pdatad);
+
+    FloatBuffer modelf(std::move(valf));
+    FloatBuffer modeld(std::move(vald));
+
+    using type_tuple = std::tuple<float, double>;
+
+    SECTION("one argument") {
+        visit_contiguous_buffer<type_tuple>(visitor, modelf);
+        visit_contiguous_buffer<type_tuple>(visitor, modeld);
+    }
+
+    SECTION("Two arguments") {
+        visit_contiguous_buffer<type_tuple>(visitor, modelf, modeld);
+    }
 }
