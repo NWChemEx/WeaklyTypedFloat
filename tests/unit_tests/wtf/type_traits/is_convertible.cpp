@@ -1,4 +1,5 @@
 #include "../../../test_wtf.hpp"
+#include <array>
 #include <wtf/type_traits/is_convertible.hpp>
 #include <wtf/type_traits/type_traits.hpp>
 
