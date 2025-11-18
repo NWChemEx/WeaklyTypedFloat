@@ -27,3 +27,6 @@
         static constexpr const char* value = #T;   \
     };                                             \
     } // namespace wtf::type_traits
+
+/// @brief Namespace for type traits provided by WTF.
+namespace wtf::type_traits {}
