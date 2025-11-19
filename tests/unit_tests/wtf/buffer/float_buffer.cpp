@@ -95,6 +95,28 @@ TEMPLATE_LIST_TEST_CASE("FloatBuffer", "[wtf]", default_fp_types) {
         }
     }
 
+    SECTION("as_view()") {
+        auto defaulted_view = defaulted.as_view();
+        REQUIRE(defaulted_view.size() == 0);
+
+        auto view = buffer.as_view();
+        REQUIRE(view.size() == 3);
+        REQUIRE(view.at(0) == one);
+        REQUIRE(view.at(1) == two);
+        REQUIRE(view.at(2) == three);
+    }
+
+    SECTION("as_view() const") {
+        auto defaulted_view = std::as_const(defaulted).as_view();
+        REQUIRE(defaulted_view.size() == 0);
+
+        auto view = std::as_const(buffer).as_view();
+        REQUIRE(view.size() == 3);
+        REQUIRE(view.at(0) == one);
+        REQUIRE(view.at(1) == two);
+        REQUIRE(view.at(2) == three);
+    }
+
     SECTION("at()") {
         REQUIRE(buffer.at(0) == one);
         REQUIRE(buffer.at(1) == two);

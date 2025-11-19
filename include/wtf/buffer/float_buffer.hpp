@@ -16,6 +16,7 @@
 
 #pragma once
 #include <span>
+#include <wtf/buffer/buffer_view.hpp>
 #include <wtf/buffer/detail_/contiguous_model.hpp>
 #include <wtf/concepts/iterator.hpp>
 
@@ -40,6 +41,9 @@ public:
     using view_type       = typename holder_type::view_type;
     using const_view_type = typename holder_type::const_view_type;
     ///@}
+
+    using buffer_view       = BufferView<fp::Float>;
+    using const_buffer_view = BufferView<const fp::Float>;
 
     // -------------------------------------------------------------------------
     // Ctors and assignment operators
@@ -142,6 +146,39 @@ public:
      *  @throw No-throw guarantee.
      */
     FloatBuffer& operator=(FloatBuffer&& other) noexcept = default;
+
+    /** @brief Explicitly converts *this into a BufferView.
+     *
+     *  FloatBuffer objects are implicitly convertible to BufferView objects,
+     *  so that APIs written in terms of BufferView objects can be used with
+     *  both view and values. However, there are times when the user may want to
+     *  be explicit about the conversion. This method allows for that.
+     *
+     *  @return A BufferView aliasing the held buffer, or a null BufferView if
+     *          *this is not holding a buffer.
+     *
+     *  @throw std::bad_alloc if creating the BufferView fails. Strong throw
+     *                       guarantee.
+     */
+    auto as_view() {
+        return buffer_view(is_holding_() ? m_pholder_->as_view() : nullptr);
+    }
+
+    /** @brief Explicitly converts *this into a BufferView.
+     *
+     *  This method is the same as the non-const version, but returns a read-
+     *  only BufferView. See the non-const version for more details.
+     *
+     *  @return A const BufferView aliasing the held buffer, or a null
+     *          BufferView if *this is not holding a buffer.
+     *
+     * @throw std::bad_alloc if creating the BufferView fails. Strong throw
+     *                       guarantee.
+     */
+    auto as_view() const {
+        return const_buffer_view(
+          is_holding_() ? std::as_const(*m_pholder_).as_view() : nullptr);
+    }
 
     // -------------------------------------------------------------------------
     // State accessors
@@ -373,7 +410,7 @@ FloatBuffer::FloatBuffer(BeginItr&& begin, EndItr&& end) :
   FloatBuffer(
     std::vector(std::forward<BeginItr>(begin), std::forward<EndItr>(end))) {}
 
-FloatBuffer& FloatBuffer::operator=(const FloatBuffer& other) {
+inline FloatBuffer& FloatBuffer::operator=(const FloatBuffer& other) {
     if(this != &other) {
         if(other.is_holding_())
             m_pholder_ = other.m_pholder_->clone();

@@ -17,6 +17,7 @@
 #pragma once
 #include <span>
 #include <wtf/buffer/detail_/buffer_holder.hpp>
+#include <wtf/buffer/detail_/contiguous_view_model.hpp>
 #include <wtf/concepts/floating_point.hpp>
 #include <wtf/detail_/dispatcher.hpp>
 #include <wtf/type_traits/float_traits.hpp>
@@ -165,6 +166,18 @@ public:
 private:
     /// Clones *this polymorphically
     holder_type* clone_() const override { return new ContiguousModel(*this); }
+
+    /// Creates a mutable view_holder to *this
+    buffer_view_holder* as_view_() override {
+        using view_model = ContiguousViewModel<FloatType>;
+        return new view_model(m_buffer_.data(), this->size());
+    }
+
+    /// Creates an immutable view_holder to *this
+    const_buffer_view_holder* as_view_() const override {
+        using const_view_model = ContiguousViewModel<const FloatType>;
+        return new const_view_model(m_buffer_.data(), this->size());
+    }
 
     /// Calls vector_type's operator[]
     view_type at_(size_type index) override {

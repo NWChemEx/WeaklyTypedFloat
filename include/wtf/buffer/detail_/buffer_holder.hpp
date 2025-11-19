@@ -16,6 +16,7 @@
 
 #pragma once
 #include <memory>
+#include <wtf/buffer/detail_/buffer_view_holder.hpp>
 #include <wtf/fp/float_view.hpp>
 #include <wtf/rtti/type_info.hpp>
 
@@ -50,6 +51,19 @@ public:
     /// Type used for indexing
     using size_type = std::size_t;
 
+    /// Type of a view that would act like *this
+    using buffer_view_holder = BufferViewHolder<fp::Float>;
+
+    /// Type of a pointer to a buffer_view_holder object
+    using buffer_view_holder_pointer = std::unique_ptr<buffer_view_holder>;
+
+    /// Type of a view that would act like a const version of *this
+    using const_buffer_view_holder = BufferViewHolder<const fp::Float>;
+
+    /// Type of a pointer to a const_buffer_view_holder object
+    using const_buffer_view_holder_pointer =
+      std::unique_ptr<const_buffer_view_holder>;
+
     /// Default virtual destructor
     virtual ~BufferHolder() = default;
 
@@ -64,6 +78,34 @@ public:
      *  @throw std::bad_alloc if making the copy fails. Strong throw guarantee.
      */
     holder_pointer clone() const { return holder_pointer(clone_()); }
+
+    /** @brief Explicitly creates a view of *this.
+     *
+     *  FloatBuffer objects are implicitly convertible to BufferView
+     *  objects, so that they can seamlessly interoperate. However, it is
+     *  sometimes useful to be able to explicitly get a view of a FloatBuffer.
+     *  This method does the heavy lifting for implementing that functionality.
+     *
+     *  @return A unique_ptr to a BufferViewHolder that aliases *this.
+     *
+     *  @throw std::bad_alloc if creating the view fails. Strong throw
+     *                        guarantee.
+     */
+    auto as_view() { return buffer_view_holder_pointer(as_view_()); }
+
+    /** @brief Explicitly creates a view of *this.
+     *
+     *  This method is the const version of the non-const as_view() method.
+     *  See the documentation of the non-const version for more details.
+     *
+     *  @return A unique_ptr to a const BufferViewHolder that aliases *this.
+     *
+     *  @throw std::bad_alloc if creating the view fails. Strong throw
+     *                        guarantee.
+     */
+    auto as_view() const {
+        return const_buffer_view_holder_pointer(as_view_());
+    }
 
     /** @brief Retrieves the element with offset @p index.
      *
@@ -166,6 +208,12 @@ protected:
 private:
     /// Clones *this polymorphically
     virtual holder_type* clone_() const = 0;
+
+    /// Creates a mutable view_holder to *this
+    virtual buffer_view_holder* as_view_() = 0;
+
+    /// Creates a immutable view_holder to *this
+    virtual const_buffer_view_holder* as_view_() const = 0;
 
     /// Base ensures in bounds, derived should just return the element
     virtual view_type at_(size_type index) = 0;
