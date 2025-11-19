@@ -45,6 +45,15 @@ public:
     // Ctors and assignment operators
     // -------------------------------------------------------------------------
 
+    /** @brief Creates an empty buffer.
+     *
+     *  This ctor creates a FloatBuffer which contains zero elements and is
+     *  capable of holding no elements.
+     *
+     *  @throw None No throw guarantee.
+     */
+    FloatBuffer() noexcept = default;
+
     /** @brief Creates a FloatBuffer from a std::vector.
      *
      *  @tparam T The type of floating-point value being held. Must satisfy
@@ -95,7 +104,7 @@ public:
      *                        guarantee.
      */
     FloatBuffer(const FloatBuffer& other) :
-      m_pholder_(other.m_pholder_->clone()) {}
+      m_pholder_(other.is_holding_() ? other.m_pholder_->clone() : nullptr) {}
 
     /** @brief Overrides the state of *this with a deep copy of @p other.
      *
@@ -154,7 +163,10 @@ public:
      *  @throw std::out_of_range if @p index is not less than size().
      *                           Strong throw guarantee.
      */
-    view_type at(size_type index) { return m_pholder_->at(index); }
+    view_type at(size_type index) {
+        in_range_(index);
+        return m_pholder_->at(index);
+    }
 
     /** @brief Returns the element with offset @p index.
      *
@@ -169,6 +181,7 @@ public:
      *                           throw guarantee.
      */
     const_view_type at(size_type index) const {
+        in_range_(index);
         return std::as_const(*m_pholder_).at(index);
     }
 
@@ -182,7 +195,9 @@ public:
      *
      *  @throw No-throw guarantee.
      */
-    size_type size() const noexcept { return m_pholder_->size(); }
+    size_type size() const noexcept {
+        return is_holding_() ? m_pholder_->size() : 0;
+    }
 
     /** @brief Does the held buffer store the values contiguously?
      *
@@ -196,7 +211,9 @@ public:
      *
      *  @throw No-throw guarantee.
      */
-    bool is_contiguous() const { return m_pholder_->is_contiguous(); }
+    bool is_contiguous() const {
+        return is_holding_() ? m_pholder_->is_contiguous() : true;
+    }
 
     /** @brief Determines if *this is value equal to @p other.
      *
@@ -211,7 +228,12 @@ public:
      *  @throw No-throw guarantee.
      */
     bool operator==(const FloatBuffer& other) const {
-        return m_pholder_->are_equal(*other.m_pholder_);
+        if(is_holding_() && other.is_holding_())
+            return m_pholder_->are_equal(*other.m_pholder_);
+        else if(!is_holding_() && !other.is_holding_())
+            return true;
+        else // One is holding and the other is not, but may both be size 0
+            return size() == other.size();
     }
 
     /** @brief Is this buffer different from @p other?
@@ -232,15 +254,21 @@ public:
 
     template<typename T>
     std::span<T> value() {
-        return downcast_<T>().span();
+        return is_holding_() ? downcast_<T>().span() : std::span<T>{};
     }
 
     template<typename T>
     std::span<const T> value() const {
-        return downcast_<T>().span();
+        return is_holding_() ? downcast_<T>().span() : std::span<const T>{};
     }
 
 private:
+    void in_range_(size_type index) const {
+        if(index >= size()) {
+            throw std::out_of_range("Index out of range in FloatBuffer::at()");
+        }
+    }
+
     template<typename TupleType, typename Visitor, typename... Args>
     friend auto visit_contiguous_buffer(Visitor&& visitor, Args&&... args);
 
@@ -260,6 +288,9 @@ private:
     const auto& downcast_() const {
         return const_cast<FloatBuffer*>(this)->downcast_<T>();
     }
+
+    /// True if *this is actively type-erasing a buffer and false otherwise
+    bool is_holding_() const noexcept { return m_pholder_ != nullptr; }
 
     /// Other ctors create the holder and then dispatch to this ctor.
     FloatBuffer(holder_pointer pholder) : m_pholder_(std::move(pholder)) {}
@@ -343,7 +374,12 @@ FloatBuffer::FloatBuffer(BeginItr&& begin, EndItr&& end) :
     std::vector(std::forward<BeginItr>(begin), std::forward<EndItr>(end))) {}
 
 FloatBuffer& FloatBuffer::operator=(const FloatBuffer& other) {
-    if(this != &other) { m_pholder_ = other.m_pholder_->clone(); }
+    if(this != &other) {
+        if(other.is_holding_())
+            m_pholder_ = other.m_pholder_->clone();
+        else
+            m_pholder_.reset();
+    }
     return *this;
 }
 
