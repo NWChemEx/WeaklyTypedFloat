@@ -18,7 +18,6 @@
 #include <wtf/concepts/floating_point.hpp>
 #include <wtf/concepts/wtf_float.hpp>
 #include <wtf/fp/detail_/float_view_model.hpp>
-#include <wtf/fp/float.hpp>
 
 namespace wtf::fp {
 
@@ -96,6 +95,22 @@ public:
      */
     template<concepts::FloatingPoint T>
     FloatView(T& value) : m_pfloat_(std::make_unique<model_type<T>>(&value)) {}
+
+    /// Common ctor used once the holder is created
+    FloatView(holder_pointer pfloat) : m_pfloat_(std::move(pfloat)) {}
+
+    /** @brief Implicitly converts a Float object into a view.
+     *
+     *  This ctor is implements the automatic conversion from Float to
+     *  FloatView.
+     *
+     *  @param[in] value The Float object to convert. The constructed FloatView
+     *                   will alias the state in @p value.
+     *
+     *  @throw std::bad_alloc if memory for the internal holder can not be
+     *                       allocated. Strong throw guarantee.
+     */
+    FloatView(FloatType& value) : FloatView(value.as_view()) {}
 
     /** @brief Implicit conversion to a read-only alias.
      *
@@ -319,9 +334,6 @@ private:
 
     template<concepts::FloatingPoint T>
     friend auto make_float_view(T& value);
-
-    /// Common ctor used once the holder is created
-    FloatView(holder_pointer pfloat) : m_pfloat_(std::move(pfloat)) {}
 
     /// The holder object
     holder_pointer m_pfloat_;

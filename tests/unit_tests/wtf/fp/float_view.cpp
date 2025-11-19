@@ -15,6 +15,7 @@
  */
 
 #include "../../../test_wtf.hpp"
+#include <wtf/fp/float.hpp>
 #include <wtf/fp/float_view.hpp>
 #include <wtf/type_traits/type_traits.hpp>
 
@@ -50,6 +51,12 @@ TEMPLATE_LIST_TEST_CASE("FloatView", "[wtf]", test_wtf::all_fp_types) {
 
             REQUIRE(f4 == cf);
             REQUIRE(f5 == cf);
+        }
+
+        SECTION("From Float object") {
+            Float f_owning(val);
+            view_type f2(f_owning);
+            REQUIRE(f2 == f);
         }
 
         SECTION("non-const to const") {

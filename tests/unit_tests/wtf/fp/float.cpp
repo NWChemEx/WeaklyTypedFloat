@@ -88,6 +88,16 @@ TEMPLATE_LIST_TEST_CASE("Float", "[wtf]", test_wtf::all_fp_types) {
         REQUIRE(f2 == make_float(val));
     }
 
+    SECTION("as_view()") {
+        auto view = f.as_view();
+        REQUIRE(view == val);
+    }
+
+    SECTION("as_view_() const") {
+        auto const_view = std::as_const(f).as_view();
+        REQUIRE(const_view == val);
+    }
+
     SECTION("operator==") {
         REQUIRE(f == make_float(val));
         REQUIRE(f == val);

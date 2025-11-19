@@ -18,6 +18,7 @@
 #include <memory>
 #include <wtf/concepts/floating_point.hpp>
 #include <wtf/fp/detail_/float_model.hpp>
+#include <wtf/fp/float_view.hpp>
 
 namespace wtf::fp {
 
@@ -35,6 +36,12 @@ public:
 
     /// Type of a pointer to the holder_type
     using holder_pointer = holder_type::holder_pointer;
+
+    /// Type of a view acting like *this
+    using view_type = FloatView<Float>;
+
+    /// Type of a read-only view acting like *this
+    using const_view_type = FloatView<const Float>;
 
     // -------------------------------------------------------------------------
     // Ctors and assignment operators
@@ -115,6 +122,36 @@ public:
     // -------------------------------------------------------------------------
     // Utility methods
     // -------------------------------------------------------------------------
+
+    /** @brief Explicitly converts a Float object to a FloatView.
+     *
+     *  Float objects are implicitly convertible to FloatView objects. This
+     *  way APIs written to accept FloatView objects will also accept Float
+     *  objects. However, sometimes it is useful to be able to explicitly
+     *  convert a Float to a FloatView. This method provides that functionality.
+     *
+     *  @return A FloatView that aliases the floating-point value held by *this.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the FloatView.
+     *                        Strong throw guarantee.
+     */
+    auto as_view() { return view_type(m_holder_->as_view()); }
+
+    /** @brief Explicitly converts a const Float object to a const FloatView.
+     *
+     *  This method is the const version of the non-const as_view() method.
+     *  It provides the ability to explicitly convert a const Float to a
+     *  FloatView<const Float>.
+     *
+     *  @return A FloatView<const Float> that aliases the floating-point value
+     *          held by *this.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the FloatView.
+     *                        Strong throw guarantee.
+     */
+    auto as_view() const {
+        return const_view_type(std::as_const(*m_holder_).as_view());
+    }
 
     /** @brief Exchanges the contents of *this with that of @p other.
      *
