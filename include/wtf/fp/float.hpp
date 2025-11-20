@@ -19,6 +19,7 @@
 #include <wtf/concepts/floating_point.hpp>
 #include <wtf/fp/detail_/float_model.hpp>
 #include <wtf/fp/float_view.hpp>
+#include <wtf/warnings.hpp>
 
 namespace wtf::fp {
 
@@ -318,7 +319,7 @@ Float make_float(T value) {
  */
 template<typename T>
     requires concepts::UnmodifiedFloatingPoint<std::decay_t<T>>
-[[gnu::no_dangling(std::is_reference_v<T>)]] T float_cast(Float& f) {
+IGNORE_DANGLING_REFERENCE T float_cast(Float& f) {
     auto* p            = f.m_holder_.get();
     using derived_type = detail_::FloatModel<std::decay_t<T>>;
     auto pderived      = dynamic_cast<derived_type*>(p);

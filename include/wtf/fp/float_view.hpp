@@ -18,6 +18,7 @@
 #include <wtf/concepts/floating_point.hpp>
 #include <wtf/concepts/wtf_float.hpp>
 #include <wtf/fp/detail_/float_view_model.hpp>
+#include <wtf/warnings.hpp>
 
 namespace wtf::fp {
 
@@ -385,8 +386,7 @@ private:
  */
 template<typename T, concepts::WTFFloat FloatType>
     requires concepts::FloatingPoint<std::decay_t<T>>
-[[gnu::no_dangling(std::is_reference_v<T>)]] T float_cast(
-  FloatView<FloatType> fview) {
+IGNORE_DANGLING_REFERENCE T float_cast(FloatView<FloatType> fview) {
     return fview.template value<T>();
 }
 
