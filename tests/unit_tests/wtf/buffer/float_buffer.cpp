@@ -16,6 +16,7 @@
 
 #include "../../../test_wtf.hpp"
 #include <wtf/buffer/float_buffer.hpp>
+#include <wtf/fp/float.hpp>
 
 using namespace wtf::buffer;
 using namespace test_wtf;
@@ -126,7 +127,7 @@ TEMPLATE_LIST_TEST_CASE("FloatBuffer", "[wtf]", default_fp_types) {
         REQUIRE_THROWS_AS(buffer.at(3), std::out_of_range);
         REQUIRE_THROWS_AS(empty.at(0), std::out_of_range);
 
-        // Can write to it
+        // Can write to it via a TestType object
         buffer.at(0) = TestType{4.0};
         REQUIRE(buffer.at(0) == TestType{4.0});
     }

@@ -201,6 +201,30 @@ public:
     template<concepts::FloatingPoint T>
     FloatView& operator=(T other);
 
+    /** @brief Changes the aliased value to @p other.
+     *
+     *  @tparam OtherFloatType The type of the Float object being assigned from.
+     *                         Must satisfy the concepts::WTFFloat concept.
+     *
+     *  This method does NOT make *this alias the value held by @p other (if you
+     *  want that behavior do `*this = other.as_view()`). Instead, this method
+     *  will change the value aliased by *this to be equal to the value wrapped
+     *  by @p other.
+     *
+     *  @param[in] other The other Float object to copy the value from.
+     *
+     *  @return A reference to *this, after changing the aliased value.
+     *
+     *  @throw std::invalid_argument if the type of the value held by @p other
+     *                               is not the same as that aliased by *this.
+     *                               Strong throw guarantee.
+     */
+    template<concepts::WTFFloat OtherFloatType>
+    FloatView& operator=(OtherFloatType& other) {
+        m_pfloat_->change_value(*(other.as_view().m_pfloat_));
+        return *this;
+    }
+
     // -------------------------------------------------------------------------
     // Utility methods
     // -------------------------------------------------------------------------
