@@ -16,7 +16,9 @@
 
 #pragma once
 
-#ifdef __GNUC__
+#if defined(__clang__)
+#define IGNORE_DANGLING_REFERENCE
+#elif defined(__GNUC__) || defined(__GNUG__)
 #define IGNORE_DANGLING_REFERENCE [[gnu::no_dangling]]
 #else
 #define IGNORE_DANGLING_REFERENCE
