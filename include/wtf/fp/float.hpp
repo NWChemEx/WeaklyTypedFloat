@@ -318,7 +318,7 @@ Float make_float(T value) {
  */
 template<typename T>
     requires concepts::UnmodifiedFloatingPoint<std::decay_t<T>>
-T float_cast(Float& f) {
+[[gnu::no_dangling(std::is_reference_v<T>)]] T float_cast(Float& f) {
     auto* p            = f.m_holder_.get();
     using derived_type = detail_::FloatModel<std::decay_t<T>>;
     auto pderived      = dynamic_cast<derived_type*>(p);

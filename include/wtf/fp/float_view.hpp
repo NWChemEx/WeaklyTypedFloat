@@ -385,7 +385,8 @@ private:
  */
 template<typename T, concepts::WTFFloat FloatType>
     requires concepts::FloatingPoint<std::decay_t<T>>
-T float_cast(FloatView<FloatType> fview) {
+[[gnu::no_dangling(std::is_reference_v<T>)]] T float_cast(
+  FloatView<FloatType> fview) {
     return fview.template value<T>();
 }
 
