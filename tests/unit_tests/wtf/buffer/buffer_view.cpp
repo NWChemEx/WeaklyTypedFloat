@@ -16,6 +16,7 @@
 
 #include "../../../test_wtf.hpp"
 #include <wtf/buffer/buffer_view.hpp>
+#include <wtf/buffer/float_buffer.hpp>
 
 using namespace wtf::buffer;
 using namespace test_wtf;
@@ -30,12 +31,29 @@ TEMPLATE_LIST_TEST_CASE("BufferView", "[wtf]", default_fp_types) {
     vector_type val{one, two, three};
     vector_type empty_vector{};
 
+    view_type defaulted;
     view_type buffer(val.data(), 3);
     view_type empty(empty_vector.data(), 0);
+
+    const_view_type const_defaulted;
     const_view_type const_buffer(val.data(), 3);
     const_view_type const_empty(empty_vector.data(), 0);
 
     SECTION("ctors and assignment") {
+        SECTION("default ctor") {
+            REQUIRE(defaulted.size() == 0);
+            REQUIRE(const_defaulted.size() == 0);
+        }
+
+        SECTION("From FloatBuffer") {
+            FloatBuffer fb(val);
+            view_type from_fb(fb);
+            REQUIRE(from_fb.size() == 3);
+            REQUIRE(from_fb.at(0) == one);
+            REQUIRE(from_fb.at(1) == two);
+            REQUIRE(from_fb.at(2) == three);
+        }
+
         SECTION("By pointer") {
             REQUIRE(buffer.size() == 3);
             REQUIRE(buffer.at(0) == one);
@@ -69,6 +87,9 @@ TEMPLATE_LIST_TEST_CASE("BufferView", "[wtf]", default_fp_types) {
         }
 
         SECTION("copy ctor") {
+            view_type copy_defaulted(defaulted);
+            REQUIRE(copy_defaulted.size() == 0);
+
             view_type copy_buffer(buffer);
             REQUIRE(copy_buffer == buffer);
 
@@ -89,25 +110,41 @@ TEMPLATE_LIST_TEST_CASE("BufferView", "[wtf]", default_fp_types) {
         }
 
         SECTION("copy assignment") {
-            auto pempty_buffer = &(empty = buffer);
-            REQUIRE(empty == buffer);
-            REQUIRE(pempty_buffer == &empty);
+            SECTION("Copy from defaulted") {
+                auto pbuffer = &(buffer = defaulted);
+                REQUIRE(buffer.size() == 0);
+                REQUIRE(pbuffer == &buffer);
+            }
 
-            auto copy_elem0 = empty.at(0);
-            auto orig_elem0 = buffer.at(0);
-            auto& copy0     = float_cast<TestType&>(copy_elem0);
-            auto& orig0     = float_cast<TestType&>(orig_elem0);
-            REQUIRE(&copy0 == &orig0); // Ensure shallow copy
+            SECTION("Copy to defaulted") {
+                auto pdefaulted = &(defaulted = buffer);
+                REQUIRE(defaulted == buffer);
+                REQUIRE(pdefaulted == &defaulted);
+            }
 
-            auto pconst_empty_buffer = &(const_empty = const_buffer);
-            REQUIRE(const_empty == const_buffer);
-            REQUIRE(pconst_empty_buffer == &const_empty);
+            SECTION("copy from non-empty") {
+                auto pempty_buffer = &(empty = buffer);
+                REQUIRE(empty == buffer);
+                REQUIRE(pempty_buffer == &empty);
 
-            auto copy_const_elem0 = const_empty.at(0);
-            auto orig_const_elem0 = const_buffer.at(0);
-            auto& copyc0 = float_cast<const TestType&>(copy_const_elem0);
-            auto& origc0 = float_cast<const TestType&>(orig_const_elem0);
-            REQUIRE(&copyc0 == &origc0); // Ensure shallow copy
+                auto copy_elem0 = empty.at(0);
+                auto orig_elem0 = buffer.at(0);
+                auto& copy0     = float_cast<TestType&>(copy_elem0);
+                auto& orig0     = float_cast<TestType&>(orig_elem0);
+                REQUIRE(&copy0 == &orig0); // Ensure shallow copy
+            }
+
+            SECTION("copy from const non-empty") {
+                auto pconst_empty_buffer = &(const_empty = const_buffer);
+                REQUIRE(const_empty == const_buffer);
+                REQUIRE(pconst_empty_buffer == &const_empty);
+
+                auto copy_const_elem0 = const_empty.at(0);
+                auto orig_const_elem0 = const_buffer.at(0);
+                auto& copyc0 = float_cast<const TestType&>(copy_const_elem0);
+                auto& origc0 = float_cast<const TestType&>(orig_const_elem0);
+                REQUIRE(&copyc0 == &origc0); // Ensure shallow copy
+            }
         }
 
         SECTION("move ctor") {
@@ -163,9 +200,11 @@ TEMPLATE_LIST_TEST_CASE("BufferView", "[wtf]", default_fp_types) {
         const auto& celem0 = float_cast<const TestType&>(const_buffer.at(0));
         REQUIRE(&celem0 == val.data());
 
+        REQUIRE_THROWS_AS(defaulted.at(0), std::out_of_range);
         REQUIRE_THROWS_AS(buffer.at(3), std::out_of_range);
         REQUIRE_THROWS_AS(empty.at(0), std::out_of_range);
 
+        REQUIRE_THROWS_AS(const_defaulted.at(0), std::out_of_range);
         REQUIRE_THROWS_AS(const_buffer.at(3), std::out_of_range);
         REQUIRE_THROWS_AS(const_empty.at(0), std::out_of_range);
 
@@ -183,6 +222,7 @@ TEMPLATE_LIST_TEST_CASE("BufferView", "[wtf]", default_fp_types) {
         const auto& celem0 = float_cast<const TestType&>(cholder.at(0));
         REQUIRE(&celem0 == val.data());
 
+        const auto& cconst_defaulted    = const_defaulted;
         const auto& cconst_holder       = const_buffer;
         const auto& cconst_empty_holder = const_empty;
         REQUIRE(cconst_holder.at(0) == one);
@@ -191,38 +231,53 @@ TEMPLATE_LIST_TEST_CASE("BufferView", "[wtf]", default_fp_types) {
         const auto& ccelem0 = float_cast<const TestType&>(cconst_holder.at(0));
         REQUIRE(&ccelem0 == val.data());
 
+        REQUIRE_THROWS_AS(std::as_const(defaulted).at(0), std::out_of_range);
         REQUIRE_THROWS_AS(cholder.at(3), std::out_of_range);
         REQUIRE_THROWS_AS(cempty_holder.at(0), std::out_of_range);
 
+        REQUIRE_THROWS_AS(cconst_defaulted.at(0), std::out_of_range);
         REQUIRE_THROWS_AS(cconst_holder.at(3), std::out_of_range);
         REQUIRE_THROWS_AS(cconst_empty_holder.at(0), std::out_of_range);
     }
 
     SECTION("size()") {
+        REQUIRE(defaulted.size() == 0);
         REQUIRE(buffer.size() == 3);
         REQUIRE(empty.size() == 0);
 
+        REQUIRE(const_defaulted.size() == 0);
         REQUIRE(const_buffer.size() == 3);
         REQUIRE(const_empty.size() == 0);
     }
 
     SECTION("is_contiguous()") {
+        REQUIRE(defaulted.is_contiguous());
         REQUIRE(buffer.is_contiguous());
         REQUIRE(empty.is_contiguous());
 
+        REQUIRE(const_defaulted.is_contiguous());
         REQUIRE(const_buffer.is_contiguous());
         REQUIRE(const_empty.is_contiguous());
     }
 
     SECTION("operator==") {
         // Same contents
+        REQUIRE(defaulted == view_type{});
         REQUIRE(buffer == view_type(val.data(), 3));
         REQUIRE(empty == view_type(empty_vector.data(), 0));
+
+        REQUIRE(const_defaulted == const_view_type{});
         REQUIRE(const_buffer == const_view_type(val.data(), 3));
         REQUIRE(const_empty == const_view_type(empty_vector.data(), 0));
 
+        // Empty equals defaulted
+        REQUIRE(defaulted == empty);
+        REQUIRE(const_defaulted == const_empty);
+
         // Different sizes
+        REQUIRE_FALSE(defaulted == buffer);
         REQUIRE_FALSE(buffer == empty);
+        REQUIRE_FALSE(const_defaulted == const_buffer);
         REQUIRE_FALSE(const_buffer == const_empty);
 
         // Different values
@@ -240,6 +295,7 @@ TEMPLATE_LIST_TEST_CASE("BufferView", "[wtf]", default_fp_types) {
         REQUIRE_FALSE(const_buffer == const_other_buffer);
 
         // Different const-ness
+        REQUIRE(defaulted == const_defaulted);
         REQUIRE(buffer == const_buffer);
         REQUIRE(empty == const_empty);
     }
@@ -257,6 +313,9 @@ TEMPLATE_LIST_TEST_CASE("BufferView", "[wtf]", default_fp_types) {
     }
 
     SECTION("value()") {
+        REQUIRE(defaulted.template value<TestType>().size() == 0);
+        REQUIRE(const_defaulted.template value<const TestType>().size() == 0);
+
         auto span = buffer.template value<TestType>();
         REQUIRE(span.size() == 3);
         REQUIRE(span[0] == one);
@@ -286,6 +345,11 @@ TEMPLATE_LIST_TEST_CASE("BufferView", "[wtf]", default_fp_types) {
     }
 
     SECTION("value() const") {
+        const auto& cdefaulted       = defaulted;
+        const auto& cconst_defaulted = const_defaulted;
+        REQUIRE(cdefaulted.template value<TestType>().size() == 0);
+        REQUIRE(cconst_defaulted.template value<const TestType>().size() == 0);
+
         const auto& cbuffer = buffer;
         auto span           = cbuffer.template value<TestType>();
         REQUIRE(span.size() == 3);

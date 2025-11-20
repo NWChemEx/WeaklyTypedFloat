@@ -16,12 +16,12 @@ include_guard()
 
 function(catch2_tests_from_dir ctfd_target_name ctfd_dir)
     file(GLOB_RECURSE ctfd_test_files CONFIGURE_DEPENDS ${ctfd_dir}/*.cpp)
-    
+
     add_executable(${ctfd_target_name} ${ctfd_test_files})
-    
+
     target_link_libraries(
         ${ctfd_target_name} PRIVATE Catch2::Catch2WithMain ${ARGN})
-    
+
         add_test(NAME ${ctfd_target_name}
              COMMAND ${ctfd_target_name}
              WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}

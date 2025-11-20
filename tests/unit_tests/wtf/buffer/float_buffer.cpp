@@ -16,6 +16,7 @@
 
 #include "../../../test_wtf.hpp"
 #include <wtf/buffer/float_buffer.hpp>
+#include <wtf/fp/float.hpp>
 
 using namespace wtf::buffer;
 using namespace test_wtf;
@@ -27,10 +28,14 @@ TEMPLATE_LIST_TEST_CASE("FloatBuffer", "[wtf]", default_fp_types) {
     TestType one{1.0}, two{2.0}, three{3.0};
     vector_type val{one, two, three};
     vector_type empty_vector{};
+
+    FloatBuffer defaulted;
     auto buffer = make_float_buffer(val.begin(), val.end());
     auto empty  = make_float_buffer(empty_vector.begin(), empty_vector.end());
 
     SECTION("ctors and assignment") {
+        SECTION("default ctor") { REQUIRE(defaulted.size() == 0); }
+
         SECTION("By vector") {
             FloatBuffer buf_from_vector(val);
             REQUIRE(buf_from_vector.size() == 3);
@@ -48,6 +53,9 @@ TEMPLATE_LIST_TEST_CASE("FloatBuffer", "[wtf]", default_fp_types) {
         }
 
         SECTION("copy ctor") {
+            FloatBuffer copy_defaulted(defaulted);
+            REQUIRE(copy_defaulted.size() == 0);
+
             FloatBuffer copy_buffer(buffer);
             REQUIRE(copy_buffer == buffer);
 
@@ -88,15 +96,38 @@ TEMPLATE_LIST_TEST_CASE("FloatBuffer", "[wtf]", default_fp_types) {
         }
     }
 
+    SECTION("as_view()") {
+        auto defaulted_view = defaulted.as_view();
+        REQUIRE(defaulted_view.size() == 0);
+
+        auto view = buffer.as_view();
+        REQUIRE(view.size() == 3);
+        REQUIRE(view.at(0) == one);
+        REQUIRE(view.at(1) == two);
+        REQUIRE(view.at(2) == three);
+    }
+
+    SECTION("as_view() const") {
+        auto defaulted_view = std::as_const(defaulted).as_view();
+        REQUIRE(defaulted_view.size() == 0);
+
+        auto view = std::as_const(buffer).as_view();
+        REQUIRE(view.size() == 3);
+        REQUIRE(view.at(0) == one);
+        REQUIRE(view.at(1) == two);
+        REQUIRE(view.at(2) == three);
+    }
+
     SECTION("at()") {
         REQUIRE(buffer.at(0) == one);
         REQUIRE(buffer.at(1) == two);
         REQUIRE(buffer.at(2) == three);
 
+        REQUIRE_THROWS_AS(defaulted.at(0), std::out_of_range);
         REQUIRE_THROWS_AS(buffer.at(3), std::out_of_range);
         REQUIRE_THROWS_AS(empty.at(0), std::out_of_range);
 
-        // Can write to it
+        // Can write to it via a TestType object
         buffer.at(0) = TestType{4.0};
         REQUIRE(buffer.at(0) == TestType{4.0});
     }
@@ -108,27 +139,35 @@ TEMPLATE_LIST_TEST_CASE("FloatBuffer", "[wtf]", default_fp_types) {
         REQUIRE(cholder.at(1) == two);
         REQUIRE(cholder.at(2) == three);
 
+        REQUIRE_THROWS_AS(defaulted.at(0), std::out_of_range);
         REQUIRE_THROWS_AS(cholder.at(3), std::out_of_range);
         REQUIRE_THROWS_AS(cempty_holder.at(0), std::out_of_range);
     }
 
     SECTION("size()") {
+        REQUIRE(defaulted.size() == 0);
         REQUIRE(buffer.size() == 3);
         REQUIRE(empty.size() == 0);
     }
 
     SECTION("is_contiguous()") {
+        REQUIRE(defaulted.is_contiguous());
         REQUIRE(buffer.is_contiguous());
         REQUIRE(empty.is_contiguous());
     }
 
     SECTION("operator==") {
         // Same contents
+        REQUIRE(defaulted == FloatBuffer{});
         REQUIRE(buffer == make_float_buffer(val.begin(), val.end()));
         REQUIRE(empty ==
                 make_float_buffer(empty_vector.begin(), empty_vector.end()));
 
+        // Coded to empty is equal to defaulted
+        REQUIRE(defaulted == empty);
+
         // Different sizes
+        REQUIRE_FALSE(defaulted == buffer);
         REQUIRE_FALSE(buffer == empty);
 
         // Different values
@@ -150,6 +189,8 @@ TEMPLATE_LIST_TEST_CASE("FloatBuffer", "[wtf]", default_fp_types) {
     }
 
     SECTION("value()") {
+        REQUIRE(defaulted.template value<TestType>().size() == 0);
+
         auto span = buffer.template value<TestType>();
         REQUIRE(span.size() == 3);
         REQUIRE(span[0] == one);
@@ -168,6 +209,9 @@ TEMPLATE_LIST_TEST_CASE("FloatBuffer", "[wtf]", default_fp_types) {
     }
 
     SECTION("value() const") {
+        const auto& cdefaulted = defaulted;
+        REQUIRE(cdefaulted.template value<TestType>().size() == 0);
+
         const auto& cbuffer = buffer;
         auto span           = cbuffer.template value<TestType>();
         REQUIRE(span.size() == 3);

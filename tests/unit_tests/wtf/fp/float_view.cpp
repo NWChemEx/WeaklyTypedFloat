@@ -15,6 +15,7 @@
  */
 
 #include "../../../test_wtf.hpp"
+#include <wtf/fp/float.hpp>
 #include <wtf/fp/float_view.hpp>
 #include <wtf/type_traits/type_traits.hpp>
 
@@ -50,6 +51,12 @@ TEMPLATE_LIST_TEST_CASE("FloatView", "[wtf]", test_wtf::all_fp_types) {
 
             REQUIRE(f4 == cf);
             REQUIRE(f5 == cf);
+        }
+
+        SECTION("From Float object") {
+            Float f_owning(val);
+            view_type f2(f_owning);
+            REQUIRE(f2 == f);
         }
 
         SECTION("non-const to const") {
@@ -111,7 +118,7 @@ TEMPLATE_LIST_TEST_CASE("FloatView", "[wtf]", test_wtf::all_fp_types) {
             REQUIRE(pf4 == &f4);
         }
 
-        SECTION("Assign from float") {
+        SECTION("Assign from float_t") {
             // Can assign from the same floating point type
             float_t val2(1.23);
             f = val2;
@@ -122,6 +129,18 @@ TEMPLATE_LIST_TEST_CASE("FloatView", "[wtf]", test_wtf::all_fp_types) {
             // Can't assign from a different floating point type
             other_t val3(3.14);
             REQUIRE_THROWS_AS(f = val3, std::runtime_error);
+        }
+
+        SECTION("Assign from Float") {
+            float_t forty_two{42.0};
+            auto f42 = wtf::fp::make_float(forty_two);
+            auto pf  = &(f = f42);
+            REQUIRE(f == forty_two);
+            REQUIRE(pf == &f);
+
+            other_t pi{3.14};
+            auto fpi = wtf::fp::make_float(pi);
+            REQUIRE_THROWS_AS(f = fpi, std::invalid_argument);
         }
     }
 

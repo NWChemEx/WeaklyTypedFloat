@@ -16,7 +16,7 @@
 Performing Type-Safe Operations
 ###############################
 
-A key challenge in the design of WTF is how to perform arbitrary numeric 
+A key challenge in the design of WTF is how to perform arbitrary numeric
 operations in a performant and type-safe manner.
 
 ***************
@@ -33,10 +33,10 @@ something like:
          void run()(T val) {
               // do something with val
          }
-    };       
+    };
 
    wtf::Buffer b = fxn_that_returns_a_buffer_of_wtf_floats();
-   b.evaluate(MyFunctor{}); 
+   b.evaluate(MyFunctor{});
 
 can be implemented by having the ``evaluate`` function call a virtual function
 on the holder. The model class, then implements ``evaluate`` by calling the
@@ -67,17 +67,17 @@ a time (the type of ``*this``), so we need a different solution.
 What won't work?
 ================
 
-At this point note that though ``std::variant`` is a common C++ solution for 
+At this point note that though ``std::variant`` is a common C++ solution for
 multiple dispatch. Instead of using the standard type-erasure pattern we'd
 hold the value in ``std::variant`` (the ``std::variant`` would live in the
 the class that is currently the interface or the class that is the holder and
 the model class would no longer be needed). However, this solution only works if
 we know ALL of the types ahead of time. Alternatively, we could template the
-interface on the ``std::variant`` (or the types in the ``std::variant``) to 
+interface on the ``std::variant`` (or the types in the ``std::variant``) to
 avoid assuming a set of types, but this then destroys the type-erasure WTF is
 trying to implement since the interface is now templated!
 
-Another common solution is the visitor pattern, but ultimately that 
+Another common solution is the visitor pattern, but ultimately that
 will require a class like:
 
 .. code-block:: c++
@@ -93,39 +93,39 @@ will require a class like:
         virtual void visit(long double, double) = 0;
         virtual void visit(long double, long double) = 0;
     };
-    
+
     // With some template trickery we could then get the following to work:
     Visitor& v = ...; // User-defined derived class passed by base
     wtf::Buffer val0;
     wtf::Buffer val1;
-    dispatch(v, val0, val1); 
+    dispatch(v, val0, val1);
 
-(n.b., for double dispatch we can make the visitor's interface linear in the 
-number of FP types by relying on polymorphism to work out one of the types; 
-however, it will still result in a combinatorial explosion for dispatching on 
-three or more inputs).  This suffers from the same problem as ``std::variant``: 
-we don't want to assume a list of FP types (in fact, as the name ``std::visit`` 
-suggest, the two are related...). 
+(n.b., for double dispatch we can make the visitor's interface linear in the
+number of FP types by relying on polymorphism to work out one of the types;
+however, it will still result in a combinatorial explosion for dispatching on
+three or more inputs).  This suffers from the same problem as ``std::variant``:
+we don't want to assume a list of FP types (in fact, as the name ``std::visit``
+suggest, the two are related...).
 
 
-FWIW, there's a name for wanting to have multiple dispatch while not wanting to 
+FWIW, there's a name for wanting to have multiple dispatch while not wanting to
 assume a list of types: it's called the "expression  problem".
 
 Solving the Expression Problem
 ==============================
 
-At present, solving the expression problem requires a mix of storing RTTI 
-(runtime type information) and brute force looping over class hierarchies. 
+At present, solving the expression problem requires a mix of storing RTTI
+(runtime type information) and brute force looping over class hierarchies.
 Making sure that all the edge cases are handled correctly is tricky and tedious.
 Note that this all needs to be done with template meta-programming, so it's also
 hideous to look at. So let's see if there is an existing solution that avoids
 us needing to reinvent the wheel.
 
-One of the first solutions we found was the YOMM2 library (I'm guessing it 
-stands for yorel open multi-method; not sure what yorel means...). Yomm2 
-provides a C++17 solution to  the expression problem. Based on preliminary 
-investigations it suffers from weird scoping rules. More specifically, if you 
-define everything in one file it works, but if you try to split it up into 
+One of the first solutions we found was the YOMM2 library (I'm guessing it
+stands for yorel open multi-method; not sure what yorel means...). Yomm2
+provides a C++17 solution to  the expression problem. Based on preliminary
+investigations it suffers from weird scoping rules. More specifically, if you
+define everything in one file it works, but if you try to split it up into
 multiple files you can break it. Given that it's all native C++, the scope rules
 that Yomm2 ultimately follows are that of C++ itself. However, Yomm2 is a
 complicated web of C macros and template meta-programming making it quite
@@ -140,8 +140,8 @@ finite set of floating point types and that they know what those types are. If
 that is the case, the user can provide us with the list of types they support
 when they want to dispatch. WTF can then use that list to create a series of
 ``std::variant`` objects for the operation, use ``std::visit`` to do the
-multiple dispatch, and then return the result. By comparison, the usual 
-``std::variant`` solution forces the same set of types on all type-erased 
+multiple dispatch, and then return the result. By comparison, the usual
+``std::variant`` solution forces the same set of types on all type-erased
 objects in the hierarchy and on all operations using those types. Our solution
 still allows the objects to erase arbitrary floating point types, but now
 restricts each execution of an operation to a set of types. Of note, each time

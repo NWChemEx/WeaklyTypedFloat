@@ -99,6 +99,22 @@ TEMPLATE_LIST_TEST_CASE("ContiguousModel", "[wtf]", all_fp_types) {
 
     SECTION("clone_()") { REQUIRE(model.clone()->are_equal(model)); }
 
+    SECTION("as_view_()") {
+        auto pmodel = model.as_view();
+        REQUIRE(pmodel->size() == 3);
+        REQUIRE(pmodel->at(0) == one);
+        REQUIRE(pmodel->at(1) == two);
+        REQUIRE(pmodel->at(2) == three);
+    }
+
+    SECTION("as_view_() const") {
+        auto pmodel = std::as_const(model).as_view();
+        REQUIRE(pmodel->size() == 3);
+        REQUIRE(pmodel->at(0) == one);
+        REQUIRE(pmodel->at(1) == two);
+        REQUIRE(pmodel->at(2) == three);
+    }
+
     SECTION("at_()") {
         REQUIRE(model.at(0) == one);
         REQUIRE(model.at(1) == two);

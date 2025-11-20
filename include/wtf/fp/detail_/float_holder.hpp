@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <wtf/fp/detail_/float_view_holder.hpp>
 #include <wtf/rtti/type_info.hpp>
 
 namespace wtf::fp::detail_ {
@@ -39,6 +40,18 @@ public:
     /// Read-only reference to type_info object
     using const_type_info_reference = const type_info&;
 
+    /// Type of a view of the held floating-point value
+    using float_view_type = FloatViewHolder<fp::Float>;
+
+    /// Type of a pointer to a float_view_type object
+    using float_view_pointer = std::unique_ptr<float_view_type>;
+
+    /// Type of a const view of the held floating-point value
+    using const_float_view_type = FloatViewHolder<const fp::Float>;
+
+    /// Type of a pointer to a const_float_view_type object
+    using const_float_view_pointer = std::unique_ptr<const_float_view_type>;
+
     /// Default virtual destructor
     virtual ~FloatHolder() = default;
 
@@ -51,6 +64,37 @@ public:
      *  @return A unique_ptr to a deep copy of *this.
      */
     holder_pointer clone() const { return holder_pointer(clone_()); }
+
+    /** @brief Creates a view of the held floating-point value.
+     *
+     *  This method is used to create a FloatView object that aliases the
+     *  floating-point value held by *this. This method is implemented by
+     *  calling as_view_().
+     *
+     *  @return A unique_ptr to a FloatView aliasing the held floating-point
+     *          value.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the FloatView.
+     *                        Strong throw guarantee.
+     */
+    float_view_pointer as_view() { return float_view_pointer(as_view_()); }
+
+    /** @brief Creates a view of the held floating-point value.
+     *
+     *  This method is the same as the non-const version, except that it
+     *  returns a read-only view of the held floating-point value. This method
+     *  is implemented by calling as_view_(). See the documentation for the
+     *  non-const version for more details.
+     *
+     *  @return A unique_ptr to a const FloatView aliasing the held floating-
+     *          point value.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the FloatView.
+     *                        Strong throw guarantee.
+     */
+    const_float_view_pointer as_view() const {
+        return const_float_view_pointer(as_view_());
+    }
 
     /** @brief Wraps the process of changing the held value.
      *
@@ -126,6 +170,12 @@ protected:
 private:
     /// Clones *this polymorphically
     virtual holder_type* clone_() const = 0;
+
+    /// Creates a view of the held floating-point value
+    virtual float_view_type* as_view_() = 0;
+
+    /// Creates a read-only view of the held floating-point value
+    virtual const_float_view_type* as_view_() const = 0;
 
     /// Base checked that types are equal, derived need only change values
     virtual void change_value_(const FloatHolder& other) = 0;

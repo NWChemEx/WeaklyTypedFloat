@@ -18,6 +18,7 @@
 #include <utility> // for std::move, std::swap
 #include <wtf/concepts/floating_point.hpp>
 #include <wtf/fp/detail_/float_holder.hpp>
+#include <wtf/fp/detail_/float_view_model.hpp>
 #include <wtf/type_traits/float_traits.hpp>
 
 namespace wtf::fp::detail_ {
@@ -167,6 +168,18 @@ public:
 private:
     /// Implements clone() by making a new FloatModel with the copy
     holder_type* clone_() const override { return new FloatModel(*this); }
+
+    /// Implements as_view by making a FloatViewModel aliasing the held value
+    float_view_type* as_view_() override {
+        using view_type = FloatViewModel<FloatType>;
+        return new view_type(data());
+    }
+
+    /// Implements as_view const by making a const FloatViewModel
+    const_float_view_type* as_view_() const override {
+        using const_view_type = FloatViewModel<const FloatType>;
+        return new const_view_type(data());
+    }
 
     /// Implements FloatHolder::change_value by downcasting and calling
     /// set_value
