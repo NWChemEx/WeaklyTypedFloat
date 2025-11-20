@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classwtf_1_1buffer_1_1detail___1_1BufferHolder.html" title="Defines the interface between the type&#45;erased and typed buffer." alt="" coords="5,13,139,53"/>
+<area shape="rect" id="Node000001" href="$classwtf_1_1buffer_1_1detail___1_1ContiguousModel.html" title="Type&#45;erases a contiguous buffer of type FloatType*." alt="" coords="187,5,348,60"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="153,30,187,30,187,35,153,35"/>
+</map>

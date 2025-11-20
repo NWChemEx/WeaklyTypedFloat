@@ -1,0 +1,184 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why do we need WTF? &mdash; WeaklyTypedFloats 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="What is the Scope of WTF?" href="scope.html" />
+    <link rel="prev" title="Developer Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Why do we need WTF?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#motivation">Motivation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#problem-statement">Problem Statement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#goals">Goals</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scope.html">What is the Scope of WTF?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_erasure.html">Type-Erasure in WTF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Performing Type-Safe Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Architecture of WTF</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../adding_a_new_type.html">Registering a New Type with WTF</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/WeaklyTypedFloat/wtf_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WeaklyTypedFloats</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Developer Documentation</a></li>
+      <li class="breadcrumb-item active">Why do we need WTF?</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/developer/statement_of_need.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="why-do-we-need-wtf">
+<h1>Why do we need WTF?<a class="headerlink" href="#why-do-we-need-wtf" title="Link to this heading"></a></h1>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading"></a></h2>
+<p>The standard C++ library already includes a host of FP types including:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">double</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">double</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::complex&lt;float&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::complex&lt;double&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::complex&lt;long</span> <span class="pre">double&gt;</span></code></p></li>
+</ul>
+<p>…and that’s before we discuss the types introduced by C++23. Conceptually,
+these types are all used to do the same thing: represent real (or more
+generally complex) numbers. In practice, the difference among these FP types
+is that they represent the number with different amounts of bits. Consequently,
+the range and precision of numbers that can be represented differs by FP type.
+Unfortunately, the performance of numerics is intimately tied to the FP type
+used.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For brevity we will focus on the real FP types. Everything we say here
+readily generalizes to complex FP types as well. WTF fully supports complex
+values, we just don’t want to keep bringing it up.</p>
+</div>
+<p>A fundamental problem in the software engineering of scientific libraries is
+dealing with FP types. Historically, for simplicity many scientific libraries
+have assumed <code class="docutils literal notranslate"><span class="pre">double</span></code> as the FP type at all interfaces. If the user is
+storing their data as <code class="docutils literal notranslate"><span class="pre">float</span></code>, they must convert it to <code class="docutils literal notranslate"><span class="pre">double</span></code> to call the
+interface, and then convert the result back to <code class="docutils literal notranslate"><span class="pre">float</span></code> after the call.
+Admittedly, this is why many scientific libraries provide overloads for other
+FP types, but this in turn requires the developer to maintain one interface
+per FP type.</p>
+<p>C++ libraries can avoid the need to support multiple overloads by using
+templates. As long as the user of the library is calling the function from C++,
+this solution works well. However, it is becoming increasingly important to
+be able to interface scientific software to other languages (e.g., Python). In
+most cases, interfacing is done through a C-like interface, precluding the use
+of templates.</p>
+</section>
+<section id="problem-statement">
+<h2>Problem Statement<a class="headerlink" href="#problem-statement" title="Link to this heading"></a></h2>
+<p>Scientific software developers increasingly need to support multiple FP types.
+At the same time, they want their software to be callable from multiple
+languages. Unfortunately, this precludes the use of templates at user-facing
+interfaces.</p>
+</section>
+<section id="goals">
+<h2>Goals<a class="headerlink" href="#goals" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Provide a series of abstractions that are capable of holding
+arbitrary FP types.</p></li>
+<li><p>Make it easy for users of WTF to compose algorithms with these abstractions.</p></li>
+<li><p>Ensure that the user can extend WTF to support their own custom FP types
+without needing to modify the WTF source.</p></li>
+<li><p>Ensure that the abstractions can be used in a performant manner.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Developer Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="scope.html" class="btn btn-neutral float-right" title="What is the Scope of WTF?" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, NWChemEx Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

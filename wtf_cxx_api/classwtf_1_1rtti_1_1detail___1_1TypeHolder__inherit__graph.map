@@ -1,0 +1,5 @@
+<map id="wtf::rtti::detail_::TypeHolder" name="wtf::rtti::detail_::TypeHolder">
+<area shape="rect" id="Node000001" title="Defines the interface for interacting with the type&#45;erased type." alt="" coords="14,5,135,45"/>
+<area shape="rect" id="Node000002" href="$classwtf_1_1rtti_1_1detail___1_1TypeModel.html" title="Implements TypeHolder for type T." alt="" coords="5,93,144,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="77,59,77,93,72,93,72,59"/>
+</map>

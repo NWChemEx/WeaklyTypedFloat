@@ -1,0 +1,245 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Performing Type-Safe Operations &mdash; WeaklyTypedFloats 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Architecture of WTF" href="architecture.html" />
+    <link rel="prev" title="Type-Erasure in WTF" href="type_erasure.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="statement_of_need.html">Why do we need WTF?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scope.html">What is the Scope of WTF?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_erasure.html">Type-Erasure in WTF</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Performing Type-Safe Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#single-dispatch">Single Dispatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#double-dispatch">Double Dispatch</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-won-t-work">What won’t work?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#solving-the-expression-problem">Solving the Expression Problem</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Architecture of WTF</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../adding_a_new_type.html">Registering a New Type with WTF</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/WeaklyTypedFloat/wtf_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WeaklyTypedFloats</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Developer Documentation</a></li>
+      <li class="breadcrumb-item active">Performing Type-Safe Operations</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/developer/operations.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="performing-type-safe-operations">
+<h1>Performing Type-Safe Operations<a class="headerlink" href="#performing-type-safe-operations" title="Link to this heading"></a></h1>
+<p>A key challenge in the design of WTF is how to perform arbitrary numeric
+operations in a performant and type-safe manner.</p>
+<section id="single-dispatch">
+<h2>Single Dispatch<a class="headerlink" href="#single-dispatch" title="Link to this heading"></a></h2>
+<p>C++ natively supports single dispatch through virtual functions. This means that
+something like:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">MyFunctor</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="w">      </span><span class="kt">void</span><span class="w"> </span><span class="n">run</span><span class="p">()(</span><span class="n">T</span><span class="w"> </span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">           </span><span class="c1">// do something with val</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w"> </span><span class="p">};</span>
+
+<span class="n">wtf</span><span class="o">::</span><span class="n">Buffer</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fxn_that_returns_a_buffer_of_wtf_floats</span><span class="p">();</span>
+<span class="n">b</span><span class="p">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">MyFunctor</span><span class="p">{});</span>
+</pre></div>
+</div>
+<p>can be implemented by having the <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> function call a virtual function
+on the holder. The model class, then implements <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> by calling the
+<code class="docutils literal notranslate"><span class="pre">run</span></code> method on the functor it was given and passing it the type-restored
+value. This could relatively easily be extended to forward any result back to
+the user.</p>
+</section>
+<section id="double-dispatch">
+<h2>Double Dispatch<a class="headerlink" href="#double-dispatch" title="Link to this heading"></a></h2>
+<p>The tricky part here is that to call the <code class="docutils literal notranslate"><span class="pre">run</span></code> method we must be inside an
+object that knows not only the type of the value it is holding, but also the
+type of the value being passed in.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">MyFunctor</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">U</span><span class="o">&gt;</span>
+<span class="w">      </span><span class="kt">void</span><span class="w"> </span><span class="n">run</span><span class="p">()(</span><span class="n">T</span><span class="w"> </span><span class="n">val0</span><span class="p">,</span><span class="w"> </span><span class="n">U</span><span class="w"> </span><span class="n">val1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">           </span><span class="c1">// do something with val0 and val1</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w"> </span><span class="p">};</span>
+</pre></div>
+</div>
+<p>The polymoprhic solution we used for single dispatch only works on one type at
+a time (the type of <code class="docutils literal notranslate"><span class="pre">*this</span></code>), so we need a different solution.</p>
+<section id="what-won-t-work">
+<h3>What won’t work?<a class="headerlink" href="#what-won-t-work" title="Link to this heading"></a></h3>
+<p>At this point note that though <code class="docutils literal notranslate"><span class="pre">std::variant</span></code> is a common C++ solution for
+multiple dispatch. Instead of using the standard type-erasure pattern we’d
+hold the value in <code class="docutils literal notranslate"><span class="pre">std::variant</span></code> (the <code class="docutils literal notranslate"><span class="pre">std::variant</span></code> would live in the
+the class that is currently the interface or the class that is the holder and
+the model class would no longer be needed). However, this solution only works if
+we know ALL of the types ahead of time. Alternatively, we could template the
+interface on the <code class="docutils literal notranslate"><span class="pre">std::variant</span></code> (or the types in the <code class="docutils literal notranslate"><span class="pre">std::variant</span></code>) to
+avoid assuming a set of types, but this then destroys the type-erasure WTF is
+trying to implement since the interface is now templated!</p>
+<p>Another common solution is the visitor pattern, but ultimately that
+will require a class like:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">Visitor</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">visit</span><span class="p">(</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">visit</span><span class="p">(</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">visit</span><span class="p">(</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">visit</span><span class="p">(</span><span class="kt">double</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">visit</span><span class="p">(</span><span class="kt">double</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">visit</span><span class="p">(</span><span class="kt">double</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">visit</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">visit</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">visit</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// With some template trickery we could then get the following to work:</span>
+<span class="n">Visitor</span><span class="o">&amp;</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span><span class="w"> </span><span class="c1">// User-defined derived class passed by base</span>
+<span class="n">wtf</span><span class="o">::</span><span class="n">Buffer</span><span class="w"> </span><span class="n">val0</span><span class="p">;</span>
+<span class="n">wtf</span><span class="o">::</span><span class="n">Buffer</span><span class="w"> </span><span class="n">val1</span><span class="p">;</span>
+<span class="n">dispatch</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">val0</span><span class="p">,</span><span class="w"> </span><span class="n">val1</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>(n.b., for double dispatch we can make the visitor’s interface linear in the
+number of FP types by relying on polymorphism to work out one of the types;
+however, it will still result in a combinatorial explosion for dispatching on
+three or more inputs).  This suffers from the same problem as <code class="docutils literal notranslate"><span class="pre">std::variant</span></code>:
+we don’t want to assume a list of FP types (in fact, as the name <code class="docutils literal notranslate"><span class="pre">std::visit</span></code>
+suggest, the two are related…).</p>
+<p>FWIW, there’s a name for wanting to have multiple dispatch while not wanting to
+assume a list of types: it’s called the “expression  problem”.</p>
+</section>
+<section id="solving-the-expression-problem">
+<h3>Solving the Expression Problem<a class="headerlink" href="#solving-the-expression-problem" title="Link to this heading"></a></h3>
+<p>At present, solving the expression problem requires a mix of storing RTTI
+(runtime type information) and brute force looping over class hierarchies.
+Making sure that all the edge cases are handled correctly is tricky and tedious.
+Note that this all needs to be done with template meta-programming, so it’s also
+hideous to look at. So let’s see if there is an existing solution that avoids
+us needing to reinvent the wheel.</p>
+<p>One of the first solutions we found was the YOMM2 library (I’m guessing it
+stands for yorel open multi-method; not sure what yorel means…). Yomm2
+provides a C++17 solution to  the expression problem. Based on preliminary
+investigations it suffers from weird scoping rules. More specifically, if you
+define everything in one file it works, but if you try to split it up into
+multiple files you can break it. Given that it’s all native C++, the scope rules
+that Yomm2 ultimately follows are that of C++ itself. However, Yomm2 is a
+complicated web of C macros and template meta-programming making it quite
+difficult to ascertain exactly what part of the C++ language any given Yomm2
+construct is. While this could eventually be worked through, we also noted that
+the author of Yomm2 appears to be in the process of moving Yomm2 to Boost. If
+we want to consider Yomm2, we should probably wait until it’s in Boost, and then
+use the Boost version.</p>
+<p>For now our solution is to assume that the user of WTF is only supporting a
+finite set of floating point types and that they know what those types are. If
+that is the case, the user can provide us with the list of types they support
+when they want to dispatch. WTF can then use that list to create a series of
+<code class="docutils literal notranslate"><span class="pre">std::variant</span></code> objects for the operation, use <code class="docutils literal notranslate"><span class="pre">std::visit</span></code> to do the
+multiple dispatch, and then return the result. By comparison, the usual
+<code class="docutils literal notranslate"><span class="pre">std::variant</span></code> solution forces the same set of types on all type-erased
+objects in the hierarchy and on all operations using those types. Our solution
+still allows the objects to erase arbitrary floating point types, but now
+restricts each execution of an operation to a set of types. Of note, each time
+an operation is invoked it can be invoked with a different set of types. Of
+course, if the held floating-point type is not convertible to one of the types
+in the set, an exception will be thrown at runtime.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="type_erasure.html" class="btn btn-neutral float-left" title="Type-Erasure in WTF" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="architecture.html" class="btn btn-neutral float-right" title="Architecture of WTF" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, NWChemEx Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

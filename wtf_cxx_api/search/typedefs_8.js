@@ -1,0 +1,6 @@
+var searchData=
+[
+  ['size_5ftype_0',['size_type',['../classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#a049b31cff676c3cf6d23f2f8f3df2395',1,'wtf::buffer::detail_::BufferHolder::size_type'],['../classwtf_1_1buffer_1_1detail___1_1BufferViewHolder.html#adc995cbde925a727bc79bef63b5dad82',1,'wtf::buffer::detail_::BufferViewHolder::size_type'],['../classwtf_1_1buffer_1_1detail___1_1ContiguousModel.html#adf3bd8177440b153a8604ca9848db06e',1,'wtf::buffer::detail_::ContiguousModel::size_type'],['../structwtf_1_1type__traits_1_1Precision.html#aca12855b75bd6a11880c15d8174753d3',1,'wtf::type_traits::Precision::size_type']]],
+  ['span_5ftype_1',['span_type',['../classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#ab19bb10857d4d75b8dde09a00627d2a4',1,'wtf::buffer::detail_::ContiguousViewModel']]],
+  ['string_5ftype_2',['string_type',['../classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#a9a696a365bc9f499e77a092b86437509',1,'wtf::rtti::detail_::TypeHolder::string_type'],['../classwtf_1_1rtti_1_1detail___1_1TypeModel.html#a56c985f7dfc899179c97213680a05b11',1,'wtf::rtti::detail_::TypeModel::string_type']]]
+];
