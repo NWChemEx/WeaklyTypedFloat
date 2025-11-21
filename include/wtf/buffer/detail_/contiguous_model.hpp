@@ -134,7 +134,7 @@ public:
      *
      *  @throw None No-throw guarantee.
      */
-    auto span() { return std::span(data(), size()); }
+    auto span() { return std::span<FloatType>(data(), size()); }
 
     /** @brief Returns the wrapped data as a std::span.
      *
@@ -145,7 +145,7 @@ public:
      *
      *  @throw None No-throw guarantee.
      */
-    auto span() const { return std::span(data(), size()); }
+    auto span() const { return std::span<const FloatType>(data(), size()); }
 
     /** @brief Compares the elements in the buffer for exact equality.
      *
@@ -243,7 +243,7 @@ private:
  */
 template<typename TupleType, typename Visitor, typename... Args>
 auto visit_contiguous_model(Visitor&& visitor, Args&&... args) {
-    auto lambda = [=](auto&&... inner_args) {
+    auto lambda = [&](auto&&... inner_args) {
         return visitor(inner_args.span()...);
     };
     return wtf::detail_::dispatch<ContiguousModel, TupleType>(

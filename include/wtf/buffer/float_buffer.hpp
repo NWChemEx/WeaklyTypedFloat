@@ -309,6 +309,10 @@ private:
     template<typename TupleType, typename Visitor, typename... Args>
     friend auto visit_contiguous_buffer(Visitor&& visitor, Args&&... args);
 
+    holder_type& holder_() { return *m_pholder_; }
+
+    const holder_type& holder_() const { return *m_pholder_; }
+
     template<typename T>
     auto& downcast_() {
         using model_type = detail_::ContiguousModel<T>;
@@ -393,7 +397,7 @@ std::span<T> contiguous_buffer_cast(FloatBuffer& buffer) {
 template<typename TupleType, typename Visitor, typename... Args>
 auto visit_contiguous_buffer(Visitor&& visitor, Args&&... args) {
     return detail_::visit_contiguous_model<TupleType>(
-      std::forward<Visitor>(visitor), *args.m_pholder_...);
+      std::forward<Visitor>(visitor), args.holder_()...);
 }
 
 // -----------------------------------------------------------------------------
