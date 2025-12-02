@@ -253,8 +253,8 @@ TEMPLATE_LIST_TEST_CASE("contiguous_buffer_cast", "[wtf]", all_fp_types) {
     REQUIRE(span[2] == three);
 }
 
-struct CheckVisitContiguousModel {
-    CheckVisitContiguousModel(float* pdataf, double* pdatad) :
+struct ConstVisitorConstSpan {
+    ConstVisitorConstSpan(float* pdataf, double* pdatad) :
       pdataf_corr(pdataf), pdatad_corr(pdatad) {}
 
     auto operator()(std::span<const float> span) const {
@@ -283,13 +283,64 @@ struct CheckVisitContiguousModel {
     double* pdatad_corr;
 };
 
+struct VisitorConstSpan {
+    VisitorConstSpan(float* pdataf, double* pdatad) :
+      pdataf_corr(pdataf), pdatad_corr(pdatad) {}
+
+    template<typename T>
+    auto operator()(std::span<T> span) {
+        if constexpr(std::is_same_v<std::remove_const_t<T>, float>) {
+            REQUIRE(span.data() == pdataf_corr);
+            m_called_float = true;
+        } else {
+            REQUIRE(span.data() == pdatad_corr);
+            m_called_double = true;
+        }
+    }
+
+    template<typename T>
+    auto operator()(std::span<const T> span) {
+        if constexpr(std::is_same_v<std::remove_const_t<T>, float>) {
+            REQUIRE(span.data() == pdataf_corr);
+            m_called_cfloat = true;
+        } else {
+            REQUIRE(span.data() == pdatad_corr);
+            m_called_cdouble = true;
+        }
+        REQUIRE(span.size() == 3);
+    }
+
+    auto operator()(std::span<float> lhs, std::span<double> rhs) {
+        REQUIRE(lhs.data() == pdataf_corr);
+        REQUIRE(lhs.size() == 3);
+        REQUIRE(rhs.data() == pdatad_corr);
+        REQUIRE(rhs.size() == 3);
+        m_called_float_double = true;
+    }
+
+    template<typename T, typename U>
+    auto operator()(std::span<T> lhs, std::span<U> rhs) const {
+        throw std::runtime_error("Only float, double supported");
+    }
+
+    bool m_called_float        = false;
+    bool m_called_cfloat       = false;
+    bool m_called_double       = false;
+    bool m_called_cdouble      = false;
+    bool m_called_float_double = false;
+
+    float* pdataf_corr;
+    double* pdatad_corr;
+};
+
 TEST_CASE("visit_contiguous_buffer") {
     std::vector<float> valf{1.0, 2.0, 3.0};
     std::vector<double> vald{1.0, 2.0, 3.0};
     auto pdataf = valf.data();
     auto pdatad = vald.data();
 
-    CheckVisitContiguousModel visitor(pdataf, pdatad);
+    ConstVisitorConstSpan visitor(pdataf, pdatad);
+    VisitorConstSpan visitor2(pdataf, pdatad);
 
     FloatBuffer modelf(std::move(valf));
     FloatBuffer modeld(std::move(vald));
@@ -297,11 +348,40 @@ TEST_CASE("visit_contiguous_buffer") {
     using type_tuple = std::tuple<float, double>;
 
     SECTION("one argument") {
-        visit_contiguous_buffer<type_tuple>(visitor, modelf);
-        visit_contiguous_buffer<type_tuple>(visitor, modeld);
+        SECTION("call span<const float>/ span<const double> overloads") {
+            visit_contiguous_buffer<type_tuple>(visitor, modelf);
+            visit_contiguous_buffer<type_tuple>(visitor, std::as_const(modelf));
+            visit_contiguous_buffer<type_tuple>(visitor, modeld);
+            visit_contiguous_buffer<type_tuple>(visitor, std::as_const(modeld));
+        }
+
+        SECTION("call span<const T> overload") {
+            const auto& cmodelf = modelf;
+            visit_contiguous_buffer<type_tuple>(visitor2, cmodelf);
+            REQUIRE(visitor2.m_called_cfloat);
+            REQUIRE_FALSE(visitor2.m_called_float);
+
+            const auto& cmodeld = modeld;
+            visit_contiguous_buffer<type_tuple>(visitor2, cmodeld);
+            REQUIRE(visitor2.m_called_cdouble);
+            REQUIRE_FALSE(visitor2.m_called_double);
+        }
+
+        SECTION("calls span<T> overload") {
+            visit_contiguous_buffer<type_tuple>(visitor2, modelf);
+            REQUIRE_FALSE(visitor2.m_called_cfloat);
+            REQUIRE(visitor2.m_called_float);
+
+            visit_contiguous_buffer<type_tuple>(visitor2, modeld);
+            REQUIRE_FALSE(visitor2.m_called_cdouble);
+            REQUIRE(visitor2.m_called_double);
+        }
     }
 
     SECTION("Two arguments") {
         visit_contiguous_buffer<type_tuple>(visitor, modelf, modeld);
+
+        visit_contiguous_buffer<type_tuple>(visitor2, modelf, modeld);
+        REQUIRE(visitor2.m_called_float_double);
     }
 }
