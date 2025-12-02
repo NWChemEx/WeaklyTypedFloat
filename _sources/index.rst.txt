@@ -25,6 +25,7 @@ working with floating-point (FP) numbers in a type-erased manner.
 
    developer/index
    adding_a_new_type
+   writing_a_visitor
 
 .. toctree::
    :maxdepth: 2
