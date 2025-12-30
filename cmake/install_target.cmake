@@ -46,7 +46,7 @@ function(install_library il_name il_header_dir)
     # -- Install CMake Config Files --
     install(EXPORT ${il_name}Targets
         FILE ${il_name}Targets.cmake
-        NAMESPACE ${il_name}::
+        NAMESPACE nwx::
         DESTINATION "${_il_library_dir}/cmake/${il_name}"
     )
 
