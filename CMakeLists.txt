@@ -51,3 +51,9 @@ if(${BUILD_TESTING})
         ${PROJECT_NAME}
     )
 endif()
+
+include(cmake/install_target.cmake)
+install_library(
+    ${PROJECT_NAME}
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}"
+)
