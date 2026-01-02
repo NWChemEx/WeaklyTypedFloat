@@ -44,11 +44,11 @@ private:
     using const_model_type = ContiguousViewModel<const FloatType>;
 
     /// Is *this aliasing a read-only buffer?
-    static constexpr bool is_const = std::is_const_v<FloatType>;
+    static constexpr bool m_is_const = std::is_const_v<FloatType>;
 
     /// The type of buffer *this is acting like
     using buffer_type =
-      std::conditional_t<is_const, const fp::Float, fp::Float>;
+      std::conditional_t<m_is_const, const fp::Float, fp::Float>;
 
 public:
     /// Type *this inherits from
@@ -153,6 +153,30 @@ public:
      */
     const_pointer data() const { return m_buffer_.data(); }
 
+    /** @brief Returns the wrapped data as a std::span.
+     *
+     *  Starting with C++20 this is the preferred way to access raw contiguous
+     *  buffers.
+     *
+     *  @return A std::span wrapping the underlying buffer.
+     *
+     *  @throw None No-throw guarantee.
+     */
+    auto span() { return std::span<FloatType>(data(), this->size()); }
+
+    /** @brief Returns the wrapped data as a std::span.
+     *
+     *  This method is the same as the non-const version except that it ensures
+     *  the resulting span is read-only.
+     *
+     *  @return A std::span wrapping the underlying buffer.
+     *
+     *  @throw None No-throw guarantee.
+     */
+    auto span() const {
+        return std::span<const FloatType>(data(), this->size());
+    }
+
     /** @brief Compares the elements in the buffer for exact equality.
      *
      *  Value equal is defined as having the same elements in the same order.
@@ -195,6 +219,9 @@ private:
     /// Calls span_type's size()
     size_type size_() const noexcept override { return m_buffer_.size(); }
 
+    /// *this is read-only if FloatType is const
+    bool is_const_() const noexcept override { return m_is_const; }
+
     /// *this always store data contiguously
     bool is_contiguous_() const override { return true; }
 
@@ -209,5 +236,43 @@ private:
     /// The held buffer
     span_type m_buffer_;
 };
+
+/** @brief Wraps the process of calling a visitor with zero or more
+ *         ContiguousViewModel objects.
+ *
+ *  @relates ContiguousViewModel
+ *
+ *  @tparam TupleType A std::tuple of floating-point types to try. Must be
+ *                   explicitly provided by the user.
+ *  @tparam Visitor The type of the visitor to call. Must be a callable object
+ *                  capable of accepting `std::span<T>` objects for each
+ *                  possible T in @p TupleType. Will be inferred by the
+ *                  compiler.
+ *  @tparam Args The types of the arguments to forward to the visitor. Each
+ *               is expected to be downcastable to a ContiguousModel holding
+ *               one of the types in @p TupleType. Will be inferred by the
+ *               compiler.
+ *
+ *  @param[in] visitor The visitor to call with the unwrapped std::span<T>
+ *                     objects.
+ *  @param[in] args The ContiguousModel objects to unwrap and pass to the
+ *                  visitor.
+ *
+ *  @return The return value of calling @p visitor with the unwrapped
+ *          std::span<T> objects.
+ *
+ *  @throw std::runtime_error if any of the @p args cannot be downcast to a
+ *                            ContiguousModel holding one of the types in
+ *                            @p TupleType. Strong throw guarantee.
+ *  @throw ??? if calling @p visitor throws. Same throw guarantee.
+ */
+template<typename TupleType, typename Visitor, typename... Args>
+auto visit_contiguous_view_model(Visitor&& visitor, Args&&... args) {
+    auto lambda = [&](auto&&... inner_args) {
+        return visitor(inner_args.span()...);
+    };
+    return wtf::detail_::dispatch<ContiguousViewModel, TupleType>(
+      lambda, std::forward<Args>(args)...);
+}
 
 } // namespace wtf::buffer::detail_
