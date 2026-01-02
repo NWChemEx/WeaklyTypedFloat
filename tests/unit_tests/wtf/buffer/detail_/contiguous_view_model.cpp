@@ -247,15 +247,22 @@ TEST_CASE("visit_contiguous_view_model") {
 
     ContiguousViewModel<float> modelf(pdataf, valf.size());
     ContiguousViewModel<double> modeld(pdatad, vald.size());
+    ContiguousViewModel<const float> const_modelf(pdataf, valf.size());
+    ContiguousViewModel<const double> const_modeld(pdatad, vald.size());
 
     using type_tuple = std::tuple<float, double>;
 
     SECTION("one argument") {
         visit_contiguous_view_model<type_tuple>(visitor, modelf);
         visit_contiguous_view_model<type_tuple>(visitor, modeld);
+        visit_contiguous_view_model<type_tuple>(visitor, const_modelf);
+        visit_contiguous_view_model<type_tuple>(visitor, const_modeld);
     }
 
     SECTION("Two arguments") {
         visit_contiguous_view_model<type_tuple>(visitor, modelf, modeld);
+        REQUIRE_THROWS_AS(visit_contiguous_view_model<type_tuple>(
+                            visitor, const_modelf, const_modeld),
+                          std::runtime_error);
     }
 }
