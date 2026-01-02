@@ -379,6 +379,13 @@ private:
     template<concepts::WTFFloat Float2>
     friend class BufferView;
 
+    template<typename TupleType, typename Visitor, typename... Args>
+    friend auto visit_contiguous_buffer_view(Visitor&& visitor, Args&&... args);
+
+    holder_type& holder_() { return *m_pholder_; }
+
+    const holder_type& holder_() const { return *m_pholder_; }
+
     void valid_index_(size_type index) const {
         if(index >= size()) {
             throw std::out_of_range("BufferView: index out of range");
@@ -475,6 +482,41 @@ std::span<T> contiguous_buffer_cast(BufferView<FloatType>& buffer) {
           "Cannot cast non-contiguous BufferView to span");
     }
     return buffer.template value<T>();
+}
+
+/** @brief Wraps the process of calling a visitor with zero or more
+ *         BufferView objects.
+ *
+ *  @relates BufferView
+ *
+ *  @tparam TupleType A std::tuple of floating-point types to try. Must be
+ *                   explicitly provided by the user.
+ *  @tparam Visitor The type of the visitor to call. Must be a callable object
+ *                  capable of accepting `std::span<T>` objects for each
+ *                  possible T in @p TupleType. Will be inferred by the
+ *                  compiler.
+ *  @tparam Args The types of the arguments to forward to the visitor. Each
+ *               is expected to be downcastable to a ContiguousModel holding
+ *               one of the types in @p TupleType. Will be inferred by the
+ *               compiler.
+ *
+ *  @param[in] visitor The visitor to call with the unwrapped std::span<T>
+ *                     objects.
+ *  @param[in] args The ContiguousModel objects to unwrap and pass to the
+ *                  visitor.
+ *
+ *  @return The return value of calling @p visitor with the unwrapped
+ *          std::span<T> objects.
+ *
+ *  @throw std::runtime_error if any of the @p args cannot be downcast to a
+ *                            ContiguousModel holding one of the types in
+ *                            @p TupleType. Strong throw guarantee.
+ *  @throw ??? if calling @p visitor throws. Same throw guarantee.
+ */
+template<typename TupleType, typename Visitor, typename... Args>
+auto visit_contiguous_buffer_view(Visitor&& visitor, Args&&... args) {
+    return detail_::visit_contiguous_view_model<TupleType>(
+      std::forward<Visitor>(visitor), args.holder_()...);
 }
 
 } // namespace wtf::buffer
