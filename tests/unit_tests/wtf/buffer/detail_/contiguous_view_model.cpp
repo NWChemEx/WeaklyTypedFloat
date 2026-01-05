@@ -206,3 +206,63 @@ TEMPLATE_LIST_TEST_CASE("ContiguousViewModel", "[wtf]", all_fp_types) {
         REQUIRE_FALSE(const_model.are_equal(other_const_model));
     }
 }
+
+struct CheckVisitContiguousViewModel {
+    CheckVisitContiguousViewModel(float* pdataf, double* pdatad) :
+      pdataf_corr(pdataf), pdatad_corr(pdatad) {}
+
+    auto operator()(std::span<const float> span) const {
+        REQUIRE(span.data() == pdataf_corr);
+        REQUIRE(span.size() == 3);
+    }
+
+    auto operator()(std::span<const double> span) const {
+        REQUIRE(span.data() == pdatad_corr);
+        REQUIRE(span.size() == 3);
+    }
+
+    auto operator()(std::span<float> lhs, std::span<double> rhs) const {
+        REQUIRE(lhs.data() == pdataf_corr);
+        REQUIRE(lhs.size() == 3);
+        REQUIRE(rhs.data() == pdatad_corr);
+        REQUIRE(rhs.size() == 3);
+    }
+
+    template<typename T, typename U>
+    auto operator()(std::span<T> lhs, std::span<U> rhs) const {
+        throw std::runtime_error("Only float, double supported");
+    }
+
+    float* pdataf_corr;
+    double* pdatad_corr;
+};
+
+TEST_CASE("visit_contiguous_view_model") {
+    std::vector<float> valf{1.0, 2.0, 3.0};
+    std::vector<double> vald{1.0, 2.0, 3.0};
+    auto pdataf = valf.data();
+    auto pdatad = vald.data();
+
+    CheckVisitContiguousViewModel visitor(pdataf, pdatad);
+
+    ContiguousViewModel<float> modelf(pdataf, valf.size());
+    ContiguousViewModel<double> modeld(pdatad, vald.size());
+    ContiguousViewModel<const float> const_modelf(pdataf, valf.size());
+    ContiguousViewModel<const double> const_modeld(pdatad, vald.size());
+
+    using type_tuple = std::tuple<float, double>;
+
+    SECTION("one argument") {
+        visit_contiguous_view_model<type_tuple>(visitor, modelf);
+        visit_contiguous_view_model<type_tuple>(visitor, modeld);
+        visit_contiguous_view_model<type_tuple>(visitor, const_modelf);
+        visit_contiguous_view_model<type_tuple>(visitor, const_modeld);
+    }
+
+    SECTION("Two arguments") {
+        visit_contiguous_view_model<type_tuple>(visitor, modelf, modeld);
+        REQUIRE_THROWS_AS(visit_contiguous_view_model<type_tuple>(
+                            visitor, const_modelf, const_modeld),
+                          std::runtime_error);
+    }
+}
