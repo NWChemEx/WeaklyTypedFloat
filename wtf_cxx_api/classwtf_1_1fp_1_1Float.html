@@ -143,6 +143,10 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
+<tr class="memitem:a33e7f72c4f869b64b88db4c20c440f4d" id="r_a33e7f72c4f869b64b88db4c20c440f4d"><td class="memTemplParams" colspan="2"><a id="a33e7f72c4f869b64b88db4c20c440f4d" name="a33e7f72c4f869b64b88db4c20c440f4d"></a>
+template&lt;typename TupleType , typename Visitor , typename... Args&gt; </td></tr>
+<tr class="memitem:a33e7f72c4f869b64b88db4c20c440f4d"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>visit_float</b> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args)</td></tr>
+<tr class="separator:a33e7f72c4f869b64b88db4c20c440f4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a439b7e0b7f6125a032109a79d90c31e8" id="r_a439b7e0b7f6125a032109a79d90c31e8"><td class="memTemplParams" colspan="2"><a id="a439b7e0b7f6125a032109a79d90c31e8" name="a439b7e0b7f6125a032109a79d90c31e8"></a>
 template&lt;concepts::FloatingPoint T&gt; </td></tr>
 <tr class="memitem:a439b7e0b7f6125a032109a79d90c31e8"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classwtf_1_1fp_1_1Float.html">Float</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><b>make_float</b> (T value)</td></tr>
@@ -173,6 +177,10 @@ Related Symbols</h2></td></tr>
 <tr class="memitem:a1f99bba36235c4d9039d4a2e9411d9fe"><td class="memTemplItemLeft" align="right" valign="top">IGNORE_DANGLING_REFERENCE T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1Float.html#a1f99bba36235c4d9039d4a2e9411d9fe">float_cast</a> (<a class="el" href="classwtf_1_1fp_1_1Float.html">Float</a> &amp;f)</td></tr>
 <tr class="memdesc:a1f99bba36235c4d9039d4a2e9411d9fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to get the typed float back.  <br /></td></tr>
 <tr class="separator:a1f99bba36235c4d9039d4a2e9411d9fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33e7f72c4f869b64b88db4c20c440f4d" id="r_a33e7f72c4f869b64b88db4c20c440f4d"><td class="memTemplParams" colspan="2">template&lt;typename TupleType , typename Visitor , typename... Args&gt; </td></tr>
+<tr class="memitem:a33e7f72c4f869b64b88db4c20c440f4d"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1Float.html#a33e7f72c4f869b64b88db4c20c440f4d">visit_float</a> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args)</td></tr>
+<tr class="memdesc:a33e7f72c4f869b64b88db4c20c440f4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the process of visiting zero or more <a class="el" href="classwtf_1_1fp_1_1Float.html" title="Type-erases a floating-point number.">Float</a> objects.  <br /></td></tr>
+<tr class="separator:a33e7f72c4f869b64b88db4c20c440f4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Type-erases a floating-point number. </p>
@@ -801,6 +809,56 @@ template&lt;concepts::UnmodifiedFloatingPoint T&gt; </div>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a33e7f72c4f869b64b88db4c20c440f4d" name="a33e7f72c4f869b64b88db4c20c440f4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33e7f72c4f869b64b88db4c20c440f4d">&#9670;&#160;</a></span>visit_float()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TupleType , typename Visitor , typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto visit_float </td>
+          <td>(</td>
+          <td class="paramtype">Visitor &amp;&amp;&#160;</td>
+          <td class="paramname"><em>visitor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Wraps the process of visiting zero or more <a class="el" href="classwtf_1_1fp_1_1Float.html" title="Type-erases a floating-point number.">Float</a> objects. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TupleType</td><td>A std::tuple of floating-point types to try. Must be provided by the caller. </td></tr>
+    <tr><td class="paramname">Visitor</td><td>The type of the visitor to call. Must be a callable object. Will be inferred by the compiler. </td></tr>
+    <tr><td class="paramname">Args</td><td>The cv-qualified <a class="el" href="classwtf_1_1fp_1_1Float.html" title="Type-erases a floating-point number.">Float</a> objects to type-restore. Will be inferred by the compiler.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>The visitor should have the signature: <code>R(T, U, ...)</code> where T, U, ... are types found in <code>TupleType</code> and R is the return type (which may be void). T, U, ... may be cv-qualified and may repeat types.</p>
+<dl class="section return"><dt>Returns</dt><dd>The result of invoking <code>visitor</code> with the type-restored <a class="el" href="classwtf_1_1fp_1_1Float.html" title="Type-erases a floating-point number.">Float</a> objects. </dd></dl>
 
 </div>
 </div>

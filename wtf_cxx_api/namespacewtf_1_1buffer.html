@@ -103,6 +103,14 @@ requires (concepts::FloatingPoint&lt;T&gt;)</td></tr>
 <tr class="memitem:aa69393a81a4a6602c2666425621e952b"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacewtf_1_1buffer.html#aa69393a81a4a6602c2666425621e952b">make_float_buffer</a> (Args &amp;&amp;... args)</td></tr>
 <tr class="memdesc:aa69393a81a4a6602c2666425621e952b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps calling the <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> ctor.  <br /></td></tr>
 <tr class="separator:aa69393a81a4a6602c2666425621e952b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a48293e8271bb4caf18e4bbd9400098" id="r_a3a48293e8271bb4caf18e4bbd9400098"><td class="memTemplParams" colspan="2">template&lt;typename TupleType &gt; </td></tr>
+<tr class="memitem:a3a48293e8271bb4caf18e4bbd9400098"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacewtf_1_1buffer.html#a3a48293e8271bb4caf18e4bbd9400098">make_float_buffer</a> (std::vector&lt; FloatBuffer::value_type &gt; buffer)</td></tr>
+<tr class="memdesc:a3a48293e8271bb4caf18e4bbd9400098"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the process of making a <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> from a vector of Float objects.  <br /></td></tr>
+<tr class="separator:a3a48293e8271bb4caf18e4bbd9400098"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa86d5a454d358a045b5b767d63d88ade" id="r_aa86d5a454d358a045b5b767d63d88ade"><td class="memTemplParams" colspan="2">template&lt;typename TupleType &gt; </td></tr>
+<tr class="memitem:aa86d5a454d358a045b5b767d63d88ade"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacewtf_1_1buffer.html#aa86d5a454d358a045b5b767d63d88ade">make_float_buffer</a> (std::initializer_list&lt; FloatBuffer::value_type &gt; buffer)</td></tr>
+<tr class="memdesc:aa86d5a454d358a045b5b767d63d88ade"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the process of making a <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> from an initializer list of Float objects.  <br /></td></tr>
+<tr class="separator:aa86d5a454d358a045b5b767d63d88ade"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb45096c801c7e26bef6b8034dacbcac" id="r_aeb45096c801c7e26bef6b8034dacbcac"><td class="memTemplParams" colspan="2"><a id="aeb45096c801c7e26bef6b8034dacbcac" name="aeb45096c801c7e26bef6b8034dacbcac"></a>
 template&lt;concepts::FloatingPoint T&gt; </td></tr>
 <tr class="memitem:aeb45096c801c7e26bef6b8034dacbcac"><td class="memTemplItemLeft" align="right" valign="top">std::span&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>contiguous_buffer_cast</b> (<a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a> &amp;buffer)</td></tr>
@@ -159,7 +167,7 @@ requires (concepts::FloatingPoint&lt;T&gt;)</div>
 </div>
 </div>
 <a id="aa69393a81a4a6602c2666425621e952b" name="aa69393a81a4a6602c2666425621e952b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa69393a81a4a6602c2666425621e952b">&#9670;&#160;</a></span>make_float_buffer()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa69393a81a4a6602c2666425621e952b">&#9670;&#160;</a></span>make_float_buffer() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -191,6 +199,92 @@ template&lt;typename... Args&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> constructed with the forwarded arguments. </dd></dl>
+
+</div>
+</div>
+<a id="aa86d5a454d358a045b5b767d63d88ade" name="aa86d5a454d358a045b5b767d63d88ade"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa86d5a454d358a045b5b767d63d88ade">&#9670;&#160;</a></span>make_float_buffer() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TupleType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">auto wtf::buffer::make_float_buffer </td>
+          <td>(</td>
+          <td class="paramtype">std::initializer_list&lt; FloatBuffer::value_type &gt;&#160;</td>
+          <td class="paramname"><em>buffer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Wraps the process of making a <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> from an initializer list of Float objects. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TupleType</td><td>A std::tuple of floating-point types to try. Must be provided by the caller.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This function uses the initializer list to create a std::vector of Float objects and then calls the std::vector-based make_float_buffer function. See that function for more details.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">buffer</td><td>The initializer list of Float objects to make the <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> from.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> created by unwrapping the Float objects.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if creating the std::vector fails. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">???</td><td>if the vector-based overload throws. Same throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3a48293e8271bb4caf18e4bbd9400098" name="a3a48293e8271bb4caf18e4bbd9400098"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a48293e8271bb4caf18e4bbd9400098">&#9670;&#160;</a></span>make_float_buffer() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TupleType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">auto wtf::buffer::make_float_buffer </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; FloatBuffer::value_type &gt;&#160;</td>
+          <td class="paramname"><em>buffer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Wraps the process of making a <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> from a vector of Float objects. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TupleType</td><td>A std::tuple of floating-point types to try. Must be provided by the caller.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Presently this method is restricted to Float objects which all contain the same type. Future versions may relax this restriction.</dd></dl>
+<p>This function creates a <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> object by unwrapping each of the provided Float objects and storing the unwrapped values in a <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">buffer</td><td>The vector of Float objects to make the <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> from.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> created by unwrapping the Float objects in <code>buffer</code>.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if the elements of <code>buffer</code> can not all be unwrapped to the same type. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

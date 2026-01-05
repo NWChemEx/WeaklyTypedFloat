@@ -76,6 +76,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#related">Related Symbols</a> &#124;
 <a href="classwtf_1_1fp_1_1detail___1_1FloatModel-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">wtf::fp::detail_::FloatModel&lt; FloatType &gt; Class Template Reference</div></div>
 </div><!--header-->
@@ -215,6 +216,18 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~FloatHolder</b> (
 <tr class="memitem:aae3b7ad36e292c94edf8b7faf64a47e1 inherit pub_methods_classwtf_1_1fp_1_1detail___1_1FloatHolder" id="r_aae3b7ad36e292c94edf8b7faf64a47e1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatHolder.html#a0415afb0214b9da6ab61b03de669c768">const_type_info_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatHolder.html#aae3b7ad36e292c94edf8b7faf64a47e1">type</a> () const</td></tr>
 <tr class="memdesc:aae3b7ad36e292c94edf8b7faf64a47e1 inherit pub_methods_classwtf_1_1fp_1_1detail___1_1FloatHolder"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides access to the RTTI of the derived type.  <br /></td></tr>
 <tr class="separator:aae3b7ad36e292c94edf8b7faf64a47e1 inherit pub_methods_classwtf_1_1fp_1_1detail___1_1FloatHolder"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac42733375c5553ed51eb1b4b73ad0e36 inherit pub_methods_classwtf_1_1fp_1_1detail___1_1FloatHolder" id="r_ac42733375c5553ed51eb1b4b73ad0e36"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatHolder.html#ac42733375c5553ed51eb1b4b73ad0e36">is_const</a> () const</td></tr>
+<tr class="memdesc:ac42733375c5553ed51eb1b4b73ad0e36 inherit pub_methods_classwtf_1_1fp_1_1detail___1_1FloatHolder"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the type of the type-erased object read-only?  <br /></td></tr>
+<tr class="separator:ac42733375c5553ed51eb1b4b73ad0e36 inherit pub_methods_classwtf_1_1fp_1_1detail___1_1FloatHolder"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="related" name="related"></a>
+Related Symbols</h2></td></tr>
+<tr><td class="ititle" colspan="2"><p>(Note that these are not member symbols.) </p>
+</td></tr>
+<tr class="memitem:acb5d8e150f1964f3323eeaa659d895a5" id="r_acb5d8e150f1964f3323eeaa659d895a5"><td class="memTemplParams" colspan="2">template&lt;typename TupleType , typename Visitor , typename... Args&gt; </td></tr>
+<tr class="memitem:acb5d8e150f1964f3323eeaa659d895a5"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatModel.html#acb5d8e150f1964f3323eeaa659d895a5">visit_float_model</a> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args)</td></tr>
+<tr class="memdesc:acb5d8e150f1964f3323eeaa659d895a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the process of visiting zero or more <a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatModel.html" title="Implements the FloatHolder API for floats of type FloatType.">FloatModel</a> objects via <a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatHolder.html" title="Defines the interface used to interact with the type-erased float.">FloatHolder</a> references.  <br /></td></tr>
+<tr class="separator:acb5d8e150f1964f3323eeaa659d895a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -576,6 +589,55 @@ template&lt;concepts::FloatingPoint FloatType&gt; </div>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Symbol Documentation</h2>
+<a id="acb5d8e150f1964f3323eeaa659d895a5" name="acb5d8e150f1964f3323eeaa659d895a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb5d8e150f1964f3323eeaa659d895a5">&#9670;&#160;</a></span>visit_float_model()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TupleType , typename Visitor , typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto visit_float_model </td>
+          <td>(</td>
+          <td class="paramtype">Visitor &amp;&amp;&#160;</td>
+          <td class="paramname"><em>visitor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Wraps the process of visiting zero or more <a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatModel.html" title="Implements the FloatHolder API for floats of type FloatType.">FloatModel</a> objects via <a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatHolder.html" title="Defines the interface used to interact with the type-erased float.">FloatHolder</a> references. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TupleType</td><td>A tuple of floating-point types to try. </td></tr>
+    <tr><td class="paramname">Visitor</td><td>The type of the visitor being invoked. </td></tr>
+    <tr><td class="paramname">Args</td><td>The cv-qualified <a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatHolder.html" title="Defines the interface used to interact with the type-erased float.">FloatHolder</a> objects to downcast. </td></tr>
   </table>
   </dd>
 </dl>
