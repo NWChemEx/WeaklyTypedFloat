@@ -150,6 +150,9 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~BufferViewHolder<
 <tr class="memitem:ac3ebdb95aa2ba706b3290e0397b30ab2" id="r_ac3ebdb95aa2ba706b3290e0397b30ab2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwtf_1_1buffer_1_1detail___1_1BufferViewHolder.html#a03981db4dd4c437412fda74da73a8c99">const_rtti_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1detail___1_1BufferViewHolder.html#ac3ebdb95aa2ba706b3290e0397b30ab2">type</a> () const</td></tr>
 <tr class="memdesc:ac3ebdb95aa2ba706b3290e0397b30ab2"><td class="mdescLeft">&#160;</td><td class="mdescRight">What is the RTTI for the elements in the buffer?  <br /></td></tr>
 <tr class="separator:ac3ebdb95aa2ba706b3290e0397b30ab2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a687579a91bb6c39ad7d6ca4ae165fd8c" id="r_a687579a91bb6c39ad7d6ca4ae165fd8c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1detail___1_1BufferViewHolder.html#a687579a91bb6c39ad7d6ca4ae165fd8c">is_const</a> () const noexcept</td></tr>
+<tr class="memdesc:a687579a91bb6c39ad7d6ca4ae165fd8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Are the held elements read-only?  <br /></td></tr>
+<tr class="separator:a687579a91bb6c39ad7d6ca4ae165fd8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb811cdc1da61fe0b32a1428b75c6a8f" id="r_aeb811cdc1da61fe0b32a1428b75c6a8f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1detail___1_1BufferViewHolder.html#aeb811cdc1da61fe0b32a1428b75c6a8f">is_contiguous</a> () const</td></tr>
 <tr class="memdesc:aeb811cdc1da61fe0b32a1428b75c6a8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Are the elements in the buffer contiguous?  <br /></td></tr>
 <tr class="separator:aeb811cdc1da61fe0b32a1428b75c6a8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -373,6 +376,42 @@ template&lt;concepts::WTFFloat FloatType&gt; </div>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::bad_alloc</td><td>if making the copy fails. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a687579a91bb6c39ad7d6ca4ae165fd8c" name="a687579a91bb6c39ad7d6ca4ae165fd8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a687579a91bb6c39ad7d6ca4ae165fd8c">&#9670;&#160;</a></span>is_const()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;concepts::WTFFloat FloatType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classwtf_1_1buffer_1_1detail___1_1BufferViewHolder.html">wtf::buffer::detail_::BufferViewHolder</a>&lt; FloatType &gt;::is_const </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Are the held elements read-only? </p>
+<dl class="section return"><dt>Returns</dt><dd>true if the held elements are read-only, false otherwise.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No-throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>

@@ -76,6 +76,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="#related">Related Symbols</a> &#124;
 <a href="classwtf_1_1buffer_1_1BufferView-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">wtf::buffer::BufferView&lt; FloatType &gt; Class Template Reference</div></div>
@@ -175,6 +176,13 @@ requires (!std::is_same_v&lt;OtherFloat, FloatType&gt;)</td></tr>
 <tr class="memdesc:a3ac8a76321b50114c05310e4b60e287d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to access the buffer.  <br /></td></tr>
 <tr class="separator:a3ac8a76321b50114c05310e4b60e287d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a742e865aabb928a6da1e634a2a069a03" id="r_a742e865aabb928a6da1e634a2a069a03"><td class="memTemplParams" colspan="2"><a id="a742e865aabb928a6da1e634a2a069a03" name="a742e865aabb928a6da1e634a2a069a03"></a>
+template&lt;typename TupleType , typename Visitor , typename... Args&gt; </td></tr>
+<tr class="memitem:a742e865aabb928a6da1e634a2a069a03"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>visit_contiguous_buffer_view</b> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args)</td></tr>
+<tr class="separator:a742e865aabb928a6da1e634a2a069a03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="related" name="related"></a>
 Related Symbols</h2></td></tr>
 <tr><td class="ititle" colspan="2"><p>(Note that these are not member symbols.) </p>
@@ -187,6 +195,10 @@ Related Symbols</h2></td></tr>
 <tr class="memitem:aa14553f1bad7e07d73b6a1d1679e214d"><td class="memTemplItemLeft" align="right" valign="top">std::span&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1BufferView.html#aa14553f1bad7e07d73b6a1d1679e214d">contiguous_buffer_cast</a> (<a class="el" href="classwtf_1_1buffer_1_1BufferView.html">BufferView</a>&lt; FloatType &gt; &amp;buffer)</td></tr>
 <tr class="memdesc:aa14553f1bad7e07d73b6a1d1679e214d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to retrieve the raw contiguous memory from a buffer view.  <br /></td></tr>
 <tr class="separator:aa14553f1bad7e07d73b6a1d1679e214d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a742e865aabb928a6da1e634a2a069a03" id="r_a742e865aabb928a6da1e634a2a069a03"><td class="memTemplParams" colspan="2">template&lt;typename TupleType , typename Visitor , typename... Args&gt; </td></tr>
+<tr class="memitem:a742e865aabb928a6da1e634a2a069a03"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1BufferView.html#a742e865aabb928a6da1e634a2a069a03">visit_contiguous_buffer_view</a> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args)</td></tr>
+<tr class="memdesc:a742e865aabb928a6da1e634a2a069a03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the process of calling a visitor with zero or more <a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">BufferView</a> objects.  <br /></td></tr>
+<tr class="separator:a742e865aabb928a6da1e634a2a069a03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;concepts::WTFFloat FloatType&gt;<br />
@@ -1083,6 +1095,69 @@ template&lt;typename... Args&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">BufferView</a> constructed with the forwarded arguments. </dd></dl>
+
+</div>
+</div>
+<a id="a742e865aabb928a6da1e634a2a069a03" name="a742e865aabb928a6da1e634a2a069a03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a742e865aabb928a6da1e634a2a069a03">&#9670;&#160;</a></span>visit_contiguous_buffer_view()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TupleType , typename Visitor , typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto visit_contiguous_buffer_view </td>
+          <td>(</td>
+          <td class="paramtype">Visitor &amp;&amp;&#160;</td>
+          <td class="paramname"><em>visitor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Wraps the process of calling a visitor with zero or more <a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">BufferView</a> objects. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TupleType</td><td>A std::tuple of floating-point types to try. Must be explicitly provided by the user. </td></tr>
+    <tr><td class="paramname">Visitor</td><td>The type of the visitor to call. Must be a callable object capable of accepting <code>std::span&lt;T&gt;</code> objects for each possible T in <code>TupleType</code>. Will be inferred by the compiler. </td></tr>
+    <tr><td class="paramname">Args</td><td>The types of the arguments to forward to the visitor. Each is expected to be downcastable to a ContiguousModel holding one of the types in <code>TupleType</code>. Will be inferred by the compiler.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">visitor</td><td>The visitor to call with the unwrapped std::span&lt;T&gt; objects. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">args</td><td>The ContiguousModel objects to unwrap and pass to the visitor.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The return value of calling <code>visitor</code> with the unwrapped std::span&lt;T&gt; objects.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if any of the <code>args</code> cannot be downcast to a ContiguousModel holding one of the types in <code>TupleType</code>. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">???</td><td>if calling <code>visitor</code> throws. Same throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
