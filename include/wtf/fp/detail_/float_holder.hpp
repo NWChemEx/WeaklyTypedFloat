@@ -163,6 +163,13 @@ public:
      */
     const_type_info_reference type() const { return m_type_; }
 
+    /** @brief Is the type of the type-erased object read-only?
+     *
+     *  @return True if the type of the type-erased object is const-qualified,
+     *          and false otherwise.
+     */
+    bool is_const() const { return is_const_(); }
+
 protected:
     /// Initializes *this with the given type info object
     explicit FloatHolder(type_info ti) : m_type_(std::move(ti)) {}
@@ -176,6 +183,9 @@ private:
 
     /// Creates a read-only view of the held floating-point value
     virtual const_float_view_type* as_view_() const = 0;
+
+    /// True if the held value is const, false otherwise
+    virtual bool is_const_() const = 0;
 
     /// Base checked that types are equal, derived need only change values
     virtual void change_value_(const FloatHolder& other) = 0;
