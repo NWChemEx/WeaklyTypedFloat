@@ -145,3 +145,14 @@ TEST_CASE("float_cast", "[wtf]") {
 
     REQUIRE_THROWS_AS(float_cast<double>(f), std::runtime_error);
 }
+
+TEMPLATE_LIST_TEST_CASE("visit_float", "[wtf]", test_wtf::all_fp_types) {
+    using float_t = TestType;
+
+    float_t val = 2.71;
+    Float m(val);
+
+    auto visitor = [=](auto&& wrapped_value) { REQUIRE(wrapped_value == val); };
+
+    visit_float<std::tuple<float_t>>(visitor, m);
+}

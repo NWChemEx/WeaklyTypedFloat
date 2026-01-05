@@ -36,11 +36,14 @@ public:
     /// Type of a pointer to *this
     using holder_pointer = std::unique_ptr<holder_type>;
 
+    /// Type of an element of *this
+    using value_type = fp::Float;
+
     /// Type of a view to an element of *this
-    using view_type = fp::FloatView<fp::Float>;
+    using view_type = fp::FloatView<value_type>;
 
     /// Type of a const view to an element of *this
-    using const_view_type = fp::FloatView<const fp::Float>;
+    using const_view_type = fp::FloatView<const value_type>;
 
     /// Type used to describe the RTTI of the held buffer
     using rtti_type = rtti::TypeInfo;
@@ -52,13 +55,13 @@ public:
     using size_type = std::size_t;
 
     /// Type of a view that would act like *this
-    using buffer_view_holder = BufferViewHolder<fp::Float>;
+    using buffer_view_holder = BufferViewHolder<value_type>;
 
     /// Type of a pointer to a buffer_view_holder object
     using buffer_view_holder_pointer = std::unique_ptr<buffer_view_holder>;
 
     /// Type of a view that would act like a const version of *this
-    using const_buffer_view_holder = BufferViewHolder<const fp::Float>;
+    using const_buffer_view_holder = BufferViewHolder<const value_type>;
 
     /// Type of a pointer to a const_buffer_view_holder object
     using const_buffer_view_holder_pointer =

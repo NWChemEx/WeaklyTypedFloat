@@ -202,8 +202,14 @@ public:
     bool operator!=(const Float& other) const { return !(*this == other); }
 
 private:
+    template<typename TupleType, typename Visitor, typename... Args>
+    friend auto visit_float(Visitor&& visitor, Args&&... args);
+
     template<concepts::FloatingPoint T>
     friend Float make_float(T value);
+
+    auto& holder_() { return *m_holder_; }
+    const auto& holder_() const { return *m_holder_; }
 
     template<typename T>
         requires concepts::UnmodifiedFloatingPoint<std::decay_t<T>>
@@ -328,4 +334,29 @@ IGNORE_DANGLING_REFERENCE T float_cast(Float& f) {
     }
     return *pderived->data();
 }
+
+/** @brief Wraps the process of visiting zero or more Float objects.
+ *
+ *  @relates Float
+ *
+ *  @tparam TupleType A std::tuple of floating-point types to try. Must be
+ *                    provided by the caller.
+ *  @tparam Visitor The type of the visitor to call. Must be a callable object.
+ *                 Will be inferred by the compiler.
+ *  @tparam Args The cv-qualified Float objects to type-restore. Will be
+ *               inferred by the compiler.
+ *
+ *  The visitor should have the signature: `R(T, U, ...)` where T, U, ... are
+ *  types found in @p TupleType and R is the return type (which may be void).
+ *  T, U, ... may be cv-qualified and may repeat types.
+ *
+ *  @return The result of invoking @p visitor with the type-restored Float
+ *          objects.
+ */
+template<typename TupleType, typename Visitor, typename... Args>
+auto visit_float(Visitor&& visitor, Args&&... args) {
+    return visit_float_model<TupleType>(std::forward<Visitor>(visitor),
+                                        (args.holder_())...);
+};
+
 } // namespace wtf::fp

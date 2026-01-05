@@ -36,6 +36,14 @@ TEMPLATE_LIST_TEST_CASE("FloatBuffer", "[wtf]", default_fp_types) {
     SECTION("ctors and assignment") {
         SECTION("default ctor") { REQUIRE(defaulted.size() == 0); }
 
+        SECTION("Initializer list of typed floats") {
+            FloatBuffer buf_from_init_list{one, two, three};
+            REQUIRE(buf_from_init_list.size() == 3);
+            REQUIRE(buf_from_init_list.at(0) == one);
+            REQUIRE(buf_from_init_list.at(1) == two);
+            REQUIRE(buf_from_init_list.at(2) == three);
+        }
+
         SECTION("By vector") {
             FloatBuffer buf_from_vector(val);
             REQUIRE(buf_from_vector.size() == 3);
@@ -229,7 +237,7 @@ TEMPLATE_LIST_TEST_CASE("FloatBuffer", "[wtf]", default_fp_types) {
     }
 }
 
-TEMPLATE_LIST_TEST_CASE("make_float_buffer", "[wtf]", all_fp_types) {
+TEMPLATE_LIST_TEST_CASE("make_float_buffer(args...)", "[wtf]", all_fp_types) {
     using vector_type = std::vector<TestType>;
     TestType one{1.0}, two{2.0}, three{3.0};
     vector_type val{one, two, three};
@@ -239,6 +247,39 @@ TEMPLATE_LIST_TEST_CASE("make_float_buffer", "[wtf]", all_fp_types) {
     REQUIRE(buffer.at(0) == one);
     REQUIRE(buffer.at(1) == two);
     REQUIRE(buffer.at(2) == three);
+}
+
+TEST_CASE("make_float_buffer(vector<Float>)") {
+    float one{1.0};
+    auto wrap_one = wtf::fp::make_float(one);
+    double two{2.0};
+    auto wrap_two = wtf::fp::make_float(two);
+
+    FloatBuffer ones_corr(std::vector<float>{one, one, one});
+    std::vector<wtf::fp::Float> wrapped_ones{wrap_one, wrap_one, wrap_one};
+    FloatBuffer twos_corr(std::vector<double>{two, two, two});
+    std::vector<wtf::fp::Float> wrapped_twos{wrap_two, wrap_two, wrap_two};
+    std::vector<wtf::fp::Float> mixed{wrap_one, wrap_two, wrap_one};
+
+    REQUIRE(make_float_buffer<all_fp_types>(wrapped_ones) == ones_corr);
+    REQUIRE(make_float_buffer<all_fp_types>(wrapped_twos) == twos_corr);
+    REQUIRE_THROWS_AS(make_float_buffer<all_fp_types>(mixed),
+                      std::runtime_error);
+}
+
+TEST_CASE("make_float_buffer(initializer_list<Float>)") {
+    float one{1.0};
+    auto wrap_one = wtf::fp::make_float(one);
+    double two{2.0};
+    auto wrap_two = wtf::fp::make_float(two);
+
+    FloatBuffer ones_corr(std::vector<float>{one, one, one});
+    FloatBuffer twos_corr(std::vector<double>{two, two, two});
+
+    REQUIRE(make_float_buffer<all_fp_types>({one, one, one}) == ones_corr);
+    REQUIRE(make_float_buffer<all_fp_types>({two, two, two}) == twos_corr);
+    REQUIRE_THROWS_AS(make_float_buffer<all_fp_types>({one, two, one}),
+                      std::runtime_error);
 }
 
 TEMPLATE_LIST_TEST_CASE("contiguous_buffer_cast", "[wtf]", all_fp_types) {

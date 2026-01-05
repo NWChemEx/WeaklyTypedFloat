@@ -181,6 +181,9 @@ private:
         return new const_view_type(data());
     }
 
+    /// Implements is_const by checking if FloatType is const
+    bool is_const_() const override { return std::is_const_v<FloatType>; }
+
     /// Implements FloatHolder::change_value by downcasting and calling
     /// set_value
     void change_value_(const FloatHolder& other) override {
@@ -203,5 +206,24 @@ private:
     /// The value being held
     value_type value_;
 };
+
+/** @brief Wraps the process of visiting zero or more FloatModel objects via
+ *         FloatHolder references.
+ *
+ *  @relates FloatModel
+ *
+ *  @tparam TupleType A tuple of floating-point types to try.
+ *  @tparam Visitor The type of the visitor being invoked.
+ *  @tparam Args The cv-qualified FloatHolder objects to downcast.
+ */
+template<typename TupleType, typename Visitor, typename... Args>
+auto visit_float_model(Visitor&& visitor, Args&&... args) {
+    auto lambda = [&](auto&&... inner_args) {
+        return visitor(*inner_args.data()...);
+    };
+
+    return wtf::detail_::dispatch<FloatModel, TupleType>(
+      lambda, std::forward<Args>(args)...);
+}
 
 } // namespace wtf::fp::detail_

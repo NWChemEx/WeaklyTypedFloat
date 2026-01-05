@@ -37,13 +37,14 @@ public:
     /// Pull in types from the holder_type
     ///@{
     using holder_pointer  = typename holder_type::holder_pointer;
+    using value_type      = typename holder_type::value_type;
     using size_type       = typename holder_type::size_type;
     using view_type       = typename holder_type::view_type;
     using const_view_type = typename holder_type::const_view_type;
     ///@}
 
-    using buffer_view       = BufferView<fp::Float>;
-    using const_buffer_view = BufferView<const fp::Float>;
+    using buffer_view       = BufferView<value_type>;
+    using const_buffer_view = BufferView<const value_type>;
 
     // -------------------------------------------------------------------------
     // Ctors and assignment operators
@@ -57,6 +58,24 @@ public:
      *  @throw None No throw guarantee.
      */
     FloatBuffer() noexcept = default;
+
+    /** @brief Creates a FloatBuffer from a list of specified values.
+     *
+     *  @tparam T The type of floating-point value being held. Must satisfy the
+     *            concepts::FloatingPoint concept.
+     *
+     *  This ctor will copy the elements in @p buffer into a std::vector and
+     *  then invoke the std::vector-based ctor to create the FloatBuffer. See
+     *  that ctor for more details.
+     *
+     *  @param[in] buffer The initial values for the buffer.
+     *
+     *  @throw std::bad_alloc if creating the held buffer fails. Strong throw
+     *                        guarantee.
+     */
+    template<concepts::FloatingPoint T>
+    explicit FloatBuffer(std::initializer_list<T> buffer) :
+      FloatBuffer(std::vector<T>(buffer)) {}
 
     /** @brief Creates a FloatBuffer from a std::vector.
      *
@@ -354,6 +373,70 @@ private:
 template<typename... Args>
 auto make_float_buffer(Args&&... args) {
     return FloatBuffer(std::forward<Args>(args)...);
+}
+
+/** @brief Wraps the process of making a FloatBuffer from a vector of Float
+ *         objects.
+ *
+ *  @tparam TupleType A std::tuple of floating-point types to try. Must be
+ *                    provided by the caller.
+ *
+ *  @note Presently this method is restricted to Float objects which all
+ *        contain the same type. Future versions may relax this restriction.
+ *
+ *  This function creates a FloatBuffer object by unwrapping each of the
+ *  provided Float objects and storing the unwrapped values in a FloatBuffer.
+ *
+ *  @param[in] buffer The vector of Float objects to make the FloatBuffer from.
+ *
+ *  @return The FloatBuffer created by unwrapping the Float objects
+ *          in @p buffer.
+ *
+ *  @throws std::runtime_error if the elements of @p buffer can not all be
+ *                             unwrapped to the same type. Strong throw
+ *                             guarantee.
+ */
+template<typename TupleType>
+auto make_float_buffer(std::vector<FloatBuffer::value_type> buffer) {
+    FloatBuffer rv;
+    if(buffer.size() == 0) return rv;
+    auto initializer = [&](auto value0) {
+        using T = std::decay_t<decltype(value0)>;
+        std::vector<T> temp_buffer(buffer.size());
+        rv       = FloatBuffer(std::move(temp_buffer));
+        rv.at(0) = value0;
+    };
+    fp::visit_float<TupleType>(initializer, buffer[0]);
+    for(std::size_t i = 1; i < buffer.size(); ++i) {
+        auto appender = [&](auto value) { rv.at(i) = value; };
+        fp::visit_float<TupleType>(appender, buffer[i]);
+    }
+    return rv;
+}
+
+/** @brief Wraps the process of making a FloatBuffer from an initializer list of
+ *         Float objects.
+ *
+ *  @tparam TupleType A std::tuple of floating-point types to try. Must be
+ *                  provided by the caller.
+ *
+ *  This function uses the initializer list to create a std::vector of Float
+ *  objects and then calls the std::vector-based make_float_buffer function.
+ *  See that function for more details.
+ *
+ *  @param[in] buffer The initializer list of Float objects to make the
+ *                    FloatBuffer from.
+ *
+ *  @return The FloatBuffer created by unwrapping the Float objects.
+ *
+ *  @throws std::bad_alloc if creating the std::vector fails. Strong throw
+ *                         guarantee.
+ *  @throws ??? if the vector-based overload throws. Same throw guarantee.
+ */
+template<typename TupleType>
+auto make_float_buffer(std::initializer_list<FloatBuffer::value_type> buffer) {
+    return make_float_buffer<TupleType>(
+      std::vector<FloatBuffer::value_type>(buffer));
 }
 
 template<concepts::FloatingPoint T>

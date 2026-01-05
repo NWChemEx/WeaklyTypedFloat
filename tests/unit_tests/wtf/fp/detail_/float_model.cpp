@@ -66,6 +66,8 @@ TEMPLATE_LIST_TEST_CASE("FloatModel", "[float_model]", test_wtf::all_fp_types) {
         REQUIRE(m.get_value() == new_val);
     }
 
+    SECTION("is_const") { REQUIRE_FALSE(m.is_const()); }
+
     SECTION("data()") {
         auto p = m.data();
         REQUIRE(*p == val);
@@ -116,4 +118,17 @@ TEMPLATE_LIST_TEST_CASE("FloatModel", "[float_model]", test_wtf::all_fp_types) {
         FloatModel<other_type> m4(other_type(3.14));
         REQUIRE_FALSE(m.are_equal(m4));
     }
+}
+
+TEMPLATE_LIST_TEST_CASE("visit_float_model", "[float_model]",
+                        test_wtf::all_fp_types) {
+    using float_t = TestType;
+    using model_t = FloatModel<float_t>;
+
+    float_t val = 2.71;
+    model_t m(val);
+
+    auto visitor = [=](auto&& wrapped_value) { REQUIRE(wrapped_value == val); };
+
+    visit_float_model<std::tuple<float_t>>(visitor, m);
 }
