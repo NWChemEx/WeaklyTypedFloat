@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>wtf: Class Members</title>
+<title>wtf: wtf::concepts::StreamInsertable Concept Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -46,7 +46,6 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
-</div><!-- top -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -68,17 +67,36 @@ $(function() {
 </div>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacewtf.html">wtf</a></li><li class="navelem"><a class="el" href="namespacewtf_1_1concepts.html">concepts</a></li><li class="navelem"><a class="el" href="conceptwtf_1_1concepts_1_1StreamInsertable.html">StreamInsertable</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">wtf::concepts::StreamInsertable Concept Reference</div></div>
+</div><!--header-->
 <div class="contents">
-<div class="textblock">Here is a list of all documented class members with links to the class documentation for each member:</div>
 
-<h3><a id="index_t" name="index_t"></a>- t -</h3><ul>
-<li>to_string()&#160;:&#160;<a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatHolder.html#a8e668f936cd4bf119d09b34cfab1e048">wtf::fp::detail_::FloatHolder</a>, <a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatViewHolder.html#a1832f6a66fab9ea3ac2f6b387c498516">wtf::fp::detail_::FloatViewHolder&lt; FloatType &gt;</a>, <a class="el" href="classwtf_1_1fp_1_1Float.html#ac7f049056333d7b60b47d7252a270ba1">wtf::fp::Float</a>, <a class="el" href="classwtf_1_1fp_1_1FloatView.html#a013cdab0da23233979fb7c97b56e6591">wtf::fp::FloatView&lt; FloatType &gt;</a></li>
-<li>traits_type&#160;:&#160;<a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeModel.html#ab1c764ef46533b2e55d16d747eb621a4">wtf::rtti::detail_::TypeModel&lt; T &gt;</a></li>
-<li>type()&#160;:&#160;<a class="el" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#adde5f05d252de646445e2d68eec31758">wtf::buffer::detail_::BufferHolder</a>, <a class="el" href="classwtf_1_1buffer_1_1detail___1_1BufferViewHolder.html#ac3ebdb95aa2ba706b3290e0397b30ab2">wtf::buffer::detail_::BufferViewHolder&lt; FloatType &gt;</a>, <a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatHolder.html#aae3b7ad36e292c94edf8b7faf64a47e1">wtf::fp::detail_::FloatHolder</a>, <a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatViewHolder.html#a486dc804376c6dab66cb623201af8703">wtf::fp::detail_::FloatViewHolder&lt; FloatType &gt;</a>, <a class="el" href="structwtf_1_1type__traits_1_1TupleAppend_3_01std_1_1tuple_3_01Args0_8_8_8_01_4_00_01std_1_1tuple_3_01Args1_8_8_8_01_4_01_4.html#abc14624b0da18a26fde987794b855902">wtf::type_traits::TupleAppend&lt; std::tuple&lt; Args0... &gt;, std::tuple&lt; Args1... &gt; &gt;</a></li>
-<li>type_info&#160;:&#160;<a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatHolder.html#a6c3d04b789e2d24cd005eab6e2ed016d">wtf::fp::detail_::FloatHolder</a>, <a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatViewHolder.html#ac784a35af0effa802aabd832b6df622e">wtf::fp::detail_::FloatViewHolder&lt; FloatType &gt;</a></li>
-<li>TypeModel()&#160;:&#160;<a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeModel.html#a24682f19f5d4782fc32f05abf0d956d0">wtf::rtti::detail_::TypeModel&lt; T &gt;</a></li>
-</ul>
-</div><!-- contents -->
+<p>Determines if the type <code>T</code> can be inserted into an ostream.  
+<a href="conceptwtf_1_1concepts_1_1StreamInsertable.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="stream__insertion_8hpp_source.html">stream_insertion.hpp</a>&gt;</code></p>
+<h2 class="groupheader">Concept definition</h2>
+<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptwtf_1_1concepts_1_1StreamInsertable.html">wtf::concepts::StreamInsertable</a> =  <span class="keyword">requires</span>(std::ostream&amp; os, <span class="keyword">const</span> T&amp; obj) {</div>
+<div class="line">    { os &lt;&lt; obj } -&gt; std::same_as&lt;std::ostream&amp;&gt;;</div>
+<div class="line">}</div>
+<div class="ttc" id="aconceptwtf_1_1concepts_1_1StreamInsertable_html"><div class="ttname"><a href="conceptwtf_1_1concepts_1_1StreamInsertable.html">wtf::concepts::StreamInsertable</a></div><div class="ttdoc">Determines if the type T can be inserted into an ostream.</div><div class="ttdef"><b>Definition</b> stream_insertion.hpp:31</div></div>
+</div><!-- fragment --><a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Determines if the type <code>T</code> can be inserted into an ostream. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type to check for stream insertion support.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>The StreamInsertable concept is satisfied if an object of type <code>T</code> can be inserted into an std::ostream using the &lt;&lt; operator. Falling usual C++ conventions, this usually means that an object of type <code>T</code> can be printed. </p>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8

@@ -101,6 +101,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>holder_type</b> = <a
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
 <tr class="memitem:aee7d1cbd08cb0b830b020914f91f4916" id="r_aee7d1cbd08cb0b830b020914f91f4916"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1FloatView.html#aee7d1cbd08cb0b830b020914f91f4916">holder_pointer</a> = typename <a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatViewHolder.html#a7670427a86c6cc6ed9fd390b410235e8">holder_type::holder_pointer</a></td></tr>
 <tr class="separator:aee7d1cbd08cb0b830b020914f91f4916"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf113a18d3c7fa9bbf3d730d2709644d" id="r_adf113a18d3c7fa9bbf3d730d2709644d"><td class="memItemLeft" align="right" valign="top"><a id="adf113a18d3c7fa9bbf3d730d2709644d" name="adf113a18d3c7fa9bbf3d730d2709644d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>string_type</b> = typename <a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatViewHolder.html#a9fd597ebe151160de42138580c99fea9">holder_type::string_type</a></td></tr>
+<tr class="separator:adf113a18d3c7fa9bbf3d730d2709644d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -165,6 +168,9 @@ requires (concepts::FloatingPoint&lt;std::decay_t&lt;T&gt;&gt; &amp;&amp; (conce
 <tr class="memitem:a5bae4a02c0202d80e3316c0a33be3ebd"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1FloatView.html#a5bae4a02c0202d80e3316c0a33be3ebd">value</a> () const</td></tr>
 <tr class="memdesc:a5bae4a02c0202d80e3316c0a33be3ebd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un-type-erases the held value and returns it.  <br /></td></tr>
 <tr class="separator:a5bae4a02c0202d80e3316c0a33be3ebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a013cdab0da23233979fb7c97b56e6591" id="r_a013cdab0da23233979fb7c97b56e6591"><td class="memItemLeft" align="right" valign="top">string_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1FloatView.html#a013cdab0da23233979fb7c97b56e6591">to_string</a> () const</td></tr>
+<tr class="memdesc:a013cdab0da23233979fb7c97b56e6591"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides a string representation of the held value.  <br /></td></tr>
+<tr class="separator:a013cdab0da23233979fb7c97b56e6591"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3336677bb9ab3b5802c5f84f0142c3b" id="r_ab3336677bb9ab3b5802c5f84f0142c3b"><td class="memTemplParams" colspan="2"><a id="ab3336677bb9ab3b5802c5f84f0142c3b" name="ab3336677bb9ab3b5802c5f84f0142c3b"></a>
 template&lt;concepts::FloatingPoint T&gt; </td></tr>
 <tr class="memitem:ab3336677bb9ab3b5802c5f84f0142c3b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classwtf_1_1fp_1_1FloatView.html">FloatView</a>&lt; FloatType &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator=</b> (T other)</td></tr>
@@ -802,6 +808,43 @@ template&lt;concepts::WTFFloat FloatType&gt; </div>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a013cdab0da23233979fb7c97b56e6591" name="a013cdab0da23233979fb7c97b56e6591"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a013cdab0da23233979fb7c97b56e6591">&#9670;&#160;</a></span>to_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;concepts::WTFFloat FloatType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string_type <a class="el" href="classwtf_1_1fp_1_1FloatView.html">wtf::fp::FloatView</a>&lt; FloatType &gt;::to_string </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Provides a string representation of the held value. </p>
+<p>If *this is not holding a value, an empty string is returned.</p>
+<dl class="section return"><dt>Returns</dt><dd>A string representation of the held value.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">???</td><td>Throws if converting the held value to a string throws. Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
