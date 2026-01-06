@@ -125,6 +125,16 @@ TEMPLATE_LIST_TEST_CASE("Float", "[wtf]", test_wtf::all_fp_types) {
         Float f2(other_val);
         REQUIRE(f != f2);
     }
+
+    SECTION("to_string") {
+        if constexpr(wtf::concepts::StreamInsertable<float_t>) {
+            std::stringstream ss;
+            ss << val;
+            REQUIRE(f.to_string() == ss.str());
+        } else {
+            REQUIRE(f.to_string() == "<unprintable float>");
+        }
+    }
 }
 
 TEST_CASE("make_float", "[wtf]") {

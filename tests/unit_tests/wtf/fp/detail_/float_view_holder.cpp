@@ -113,4 +113,16 @@ TEMPLATE_LIST_TEST_CASE("FloatViewHolder", "[wtf]", all_fp_types) {
         // Different const-ness
         REQUIRE_FALSE(h.are_equal(ch));
     }
+
+    SECTION("to_string") {
+        if constexpr(wtf::concepts::StreamInsertable<float_t>) {
+            std::stringstream ss;
+            ss << val;
+            REQUIRE(h.to_string() == ss.str());
+            REQUIRE(ch.to_string() == ss.str());
+        } else {
+            REQUIRE(h.to_string() == "<unprintable float>");
+            REQUIRE(ch.to_string() == "<unprintable float>");
+        }
+    }
 }

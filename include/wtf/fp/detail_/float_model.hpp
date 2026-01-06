@@ -15,8 +15,10 @@
  */
 
 #pragma once
+#include <sstream>
 #include <utility> // for std::move, std::swap
 #include <wtf/concepts/floating_point.hpp>
+#include <wtf/concepts/stream_insertion.hpp>
 #include <wtf/fp/detail_/float_holder.hpp>
 #include <wtf/fp/detail_/float_view_model.hpp>
 #include <wtf/type_traits/float_traits.hpp>
@@ -201,6 +203,17 @@ private:
             return *this == *p;
         }
         return false;
+    }
+
+    /// Implements FloatHolder::to_string by using stringstream
+    string_type to_string_() const override {
+        if constexpr(concepts::StreamInsertable<FloatType>) {
+            std::stringstream ss;
+            ss << value_;
+            return ss.str();
+        } else {
+            return "<unprintable float>";
+        }
     }
 
     /// The value being held

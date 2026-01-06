@@ -118,6 +118,16 @@ TEMPLATE_LIST_TEST_CASE("FloatModel", "[float_model]", test_wtf::all_fp_types) {
         FloatModel<other_type> m4(other_type(3.14));
         REQUIRE_FALSE(m.are_equal(m4));
     }
+
+    SECTION("to_string_") {
+        if constexpr(wtf::concepts::StreamInsertable<float_t>) {
+            std::stringstream ss;
+            ss << val;
+            REQUIRE(m.to_string() == ss.str());
+        } else {
+            REQUIRE(m.to_string() == "<unprintable float>");
+        }
+    }
 }
 
 TEMPLATE_LIST_TEST_CASE("visit_float_model", "[float_model]",

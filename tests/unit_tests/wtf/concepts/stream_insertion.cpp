@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NWChemEx-Project
+ * Copyright 2026 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,26 @@
  * limitations under the License.
  */
 
-#pragma once
-#include <wtf/concepts/float_buffer.hpp>
-#include <wtf/concepts/floating_point.hpp>
-#include <wtf/concepts/iterator.hpp>
-#include <wtf/concepts/modifiers.hpp>
+#include "../../../test_wtf.hpp"
 #include <wtf/concepts/stream_insertion.hpp>
 
-/// Contains concepts used throughout the WTF library
-namespace wtf::concepts {}
+namespace {
+
+struct Insertable {};
+
+[[maybe_unused]] std::ostream& operator<<(std::ostream& os, const Insertable&) {
+    return os;
+}
+
+struct NotInsertable {};
+
+} // namespace
+
+TEST_CASE("StreamInsertable concept", "[wtf][concepts]") {
+    using namespace wtf::concepts;
+
+    STATIC_REQUIRE(StreamInsertable<Insertable>);
+    STATIC_REQUIRE_FALSE(StreamInsertable<NotInsertable>);
+    STATIC_REQUIRE(StreamInsertable<float>);
+    STATIC_REQUIRE(StreamInsertable<double>);
+}

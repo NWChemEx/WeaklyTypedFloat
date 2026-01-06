@@ -52,6 +52,9 @@ public:
     /// Type of a pointer to a const_float_view_type object
     using const_float_view_pointer = std::unique_ptr<const_float_view_type>;
 
+    /// Type of a string representing the held floating-point value
+    using string_type = std::string;
+
     /// Default virtual destructor
     virtual ~FloatHolder() = default;
 
@@ -170,6 +173,18 @@ public:
      */
     bool is_const() const { return is_const_(); }
 
+    /** @brief Returns a string-representation of the held value.
+     *
+     *  This method is used to get a string-representation of the floating-point
+     *  object held by *this. This method is implemented by calling
+     *  to_string_().
+     *
+     *  @return A string representing the held floating-point value.
+     *
+     *  @throw ??? Throws if converting the type-erased value to a string
+     */
+    string_type to_string() const { return to_string_(); }
+
 protected:
     /// Initializes *this with the given type info object
     explicit FloatHolder(type_info ti) : m_type_(std::move(ti)) {}
@@ -192,6 +207,9 @@ private:
 
     /// Base checks that types are equal, derived need only check values
     virtual bool are_equal_(const FloatHolder& other) const = 0;
+
+    /// Used to implement to_string_
+    virtual string_type to_string_() const = 0;
 
     /// The RTTI object for the object held by the derived class
     type_info m_type_;

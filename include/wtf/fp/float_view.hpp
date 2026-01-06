@@ -71,6 +71,7 @@ public:
     /// Add types from holder_type to API
     ///@{
     using holder_pointer = typename holder_type::holder_pointer;
+    using string_type    = typename holder_type::string_type;
     ///@}
 
     /** @brief Creates a FloatView that aliases @p value.
@@ -353,12 +354,28 @@ public:
                  (concepts::ConstQualified<T> || concepts::Unmodified<T>))
     T value() const;
 
+    /** @brief Provides a string representation of the held value.
+     *
+     *  If *this is not holding a value, an empty string is returned.
+     *
+     *  @return A string representation of the held value.
+     *
+     *  @throw ??? Throws if converting the held value to a string throws.
+     *             Strong throw guarantee.
+     */
+    string_type to_string() const {
+        return is_holding_() ? m_pfloat_->to_string() : string_type{};
+    }
+
 private:
     template<concepts::WTFFloat FloatType2>
     friend class FloatView;
 
     template<concepts::FloatingPoint T>
     friend auto make_float_view(T& value);
+
+    /// Determines if *this is holding a value or not
+    bool is_holding_() const noexcept { return m_pfloat_ != nullptr; }
 
     /// The holder object
     holder_pointer m_pfloat_;

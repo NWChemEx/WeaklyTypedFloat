@@ -44,6 +44,9 @@ public:
     /// Type of a read-only view acting like *this
     using const_view_type = FloatView<const Float>;
 
+    /// Type of converting *this to a string
+    using string_type = holder_type::string_type;
+
     // -------------------------------------------------------------------------
     // Ctors and assignment operators
     // -------------------------------------------------------------------------
@@ -201,7 +204,23 @@ public:
      */
     bool operator!=(const Float& other) const { return !(*this == other); }
 
+    /** @brief Provides a string representation of the held value.
+     *
+     *  If *this is not holding a value, an empty string is returned.
+     *
+     *  @return A string representation of the held value.
+     *
+     *  @throw ??? Throws if converting the held value to a string throws.
+     *             Strong throw guarantee.
+     */
+    string_type to_string() const {
+        return is_holding_() ? m_holder_->to_string() : string_type{};
+    }
+
 private:
+    /// Determines if *this is holding a value or not
+    bool is_holding_() const noexcept { return m_holder_ != nullptr; }
+
     template<typename TupleType, typename Visitor, typename... Args>
     friend auto visit_float(Visitor&& visitor, Args&&... args);
 
