@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <sstream>
 #include <utility> // for std::move, std::swap
 #include <wtf/concepts/floating_point.hpp>
 #include <wtf/concepts/stream_insertion.hpp>
