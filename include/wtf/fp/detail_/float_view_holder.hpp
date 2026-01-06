@@ -54,6 +54,9 @@ public:
     /// Read-only reference to type_info object
     using const_type_info_reference = const type_info&;
 
+    /// Type of a string representation of *this
+    using string_type = std::string;
+
     /// Default virtual destructor
     virtual ~FloatViewHolder() = default;
 
@@ -177,6 +180,18 @@ public:
         }
     }
 
+    /** @brief Returns a string-representation of the held value.
+     *
+     *  This method is used to get a string-representation of the floating-point
+     *  object held by *this. This method is implemented by calling
+     *  to_string_().
+     *
+     *  @return A string representing the held floating-point value.
+     *
+     *  @throw ??? Throws if converting the type-erased value to a string
+     */
+    string_type to_string() const { return to_string_(); }
+
 protected:
     /// Initializes *this with the given type info object
     explicit FloatViewHolder(type_info ti) : m_type_(std::move(ti)) {}
@@ -193,6 +208,9 @@ private:
 
     /// Base checks that types are equal, derived need only check values
     virtual bool are_equal_(const_holder_reference other) const = 0;
+
+    /// Derived class should override to provide string representation
+    virtual string_type to_string_() const = 0;
 
     /// The RTTI object for the object held by the derived class
     type_info m_type_;

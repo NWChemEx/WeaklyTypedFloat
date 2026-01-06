@@ -274,6 +274,18 @@ TEMPLATE_LIST_TEST_CASE("FloatView", "[wtf]", test_wtf::all_fp_types) {
         REQUIRE_THROWS_AS(f_const.template value<other_t>(),
                           std::runtime_error);
     }
+
+    SECTION("to_string") {
+        if constexpr(wtf::concepts::StreamInsertable<float_t>) {
+            std::stringstream ss;
+            ss << val;
+            REQUIRE(f.to_string() == ss.str());
+            REQUIRE(cf.to_string() == ss.str());
+        } else {
+            REQUIRE(f.to_string() == "<unprintable float>");
+            REQUIRE(cf.to_string() == "<unprintable float>");
+        }
+    }
 }
 
 TEST_CASE("float_cast(FloatView)", "[wtf]") {

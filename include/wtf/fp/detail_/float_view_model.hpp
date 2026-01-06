@@ -17,6 +17,7 @@
 #pragma once
 #include <utility> // for std::move, std::swap
 #include <wtf/concepts/floating_point.hpp>
+#include <wtf/concepts/stream_insertion.hpp>
 #include <wtf/forward.hpp>
 #include <wtf/fp/detail_/float_view_holder.hpp>
 #include <wtf/type_traits/float_traits.hpp>
@@ -58,6 +59,7 @@ public:
     ///@{
     using const_holder_type = typename holder_type::const_holder_type;
     using typename holder_type::const_holder_reference;
+    using typename holder_type::string_type;
     ///@}
 
     /// Type defining the traits for FloatType
@@ -214,12 +216,23 @@ private:
         }
     }
 
-    /// Implements FloatHolder::are_equal by downcasting and calling operator==
+    /// Implements are_equal by downcasting and calling operator==
     bool are_equal_(const_holder_reference other) const override {
         if(auto* p = dynamic_cast<const FloatViewModel*>(&other)) {
             return *this == *p;
         }
         return false;
+    }
+
+    /// Implements FloatViewHolder::to_string by using stringstream
+    string_type to_string_() const override {
+        if constexpr(concepts::StreamInsertable<FloatType>) {
+            std::stringstream ss;
+            ss << *m_pvalue_;
+            return ss.str();
+        } else {
+            return "<unprintable float>";
+        }
     }
 
     /// The value being aliased

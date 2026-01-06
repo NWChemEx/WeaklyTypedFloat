@@ -180,4 +180,16 @@ TEMPLATE_LIST_TEST_CASE("FloatViewModel", "[float_model]",
         // Different const-ness
         REQUIRE_FALSE(m.are_equal(cm));
     }
+
+    SECTION("to_string_") {
+        if constexpr(wtf::concepts::StreamInsertable<float_t>) {
+            std::stringstream ss;
+            ss << val;
+            REQUIRE(m.to_string() == ss.str());
+            REQUIRE(cm.to_string() == ss.str());
+        } else {
+            REQUIRE(m.to_string() == "<unprintable float>");
+            REQUIRE(cm.to_string() == "<unprintable float>");
+        }
+    }
 }

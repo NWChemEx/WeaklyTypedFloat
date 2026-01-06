@@ -65,4 +65,14 @@ TEMPLATE_LIST_TEST_CASE("FloatHolder", "[wtf]", all_fp_types) {
         holder_t& h4 = m4;
         REQUIRE_FALSE(h.are_equal(h4));
     }
+
+    SECTION("to_string") {
+        if constexpr(wtf::concepts::StreamInsertable<float_t>) {
+            std::stringstream ss;
+            ss << val;
+            REQUIRE(h.to_string() == ss.str());
+        } else {
+            REQUIRE(h.to_string() == "<unprintable float>");
+        }
+    }
 }
