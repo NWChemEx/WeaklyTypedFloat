@@ -46,7 +46,6 @@ public:
     /// Pull types from holder_type to make them part of this class's API
     ///@{
     using holder_pointer         = holder_type::holder_pointer;
-    using precision_type         = holder_type::precision_type;
     using const_string_reference = holder_type::const_string_reference;
     ///@}
 
@@ -66,26 +65,6 @@ public:
      *  @throw None No throw guarantee.
      */
     const_string_reference name() const noexcept;
-
-    /** @brief The number of significant digits, in base 10.
-     *
-     *  When converting among floating-point types, it is important to know
-     *  how many significant digits a type can represent. This method
-     *  provides that information.
-     *
-     *  @note For standard floating-point types, this method relies on
-     *        std::numeric_limits<T>::digits10. For custom floating-point
-     *        types, the user must provide a specialization of
-     *        wtf::type_traits::Precision to get the return to be correct. If
-     *        the user does not provide such a specialization, this method will
-     *        return 0.
-     *
-     *  @return The number of significant digits, in base 10, that the held
-     *          type can represent.
-     *
-     *  @throw None No throw guarantee.
-     */
-    precision_type precision() const noexcept;
 
     // -------------------------------------------------------------------------
     // Utility functions
@@ -122,7 +101,7 @@ public:
     bool operator!=(const TypeInfo& other) const;
 
 private:
-    template<concepts::FloatingPoint T>
+    template<typename T>
     friend TypeInfo wtf_typeid();
 
     template<typename TupleType>
@@ -153,10 +132,7 @@ private:
      *  @param[in] other The type info for the type we want to convert to.
      */
     template<typename TypeTuple>
-    bool is_implicitly_convertible_to(const TypeInfo& other) const {
-        const auto& holder2 = other.holder_();
-        return holder_().is_implicitly_convertible_to<TypeTuple>(holder2);
-    }
+    bool is_implicitly_convertible_to(const TypeInfo& other) const;
 
     /// Wraps the process of dereferencing m_holder_
     holder_reference holder_();
@@ -210,11 +186,21 @@ bool is_implicitly_convertible(const TypeInfo& ti1, const TypeInfo& ti2) {
  * This function is the preferred way to create new instances of TypeInfo
  * objects.
  */
-template<concepts::FloatingPoint T>
+template<typename T>
 TypeInfo wtf_typeid() {
     auto name = type_traits::type_name_v<std::decay_t<T>>;
     detail_::TypeModel<T> model(name);
     return TypeInfo(model.get_model());
+}
+
+// -----------------------------------------------------------------------------
+// Out of line definitions
+// -----------------------------------------------------------------------------
+
+template<typename TypeTuple>
+bool TypeInfo::is_implicitly_convertible_to(const TypeInfo& other) const {
+    const auto& holder2 = other.holder_();
+    return holder_().is_implicitly_convertible_to<TypeTuple>(holder2);
 }
 
 } // namespace wtf::rtti

@@ -144,6 +144,11 @@ TEMPLATE_LIST_TEST_CASE("FloatView", "[wtf]", test_wtf::all_fp_types) {
         }
     }
 
+    SECTION("Type info") {
+        REQUIRE(f.type_info() == wtf::rtti::wtf_typeid<float_t>());
+        REQUIRE(cf.type_info() == wtf::rtti::wtf_typeid<const float_t>());
+    }
+
     SECTION("swap") {
         float_t val2 = 0;
         auto f2      = make_float_view(val2);

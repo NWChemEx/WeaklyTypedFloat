@@ -18,6 +18,7 @@
 #include <memory>
 #include <wtf/concepts/floating_point.hpp>
 #include <wtf/fp/detail_/float_model.hpp>
+#include <wtf/fp/float_base.hpp>
 #include <wtf/fp/float_view.hpp>
 #include <wtf/warnings.hpp>
 
@@ -30,7 +31,11 @@ namespace wtf::fp {
  *  mutable as long as *this is not const. This is because *this owns the value
  *  it stores and does NOT alias it.
  */
-class Float {
+class Float : public FloatBase<Float> {
+private:
+    /// The type *this derives from
+    using base_type = FloatBase<Float>;
+
 public:
     /// Type defining the API for accessing the type-erased value
     using holder_type = detail_::FloatHolder;
@@ -46,6 +51,11 @@ public:
 
     /// Type of converting *this to a string
     using string_type = holder_type::string_type;
+
+    /// Pull in types from the base class
+    ///@{
+    using typename base_type::rtti_type;
+    ///@}
 
     // -------------------------------------------------------------------------
     // Ctors and assignment operators
@@ -236,6 +246,22 @@ private:
 
     /// Creates a Float from an already existing holder. Used by make_float.
     explicit Float(holder_pointer holder) : m_holder_(std::move(holder)) {}
+
+    /** @brief Returns the RTTI of the held float.
+     *
+     *  This method returns the RTTI information for the floating-point type.
+     *  If *this does not hold a value, the RTTI information will describe a
+     *  nullptr_t type.
+     *
+     *  @return The RTTI for the held floating-point type.
+     *
+     *  @throw std::bad_alloc if there is a problem creating the type info.
+     *                        Strong throw guarantee.
+     */
+    rtti_type type_info_() const override {
+        return is_holding_() ? m_holder_->type() :
+                               rtti::wtf_typeid<std::nullptr_t>();
+    }
 
     /// The holder that implements the type-erased floating-point API
     holder_pointer m_holder_;
