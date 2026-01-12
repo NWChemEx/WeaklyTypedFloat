@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include <wtf/concepts/floating_point.hpp>
+#include <wtf/concepts/modifiers.hpp>
 
 namespace wtf::type_traits {
 
@@ -29,8 +29,14 @@ namespace wtf::type_traits {
  *  for C++'s built-in floating point types. User-defined floating point types
  *  can be supported by specializing this template for the user-defined type.
  */
-template<concepts::UnmodifiedFloatingPoint T>
+template<concepts::Unmodified T>
 struct TypeName;
+
+/// Specializes TypeName for nullptr_t
+template<>
+struct TypeName<std::nullptr_t> {
+    static constexpr auto value = "nullptr";
+};
 
 /// Specializes TypeName for float
 template<>
@@ -52,13 +58,13 @@ struct TypeName<long double> {
 
 /** @brief A variable template for converting @p T to a string.
  *
- *  @tparam T A floating-point type without any type modifiers.
+ *  @tparam T An unmodified type.
  *
  *  This variable template is simply a convenient shorthand for getting at the
  *  `value` member of the TypeName<T> struct.
  *
  */
-template<concepts::UnmodifiedFloatingPoint T>
+template<concepts::Unmodified T>
 constexpr auto type_name_v = TypeName<T>::value;
 
 } // namespace wtf::type_traits

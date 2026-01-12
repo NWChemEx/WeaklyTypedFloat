@@ -81,6 +81,10 @@ TEMPLATE_LIST_TEST_CASE("Float", "[wtf]", test_wtf::all_fp_types) {
         REQUIRE(f == make_float(other_t(3.14)));
     }
 
+    SECTION("Type info") {
+        REQUIRE(f.type_info() == wtf::rtti::wtf_typeid<float_t>());
+    }
+
     SECTION("swap") {
         Float f2 = make_float(float_t(0));
         f.swap(f2);

@@ -20,7 +20,6 @@ namespace wtf::rtti {
 using holder_reference       = TypeInfo::holder_reference;
 using const_holder_reference = TypeInfo::const_holder_reference;
 using const_string_reference = TypeInfo::const_string_reference;
-using precision_type         = TypeInfo::precision_type;
 
 TypeInfo::TypeInfo(holder_pointer holder) : m_holder_(std::move(holder)) {}
 
@@ -30,10 +29,6 @@ TypeInfo::TypeInfo(holder_pointer holder) : m_holder_(std::move(holder)) {}
 
 const_string_reference TypeInfo::name() const noexcept {
     return holder_().name();
-}
-
-precision_type TypeInfo::precision() const noexcept {
-    return holder_().precision();
 }
 
 // -----------------------------------------------------------------------------

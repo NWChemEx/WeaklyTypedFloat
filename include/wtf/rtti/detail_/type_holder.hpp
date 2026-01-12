@@ -19,13 +19,12 @@
 #include <map>
 #include <memory>
 #include <string>
-#include <wtf/concepts/floating_point.hpp>
 #include <wtf/detail_/dispatcher.hpp>
 #include <wtf/type_traits/is_convertible.hpp>
 
 namespace wtf::rtti::detail_ {
 
-template<concepts::FloatingPoint T>
+template<typename T>
 class TypeModel;
 
 /** @brief Defines the interface for interacting with the type-erased type.
@@ -44,9 +43,6 @@ public:
 
     /// Type of pointer used to hold TypeHolder instances
     using holder_pointer = std::shared_ptr<TypeHolder>;
-
-    /// Type used for specifying precision of floating-point types
-    using precision_type = std::size_t;
 
     /// Default virtual destructor
     virtual ~TypeHolder() = default;
@@ -82,19 +78,6 @@ public:
      */
     const_string_reference name() const { return name_(); }
 
-    /** @brief In base 10, the number of significant digits this type can hold.
-     *
-     *  The value returned by this method is determined by the
-     *  type_traits::Precision class. See the documentation for that class for
-     *  more information. The logic for determining the precision is in the
-     *  private precision_ method.
-     *
-     *  @return The number of significant digits the held type can represent.
-     *
-     *  @throw None No throw guarantee.
-     */
-    precision_type precision() const { return precision_(); }
-
     /** @brief True if the held type is const-qualified and false otherwise.
      *
      *  The derived class uses template meta-programming to determine if the
@@ -106,6 +89,20 @@ public:
      *  @throw None No throw guarantee.
      */
     bool is_const() const { return is_const_(); }
+
+    /** @brief True if the held type is std::nullptr_t or a qualified version of
+     *         it.
+     *
+     *  The derived class uses template meta-programming to determine if the
+     *  held type is std::nullptr_t (or a qualified version of it). This logic
+     *  is implemented by the private is_nullptr_ method.
+     *
+     *  @return True if the derived class holds std::nullptr_t (or a qualified
+     *          version of it) and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    bool is_nullptr() const { return is_nullptr_(); }
 
     /** @brief Returns a TypeHolder for the const version of the type held by
      *         *this.
@@ -181,11 +178,11 @@ private:
     /// Derived class overwrites to provide the name of the held type
     virtual const_string_reference name_() const = 0;
 
-    /// Derived class overwrites to provide the precision of the held type
-    virtual precision_type precision_() const = 0;
-
     /// Derived class overwrites to provide whether the held type is const
     virtual bool is_const_() const = 0;
+
+    /// Derived class overwrites to provide whether the held type is const
+    virtual bool is_nullptr_() const = 0;
 
     /// Derived class overwrites to provide a const-qualified version of *this
     virtual holder_pointer make_const_() const = 0;
@@ -203,6 +200,14 @@ private:
 
 template<typename TypeTuple>
 bool TypeHolder::is_implicitly_convertible_to(const TypeHolder& other) const {
+    // Cannot convert away const-qualification
+    if(is_const() && !other.is_const()) return false;
+
+    // Handle nullptr_t conversions
+    bool this_null  = this->is_nullptr();
+    bool other_null = other.is_nullptr();
+    if(this_null || other_null) { return this_null && other_null; }
+
     auto lambda = [](auto&& from, auto&& to) {
         using from_type = typename std::decay_t<decltype(from)>::value_type;
         using to_type   = typename std::decay_t<decltype(to)>::value_type;
@@ -211,8 +216,7 @@ bool TypeHolder::is_implicitly_convertible_to(const TypeHolder& other) const {
         return wtf::type_traits::is_convertible_v<clean_from_type,
                                                   clean_to_type>;
     };
-    // Cannot convert away const-qualification
-    if(is_const() && !other.is_const()) return false;
+
     return wtf::detail_::dispatch<TypeModel, TypeTuple>(lambda, *this, other);
 }
 

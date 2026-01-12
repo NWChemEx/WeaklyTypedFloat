@@ -15,13 +15,16 @@
  */
 
 #include "../../../test_wtf.hpp"
+#include <tuple>
 #include <wtf/rtti/type_info.hpp>
+#include <wtf/type_traits/tuple_append.hpp>
 #include <wtf/type_traits/type_traits.hpp>
 
 using namespace wtf;
 using namespace test_wtf;
-
-TEMPLATE_LIST_TEST_CASE("TypeInfo", "[wtf][rtti]", all_fp_types) {
+using types2test = type_traits::tuple_append_t<test_wtf::all_fp_types,
+                                               std::tuple<std::nullptr_t>>;
+TEMPLATE_LIST_TEST_CASE("TypeInfo", "[wtf][rtti]", types2test) {
     constexpr bool is_float = std::is_same_v<TestType, float>;
     using other_t           = std::conditional_t<is_float, double, float>;
     auto ti                 = rtti::wtf_typeid<TestType>();
@@ -78,12 +81,6 @@ TEMPLATE_LIST_TEST_CASE("TypeInfo", "[wtf][rtti]", all_fp_types) {
     SECTION("name") {
         REQUIRE(ti.name() == name);
         REQUIRE(const_ti.name() == std::string("const ") + name);
-    }
-
-    SECTION("precision") {
-        auto corr = type_traits::precision_v<TestType>;
-        REQUIRE(ti.precision() == corr);
-        REQUIRE(const_ti.precision() == corr);
     }
 
     SECTION("operator==") {
