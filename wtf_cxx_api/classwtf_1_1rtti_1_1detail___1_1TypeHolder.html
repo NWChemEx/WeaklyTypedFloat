@@ -111,10 +111,6 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>const_string_referen
 using&#160;</td><td class="memItemRight" valign="bottom"><b>holder_pointer</b> = std::shared_ptr&lt; <a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html">TypeHolder</a> &gt;</td></tr>
 <tr class="memdesc:ae52a9d2ee4a3beb511939901420992be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of pointer used to hold <a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html" title="Defines the interface for interacting with the type-erased type.">TypeHolder</a> instances. <br /></td></tr>
 <tr class="separator:ae52a9d2ee4a3beb511939901420992be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5eabad7f2c9298e3071202ad8ad1cb2" id="r_ac5eabad7f2c9298e3071202ad8ad1cb2"><td class="memItemLeft" align="right" valign="top"><a id="ac5eabad7f2c9298e3071202ad8ad1cb2" name="ac5eabad7f2c9298e3071202ad8ad1cb2"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>precision_type</b> = std::size_t</td></tr>
-<tr class="memdesc:ac5eabad7f2c9298e3071202ad8ad1cb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used for specifying precision of floating-point types. <br /></td></tr>
-<tr class="separator:ac5eabad7f2c9298e3071202ad8ad1cb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -128,12 +124,12 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~TypeHolder</b> ()
 <tr class="memitem:ac95420ca9eca67fae28b644a9ad62c55" id="r_ac95420ca9eca67fae28b644a9ad62c55"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#a463d448cc51d8759bdd5e04fb28b1b65">const_string_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#ac95420ca9eca67fae28b644a9ad62c55">name</a> () const</td></tr>
 <tr class="memdesc:ac95420ca9eca67fae28b644a9ad62c55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a human-readable name for the type.  <br /></td></tr>
 <tr class="separator:ac95420ca9eca67fae28b644a9ad62c55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1995f1e2c1d206ff8301dc1ed45d3520" id="r_a1995f1e2c1d206ff8301dc1ed45d3520"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#ac5eabad7f2c9298e3071202ad8ad1cb2">precision_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#a1995f1e2c1d206ff8301dc1ed45d3520">precision</a> () const</td></tr>
-<tr class="memdesc:a1995f1e2c1d206ff8301dc1ed45d3520"><td class="mdescLeft">&#160;</td><td class="mdescRight">In base 10, the number of significant digits this type can hold.  <br /></td></tr>
-<tr class="separator:a1995f1e2c1d206ff8301dc1ed45d3520"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7d7d8c4ff2e8bac4fc8b2a97b8350df" id="r_ab7d7d8c4ff2e8bac4fc8b2a97b8350df"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#ab7d7d8c4ff2e8bac4fc8b2a97b8350df">is_const</a> () const</td></tr>
 <tr class="memdesc:ab7d7d8c4ff2e8bac4fc8b2a97b8350df"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if the held type is const-qualified and false otherwise.  <br /></td></tr>
 <tr class="separator:ab7d7d8c4ff2e8bac4fc8b2a97b8350df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8b4bbe1188fa1faff10716f7987bb6f" id="r_ac8b4bbe1188fa1faff10716f7987bb6f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#ac8b4bbe1188fa1faff10716f7987bb6f">is_nullptr</a> () const</td></tr>
+<tr class="memdesc:ac8b4bbe1188fa1faff10716f7987bb6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if the held type is std::nullptr_t or a qualified version of it.  <br /></td></tr>
+<tr class="separator:ac8b4bbe1188fa1faff10716f7987bb6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39fbe3b350c2539927044556afa60be9" id="r_a39fbe3b350c2539927044556afa60be9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#ae52a9d2ee4a3beb511939901420992be">holder_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#a39fbe3b350c2539927044556afa60be9">make_const</a> () const</td></tr>
 <tr class="memdesc:a39fbe3b350c2539927044556afa60be9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html" title="Defines the interface for interacting with the type-erased type.">TypeHolder</a> for the const version of the type held by *this.  <br /></td></tr>
 <tr class="separator:a39fbe3b350c2539927044556afa60be9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -315,6 +311,41 @@ template&lt;typename TypeTuple &gt; </div>
 
 </div>
 </div>
+<a id="ac8b4bbe1188fa1faff10716f7987bb6f" name="ac8b4bbe1188fa1faff10716f7987bb6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8b4bbe1188fa1faff10716f7987bb6f">&#9670;&#160;</a></span>is_nullptr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool wtf::rtti::detail_::TypeHolder::is_nullptr </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>True if the held type is std::nullptr_t or a qualified version of it. </p>
+<p>The derived class uses template meta-programming to determine if the held type is std::nullptr_t (or a qualified version of it). This logic is implemented by the private is_nullptr_ method.</p>
+<dl class="section return"><dt>Returns</dt><dd>True if the derived class holds std::nullptr_t (or a qualified version of it) and false otherwise.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a39fbe3b350c2539927044556afa60be9" name="a39fbe3b350c2539927044556afa60be9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a39fbe3b350c2539927044556afa60be9">&#9670;&#160;</a></span>make_const()</h2>
 
@@ -376,41 +407,6 @@ template&lt;typename TypeTuple &gt; </div>
 <p>Returns a human-readable name for the type. </p>
 <p>When a TypeModel&lt;T&gt; is constructed, it is given a name to represent the type. This name, plus any cv-qualifiers necessary, are applied to the name returned by this method. The logic for determining the name is in the private name_ method.</p>
 <dl class="section return"><dt>Returns</dt><dd>A string representing the name of the held type.</dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a1995f1e2c1d206ff8301dc1ed45d3520" name="a1995f1e2c1d206ff8301dc1ed45d3520"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1995f1e2c1d206ff8301dc1ed45d3520">&#9670;&#160;</a></span>precision()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#ac5eabad7f2c9298e3071202ad8ad1cb2">precision_type</a> wtf::rtti::detail_::TypeHolder::precision </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>In base 10, the number of significant digits this type can hold. </p>
-<p>The value returned by this method is determined by the <a class="el" href="structwtf_1_1type__traits_1_1Precision.html" title="Used to determine how many significant figures T has.">type_traits::Precision</a> class. See the documentation for that class for more information. The logic for determining the precision is in the private precision_ method.</p>
-<dl class="section return"><dt>Returns</dt><dd>The number of significant digits the held type can represent.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>

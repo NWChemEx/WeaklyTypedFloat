@@ -105,9 +105,6 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>const_holder_referen
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
 <tr class="memitem:ab7ac8f7ef4aad84b1b84c8bb2f0527b8" id="r_ab7ac8f7ef4aad84b1b84c8bb2f0527b8"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1rtti_1_1TypeInfo.html#ab7ac8f7ef4aad84b1b84c8bb2f0527b8">holder_pointer</a> = <a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#ae52a9d2ee4a3beb511939901420992be">holder_type::holder_pointer</a></td></tr>
 <tr class="separator:ab7ac8f7ef4aad84b1b84c8bb2f0527b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc533f1dcdf165d0fe856bb3ee901971" id="r_afc533f1dcdf165d0fe856bb3ee901971"><td class="memItemLeft" align="right" valign="top"><a id="afc533f1dcdf165d0fe856bb3ee901971" name="afc533f1dcdf165d0fe856bb3ee901971"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>precision_type</b> = <a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#ac5eabad7f2c9298e3071202ad8ad1cb2">holder_type::precision_type</a></td></tr>
-<tr class="separator:afc533f1dcdf165d0fe856bb3ee901971"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0993aa0e8c3c818634abcfb08662d74d" id="r_a0993aa0e8c3c818634abcfb08662d74d"><td class="memItemLeft" align="right" valign="top"><a id="a0993aa0e8c3c818634abcfb08662d74d" name="a0993aa0e8c3c818634abcfb08662d74d"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>const_string_reference</b> = <a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#a463d448cc51d8759bdd5e04fb28b1b65">holder_type::const_string_reference</a></td></tr>
 <tr class="separator:a0993aa0e8c3c818634abcfb08662d74d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -117,9 +114,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a91dcad70bde6233d02983a84e4ca7aaa" id="r_a91dcad70bde6233d02983a84e4ca7aaa"><td class="memItemLeft" align="right" valign="top">const_string_reference&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1rtti_1_1TypeInfo.html#a91dcad70bde6233d02983a84e4ca7aaa">name</a> () const noexcept</td></tr>
 <tr class="memdesc:a91dcad70bde6233d02983a84e4ca7aaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">The name of the type held by *this.  <br /></td></tr>
 <tr class="separator:a91dcad70bde6233d02983a84e4ca7aaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16fe5ed3a04eaba4506000e2b7bd9983" id="r_a16fe5ed3a04eaba4506000e2b7bd9983"><td class="memItemLeft" align="right" valign="top">precision_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1rtti_1_1TypeInfo.html#a16fe5ed3a04eaba4506000e2b7bd9983">precision</a> () const noexcept</td></tr>
-<tr class="memdesc:a16fe5ed3a04eaba4506000e2b7bd9983"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of significant digits, in base 10.  <br /></td></tr>
-<tr class="separator:a16fe5ed3a04eaba4506000e2b7bd9983"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af179fb7d3f5c8db85403341c6ab20a32" id="r_af179fb7d3f5c8db85403341c6ab20a32"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1rtti_1_1TypeInfo.html#af179fb7d3f5c8db85403341c6ab20a32">operator==</a> (const <a class="el" href="classwtf_1_1rtti_1_1TypeInfo.html">TypeInfo</a> &amp;other) const</td></tr>
 <tr class="memdesc:af179fb7d3f5c8db85403341c6ab20a32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if *this is value equal to <code>other</code>.  <br /></td></tr>
 <tr class="separator:af179fb7d3f5c8db85403341c6ab20a32"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -130,7 +124,7 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
 <tr class="memitem:a97b3019fb2af9ac1319490e9021b8c04" id="r_a97b3019fb2af9ac1319490e9021b8c04"><td class="memTemplParams" colspan="2"><a id="a97b3019fb2af9ac1319490e9021b8c04" name="a97b3019fb2af9ac1319490e9021b8c04"></a>
-template&lt;concepts::FloatingPoint T&gt; </td></tr>
+template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a97b3019fb2af9ac1319490e9021b8c04"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classwtf_1_1rtti_1_1TypeInfo.html">TypeInfo</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><b>wtf_typeid</b> ()</td></tr>
 <tr class="separator:a97b3019fb2af9ac1319490e9021b8c04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04b1c2562dcaac75ae4f0303c5b37ef5" id="r_a04b1c2562dcaac75ae4f0303c5b37ef5"><td class="memTemplParams" colspan="2"><a id="a04b1c2562dcaac75ae4f0303c5b37ef5" name="a04b1c2562dcaac75ae4f0303c5b37ef5"></a>
@@ -146,7 +140,7 @@ Related Symbols</h2></td></tr>
 <tr class="memitem:a04b1c2562dcaac75ae4f0303c5b37ef5"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1rtti_1_1TypeInfo.html#a04b1c2562dcaac75ae4f0303c5b37ef5">is_implicitly_convertible</a> (const <a class="el" href="classwtf_1_1rtti_1_1TypeInfo.html">TypeInfo</a> &amp;ti1, const <a class="el" href="classwtf_1_1rtti_1_1TypeInfo.html">TypeInfo</a> &amp;ti2)</td></tr>
 <tr class="memdesc:a04b1c2562dcaac75ae4f0303c5b37ef5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Can the type held by <code>ti1</code> be implicitly converted to the type held by <code>ti2</code>?  <br /></td></tr>
 <tr class="separator:a04b1c2562dcaac75ae4f0303c5b37ef5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97b3019fb2af9ac1319490e9021b8c04" id="r_a97b3019fb2af9ac1319490e9021b8c04"><td class="memTemplParams" colspan="2">template&lt;concepts::FloatingPoint T&gt; </td></tr>
+<tr class="memitem:a97b3019fb2af9ac1319490e9021b8c04" id="r_a97b3019fb2af9ac1319490e9021b8c04"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a97b3019fb2af9ac1319490e9021b8c04"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classwtf_1_1rtti_1_1TypeInfo.html">TypeInfo</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1rtti_1_1TypeInfo.html#a97b3019fb2af9ac1319490e9021b8c04">wtf_typeid</a> ()</td></tr>
 <tr class="memdesc:a97b3019fb2af9ac1319490e9021b8c04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classwtf_1_1rtti_1_1TypeInfo.html" title="Custom RTTI class for floating-point types.">TypeInfo</a> object for type <code>T</code>.  <br /></td></tr>
 <tr class="separator:a97b3019fb2af9ac1319490e9021b8c04"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -275,42 +269,6 @@ Related Symbols</h2></td></tr>
 
 </div>
 </div>
-<a id="a16fe5ed3a04eaba4506000e2b7bd9983" name="a16fe5ed3a04eaba4506000e2b7bd9983"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16fe5ed3a04eaba4506000e2b7bd9983">&#9670;&#160;</a></span>precision()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">precision_type wtf::rtti::TypeInfo::precision </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The number of significant digits, in base 10. </p>
-<p>When converting among floating-point types, it is important to know how many significant digits a type can represent. This method provides that information.</p>
-<dl class="section note"><dt>Note</dt><dd>For standard floating-point types, this method relies on std::numeric_limits&lt;T&gt;::digits10. For custom floating-point types, the user must provide a specialization of <a class="el" href="structwtf_1_1type__traits_1_1Precision.html" title="Used to determine how many significant figures T has.">wtf::type_traits::Precision</a> to get the return to be correct. If the user does not provide such a specialization, this method will return 0.</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>The number of significant digits, in base 10, that the held type can represent.</dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <h2 class="groupheader">Friends And Related Symbol Documentation</h2>
 <a id="a04b1c2562dcaac75ae4f0303c5b37ef5" name="a04b1c2562dcaac75ae4f0303c5b37ef5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a04b1c2562dcaac75ae4f0303c5b37ef5">&#9670;&#160;</a></span>is_implicitly_convertible()</h2>
@@ -381,7 +339,7 @@ template&lt;typename TupleType &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;concepts::FloatingPoint T&gt; </div>
+template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">

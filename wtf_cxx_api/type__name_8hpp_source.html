@@ -98,40 +98,47 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#pragma once</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &lt;wtf/concepts/floating_point.hpp&gt;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &lt;wtf/concepts/modifiers.hpp&gt;</span></div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacewtf_1_1type__traits.html">wtf::type_traits</a> {</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keyword">template</span>&lt;concepts::UnmodifiedFloatingPo<span class="keywordtype">int</span> T&gt;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keyword">template</span>&lt;concepts::Unmodified T&gt;</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="structwtf_1_1type__traits_1_1TypeName.html">   33</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structwtf_1_1type__traits_1_1TypeName.html">TypeName</a>;</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="keyword">template</span>&lt;&gt;</div>
 <div class="foldopen" id="foldopen00037" data-start="{" data-end="};">
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="structwtf_1_1type__traits_1_1TypeName_3_01float_01_4.html">   37</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structwtf_1_1type__traits_1_1TypeName.html">TypeName</a>&lt;float&gt; {</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">auto</span> value = <span class="stringliteral">&quot;float&quot;</span>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="structwtf_1_1type__traits_1_1TypeName_3_01std_1_1nullptr__t_01_4.html">   37</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structwtf_1_1type__traits_1_1TypeName.html">TypeName</a>&lt;std::nullptr_t&gt; {</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">auto</span> value = <span class="stringliteral">&quot;nullptr&quot;</span>;</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>};</div>
 </div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keyword">template</span>&lt;&gt;</div>
 <div class="foldopen" id="foldopen00043" data-start="{" data-end="};">
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="structwtf_1_1type__traits_1_1TypeName_3_01double_01_4.html">   43</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structwtf_1_1type__traits_1_1TypeName.html">TypeName</a>&lt;double&gt; {</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">auto</span> value = <span class="stringliteral">&quot;double&quot;</span>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="structwtf_1_1type__traits_1_1TypeName_3_01float_01_4.html">   43</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structwtf_1_1type__traits_1_1TypeName.html">TypeName</a>&lt;float&gt; {</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">auto</span> value = <span class="stringliteral">&quot;float&quot;</span>;</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>};</div>
 </div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">template</span>&lt;&gt;</div>
 <div class="foldopen" id="foldopen00049" data-start="{" data-end="};">
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="structwtf_1_1type__traits_1_1TypeName_3_01long_01double_01_4.html">   49</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structwtf_1_1type__traits_1_1TypeName.html">TypeName</a>&lt;long double&gt; {</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">auto</span> value = <span class="stringliteral">&quot;long double&quot;</span>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="structwtf_1_1type__traits_1_1TypeName_3_01double_01_4.html">   49</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structwtf_1_1type__traits_1_1TypeName.html">TypeName</a>&lt;double&gt; {</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">auto</span> value = <span class="stringliteral">&quot;double&quot;</span>;</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>};</div>
 </div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keyword">template</span>&lt;concepts::UnmodifiedFloatingPo<span class="keywordtype">int</span> T&gt;</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="namespacewtf_1_1type__traits.html#ae8d4ea47e87391c41d6464465dd1bdd5">   62</a></span><span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_variable" href="namespacewtf_1_1type__traits.html#ae8d4ea47e87391c41d6464465dd1bdd5">type_name_v</a> = <a class="code hl_struct" href="structwtf_1_1type__traits_1_1TypeName.html">TypeName&lt;T&gt;::value</a>;</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>} <span class="comment">// namespace wtf::type_traits</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="keyword">template</span>&lt;&gt;</div>
+<div class="foldopen" id="foldopen00055" data-start="{" data-end="};">
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="structwtf_1_1type__traits_1_1TypeName_3_01long_01double_01_4.html">   55</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structwtf_1_1type__traits_1_1TypeName.html">TypeName</a>&lt;long double&gt; {</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">auto</span> value = <span class="stringliteral">&quot;long double&quot;</span>;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>};</div>
+</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="keyword">template</span>&lt;concepts::Unmodified T&gt;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="namespacewtf_1_1type__traits.html#ae8d4ea47e87391c41d6464465dd1bdd5">   68</a></span><span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_variable" href="namespacewtf_1_1type__traits.html#ae8d4ea47e87391c41d6464465dd1bdd5">type_name_v</a> = <a class="code hl_struct" href="structwtf_1_1type__traits_1_1TypeName.html">TypeName&lt;T&gt;::value</a>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>} <span class="comment">// namespace wtf::type_traits</span></div>
 <div class="ttc" id="anamespacewtf_1_1type__traits_html"><div class="ttname"><a href="namespacewtf_1_1type__traits.html">wtf::type_traits</a></div><div class="ttdoc">Namespace for type traits provided by WTF.</div><div class="ttdef"><b>Definition</b> float_traits.hpp:20</div></div>
-<div class="ttc" id="anamespacewtf_1_1type__traits_html_ae8d4ea47e87391c41d6464465dd1bdd5"><div class="ttname"><a href="namespacewtf_1_1type__traits.html#ae8d4ea47e87391c41d6464465dd1bdd5">wtf::type_traits::type_name_v</a></div><div class="ttdeci">constexpr auto type_name_v</div><div class="ttdoc">A variable template for converting T to a string.</div><div class="ttdef"><b>Definition</b> type_name.hpp:62</div></div>
+<div class="ttc" id="anamespacewtf_1_1type__traits_html_ae8d4ea47e87391c41d6464465dd1bdd5"><div class="ttname"><a href="namespacewtf_1_1type__traits.html#ae8d4ea47e87391c41d6464465dd1bdd5">wtf::type_traits::type_name_v</a></div><div class="ttdeci">constexpr auto type_name_v</div><div class="ttdoc">A variable template for converting T to a string.</div><div class="ttdef"><b>Definition</b> type_name.hpp:68</div></div>
 <div class="ttc" id="astructwtf_1_1type__traits_1_1TypeName_html"><div class="ttname"><a href="structwtf_1_1type__traits_1_1TypeName.html">wtf::type_traits::TypeName</a></div><div class="ttdoc">Primary template for converting T to a string.</div><div class="ttdef"><b>Definition</b> type_name.hpp:33</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

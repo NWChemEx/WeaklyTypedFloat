@@ -8,5 +8,6 @@ var searchData=
   ['typename_5',['TypeName',['../structwtf_1_1type__traits_1_1TypeName.html',1,'wtf::type_traits']]],
   ['typename_3c_20double_20_3e_6',['TypeName&lt; double &gt;',['../structwtf_1_1type__traits_1_1TypeName_3_01double_01_4.html',1,'wtf::type_traits']]],
   ['typename_3c_20float_20_3e_7',['TypeName&lt; float &gt;',['../structwtf_1_1type__traits_1_1TypeName_3_01float_01_4.html',1,'wtf::type_traits']]],
-  ['typename_3c_20long_20double_20_3e_8',['TypeName&lt; long double &gt;',['../structwtf_1_1type__traits_1_1TypeName_3_01long_01double_01_4.html',1,'wtf::type_traits']]]
+  ['typename_3c_20long_20double_20_3e_8',['TypeName&lt; long double &gt;',['../structwtf_1_1type__traits_1_1TypeName_3_01long_01double_01_4.html',1,'wtf::type_traits']]],
+  ['typename_3c_20std_3a_3anullptr_5ft_20_3e_9',['TypeName&lt; std::nullptr_t &gt;',['../structwtf_1_1type__traits_1_1TypeName_3_01std_1_1nullptr__t_01_4.html',1,'wtf::type_traits']]]
 ];

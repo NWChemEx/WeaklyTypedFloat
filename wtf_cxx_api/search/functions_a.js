@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['precision_0',['precision',['../classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#a1995f1e2c1d206ff8301dc1ed45d3520',1,'wtf::rtti::detail_::TypeHolder::precision()'],['../classwtf_1_1rtti_1_1TypeInfo.html#a16fe5ed3a04eaba4506000e2b7bd9983',1,'wtf::rtti::TypeInfo::precision()']]]
+  ['register_5fmodel_5f_0',['register_model_',['../classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#ad93b8aa3d996de893c0b9a0c4183cb5d',1,'wtf::rtti::detail_::TypeHolder']]],
+  ['run_1',['run',['../classwtf_1_1detail___1_1DispatchHelper.html#ade8f10357f05c0b8cb76fd97ea9ae90e',1,'wtf::detail_::DispatchHelper']]]
 ];

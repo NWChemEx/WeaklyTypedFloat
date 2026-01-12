@@ -116,6 +116,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwtf_1_1type__traits_1_1TypeName_3_01long_01double_01_4.html">TypeName&lt; long double &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specializes <a class="el" href="structwtf_1_1type__traits_1_1TypeName.html" title="Primary template for converting T to a string.">TypeName</a> for long double.  <a href="structwtf_1_1type__traits_1_1TypeName_3_01long_01double_01_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwtf_1_1type__traits_1_1TypeName_3_01std_1_1nullptr__t_01_4.html">TypeName&lt; std::nullptr_t &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specializes <a class="el" href="structwtf_1_1type__traits_1_1TypeName.html" title="Primary template for converting T to a string.">TypeName</a> for nullptr_t.  <a href="structwtf_1_1type__traits_1_1TypeName_3_01std_1_1nullptr__t_01_4.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -139,7 +142,7 @@ template&lt;typename T &gt; </td></tr>
 <tr class="memitem:abe50210714e4dc06338209cf81db1564"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacewtf_1_1type__traits.html#abe50210714e4dc06338209cf81db1564">precision_v</a> = <a class="el" href="structwtf_1_1type__traits_1_1Precision.html">Precision</a>&lt;T&gt;::value</td></tr>
 <tr class="memdesc:abe50210714e4dc06338209cf81db1564"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global variable with the precision of an object of type <code>T</code>.  <br /></td></tr>
 <tr class="separator:abe50210714e4dc06338209cf81db1564"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8d4ea47e87391c41d6464465dd1bdd5" id="r_ae8d4ea47e87391c41d6464465dd1bdd5"><td class="memTemplParams" colspan="2">template&lt;concepts::UnmodifiedFloatingPoint T&gt; </td></tr>
+<tr class="memitem:ae8d4ea47e87391c41d6464465dd1bdd5" id="r_ae8d4ea47e87391c41d6464465dd1bdd5"><td class="memTemplParams" colspan="2">template&lt;concepts::Unmodified T&gt; </td></tr>
 <tr class="memitem:ae8d4ea47e87391c41d6464465dd1bdd5"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacewtf_1_1type__traits.html#ae8d4ea47e87391c41d6464465dd1bdd5">type_name_v</a> = <a class="el" href="structwtf_1_1type__traits_1_1TypeName.html">TypeName</a>&lt;T&gt;::value</td></tr>
 <tr class="memdesc:ae8d4ea47e87391c41d6464465dd1bdd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">A variable template for converting <code>T</code> to a string.  <br /></td></tr>
 <tr class="separator:ae8d4ea47e87391c41d6464465dd1bdd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -213,7 +216,7 @@ template&lt;concepts::UnmodifiedFloatingPoint T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;concepts::UnmodifiedFloatingPoint T&gt; </div>
+template&lt;concepts::Unmodified T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -232,7 +235,7 @@ template&lt;concepts::UnmodifiedFloatingPoint T&gt; </div>
 <p>A variable template for converting <code>T</code> to a string. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td>A floating-point type without any type modifiers.</td></tr>
+    <tr><td class="paramname">T</td><td>An unmodified type.</td></tr>
   </table>
   </dd>
 </dl>

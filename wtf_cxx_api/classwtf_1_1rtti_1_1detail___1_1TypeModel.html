@@ -112,19 +112,15 @@ Public Types</h2></td></tr>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>holder_type</b> = <a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html">TypeHolder</a></td></tr>
 <tr class="memdesc:a1b028267d148418e3f733bcba8087dc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type providing the type-erased interface used by the interface. <br /></td></tr>
 <tr class="separator:a1b028267d148418e3f733bcba8087dc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1c764ef46533b2e55d16d747eb621a4" id="r_ab1c764ef46533b2e55d16d747eb621a4"><td class="memItemLeft" align="right" valign="top"><a id="ab1c764ef46533b2e55d16d747eb621a4" name="ab1c764ef46533b2e55d16d747eb621a4"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>traits_type</b> = <a class="el" href="structwtf_1_1type__traits_1_1float__traits.html">wtf::type_traits::float_traits</a>&lt; T &gt;</td></tr>
-<tr class="memdesc:ab1c764ef46533b2e55d16d747eb621a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type providing traits for the held type T. <br /></td></tr>
-<tr class="separator:ab1c764ef46533b2e55d16d747eb621a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr><td colspan="2"><div class="groupHeader"></div></td></tr>
-<tr class="memitem:a06918d231ecfe497cf0ee2895c88a211" id="r_a06918d231ecfe497cf0ee2895c88a211"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeModel.html#a06918d231ecfe497cf0ee2895c88a211">value_type</a> = typename <a class="el" href="structwtf_1_1type__traits_1_1float__traits.html#af75bef8dc79d5db7e3143c87329a822b">traits_type::value_type</a></td></tr>
-<tr class="separator:a06918d231ecfe497cf0ee2895c88a211"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae068a2a8907144e41f169b624a583224" id="r_ae068a2a8907144e41f169b624a583224"><td class="memItemLeft" align="right" valign="top"><a id="ae068a2a8907144e41f169b624a583224" name="ae068a2a8907144e41f169b624a583224"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>unqualified_type</b> = typename <a class="el" href="structwtf_1_1type__traits_1_1float__traits.html#adf2814a30e022392c2d726705e1fd026">traits_type::unqualified_type</a></td></tr>
-<tr class="separator:ae068a2a8907144e41f169b624a583224"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88b1403472a38d24335d7b6faf71846a" id="r_a88b1403472a38d24335d7b6faf71846a"><td class="memItemLeft" align="right" valign="top"><a id="a88b1403472a38d24335d7b6faf71846a" name="a88b1403472a38d24335d7b6faf71846a"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>const_value_type</b> = typename <a class="el" href="structwtf_1_1type__traits_1_1float__traits.html#a86218a6afb8f7999d8d219a7674fd944">traits_type::const_value_type</a></td></tr>
-<tr class="separator:a88b1403472a38d24335d7b6faf71846a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f2c3c4624d8eb7093f9f73a8c49c31f" id="r_a3f2c3c4624d8eb7093f9f73a8c49c31f"><td class="memItemLeft" align="right" valign="top"><a id="a3f2c3c4624d8eb7093f9f73a8c49c31f" name="a3f2c3c4624d8eb7093f9f73a8c49c31f"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>value_type</b> = T</td></tr>
+<tr class="separator:a3f2c3c4624d8eb7093f9f73a8c49c31f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bdda7c0d4bfca7f15e7a7c6ad3ed27b" id="r_a4bdda7c0d4bfca7f15e7a7c6ad3ed27b"><td class="memItemLeft" align="right" valign="top"><a id="a4bdda7c0d4bfca7f15e7a7c6ad3ed27b" name="a4bdda7c0d4bfca7f15e7a7c6ad3ed27b"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>unqualified_type</b> = std::decay_t&lt; value_type &gt;</td></tr>
+<tr class="separator:a4bdda7c0d4bfca7f15e7a7c6ad3ed27b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8eed1bfad81326f7295ff7390d2fee5" id="r_aa8eed1bfad81326f7295ff7390d2fee5"><td class="memItemLeft" align="right" valign="top"><a id="aa8eed1bfad81326f7295ff7390d2fee5" name="aa8eed1bfad81326f7295ff7390d2fee5"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_value_type</b> = const unqualified_type</td></tr>
+<tr class="separator:aa8eed1bfad81326f7295ff7390d2fee5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
 <tr class="memitem:a56c985f7dfc899179c97213680a05b11" id="r_a56c985f7dfc899179c97213680a05b11"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeModel.html#a56c985f7dfc899179c97213680a05b11">string_type</a> = <a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#a9a696a365bc9f499e77a092b86437509">holder_type::string_type</a></td></tr>
 <tr class="separator:a56c985f7dfc899179c97213680a05b11"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -144,10 +140,6 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>const_string_referen
 using&#160;</td><td class="memItemRight" valign="bottom"><b>holder_pointer</b> = std::shared_ptr&lt; <a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html">TypeHolder</a> &gt;</td></tr>
 <tr class="memdesc:ae52a9d2ee4a3beb511939901420992be inherit pub_types_classwtf_1_1rtti_1_1detail___1_1TypeHolder"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of pointer used to hold <a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html" title="Defines the interface for interacting with the type-erased type.">TypeHolder</a> instances. <br /></td></tr>
 <tr class="separator:ae52a9d2ee4a3beb511939901420992be inherit pub_types_classwtf_1_1rtti_1_1detail___1_1TypeHolder"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5eabad7f2c9298e3071202ad8ad1cb2 inherit pub_types_classwtf_1_1rtti_1_1detail___1_1TypeHolder" id="r_ac5eabad7f2c9298e3071202ad8ad1cb2"><td class="memItemLeft" align="right" valign="top">
-using&#160;</td><td class="memItemRight" valign="bottom"><b>precision_type</b> = std::size_t</td></tr>
-<tr class="memdesc:ac5eabad7f2c9298e3071202ad8ad1cb2 inherit pub_types_classwtf_1_1rtti_1_1detail___1_1TypeHolder"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used for specifying precision of floating-point types. <br /></td></tr>
-<tr class="separator:ac5eabad7f2c9298e3071202ad8ad1cb2 inherit pub_types_classwtf_1_1rtti_1_1detail___1_1TypeHolder"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -165,12 +157,12 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~TypeHolder</b> ()
 <tr class="memitem:ac95420ca9eca67fae28b644a9ad62c55 inherit pub_methods_classwtf_1_1rtti_1_1detail___1_1TypeHolder" id="r_ac95420ca9eca67fae28b644a9ad62c55"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#a463d448cc51d8759bdd5e04fb28b1b65">const_string_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#ac95420ca9eca67fae28b644a9ad62c55">name</a> () const</td></tr>
 <tr class="memdesc:ac95420ca9eca67fae28b644a9ad62c55 inherit pub_methods_classwtf_1_1rtti_1_1detail___1_1TypeHolder"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a human-readable name for the type.  <br /></td></tr>
 <tr class="separator:ac95420ca9eca67fae28b644a9ad62c55 inherit pub_methods_classwtf_1_1rtti_1_1detail___1_1TypeHolder"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1995f1e2c1d206ff8301dc1ed45d3520 inherit pub_methods_classwtf_1_1rtti_1_1detail___1_1TypeHolder" id="r_a1995f1e2c1d206ff8301dc1ed45d3520"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#ac5eabad7f2c9298e3071202ad8ad1cb2">precision_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#a1995f1e2c1d206ff8301dc1ed45d3520">precision</a> () const</td></tr>
-<tr class="memdesc:a1995f1e2c1d206ff8301dc1ed45d3520 inherit pub_methods_classwtf_1_1rtti_1_1detail___1_1TypeHolder"><td class="mdescLeft">&#160;</td><td class="mdescRight">In base 10, the number of significant digits this type can hold.  <br /></td></tr>
-<tr class="separator:a1995f1e2c1d206ff8301dc1ed45d3520 inherit pub_methods_classwtf_1_1rtti_1_1detail___1_1TypeHolder"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7d7d8c4ff2e8bac4fc8b2a97b8350df inherit pub_methods_classwtf_1_1rtti_1_1detail___1_1TypeHolder" id="r_ab7d7d8c4ff2e8bac4fc8b2a97b8350df"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#ab7d7d8c4ff2e8bac4fc8b2a97b8350df">is_const</a> () const</td></tr>
 <tr class="memdesc:ab7d7d8c4ff2e8bac4fc8b2a97b8350df inherit pub_methods_classwtf_1_1rtti_1_1detail___1_1TypeHolder"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if the held type is const-qualified and false otherwise.  <br /></td></tr>
 <tr class="separator:ab7d7d8c4ff2e8bac4fc8b2a97b8350df inherit pub_methods_classwtf_1_1rtti_1_1detail___1_1TypeHolder"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8b4bbe1188fa1faff10716f7987bb6f inherit pub_methods_classwtf_1_1rtti_1_1detail___1_1TypeHolder" id="r_ac8b4bbe1188fa1faff10716f7987bb6f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#ac8b4bbe1188fa1faff10716f7987bb6f">is_nullptr</a> () const</td></tr>
+<tr class="memdesc:ac8b4bbe1188fa1faff10716f7987bb6f inherit pub_methods_classwtf_1_1rtti_1_1detail___1_1TypeHolder"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if the held type is std::nullptr_t or a qualified version of it.  <br /></td></tr>
+<tr class="separator:ac8b4bbe1188fa1faff10716f7987bb6f inherit pub_methods_classwtf_1_1rtti_1_1detail___1_1TypeHolder"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39fbe3b350c2539927044556afa60be9 inherit pub_methods_classwtf_1_1rtti_1_1detail___1_1TypeHolder" id="r_a39fbe3b350c2539927044556afa60be9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#ae52a9d2ee4a3beb511939901420992be">holder_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#a39fbe3b350c2539927044556afa60be9">make_const</a> () const</td></tr>
 <tr class="memdesc:a39fbe3b350c2539927044556afa60be9 inherit pub_methods_classwtf_1_1rtti_1_1detail___1_1TypeHolder"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html" title="Defines the interface for interacting with the type-erased type.">TypeHolder</a> for the const version of the type held by *this.  <br /></td></tr>
 <tr class="separator:a39fbe3b350c2539927044556afa60be9 inherit pub_methods_classwtf_1_1rtti_1_1detail___1_1TypeHolder"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -195,15 +187,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>register_model_</b> (
 <tr class="separator:addd2e8bed367be58ad13fa25deca8bc2 inherit pro_methods_classwtf_1_1rtti_1_1detail___1_1TypeHolder"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;concepts::FloatingPoint T&gt;<br />
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
 class wtf::rtti::detail_::TypeModel&lt; T &gt;</div><p>Implements <a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html" title="Defines the interface for interacting with the type-erased type.">TypeHolder</a> for type <code>T</code>. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td>A floating-point type, possibly const-qualified.</td></tr>
+    <tr><td class="paramname">T</td><td>The qualified type we are creating a <a class="el" href="classwtf_1_1rtti_1_1TypeInfo.html" title="Custom RTTI class for floating-point types.">TypeInfo</a> for.</td></tr>
   </table>
   </dd>
 </dl>
-<p>This class implements the <a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html" title="Defines the interface for interacting with the type-erased type.">TypeHolder</a> interface for a specific floating-point type T. </p>
+<p>This class implements the <a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html" title="Defines the interface for interacting with the type-erased type.">TypeHolder</a> interface for a specific type T. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a56c985f7dfc899179c97213680a05b11" name="a56c985f7dfc899179c97213680a05b11"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a56c985f7dfc899179c97213680a05b11">&#9670;&#160;</a></span>string_type</h2>
@@ -211,7 +203,7 @@ class wtf::rtti::detail_::TypeModel&lt; T &gt;</div><p>Implements <a class="el" 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;concepts::FloatingPoint T&gt; </div>
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">using <a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeModel.html">wtf::rtti::detail_::TypeModel</a>&lt; T &gt;::string_type =  <a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#a9a696a365bc9f499e77a092b86437509">holder_type::string_type</a></td>
@@ -222,23 +214,6 @@ template&lt;concepts::FloatingPoint T&gt; </div>
 
 </div>
 </div>
-<a id="a06918d231ecfe497cf0ee2895c88a211" name="a06918d231ecfe497cf0ee2895c88a211"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06918d231ecfe497cf0ee2895c88a211">&#9670;&#160;</a></span>value_type</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;concepts::FloatingPoint T&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="classwtf_1_1rtti_1_1detail___1_1TypeModel.html">wtf::rtti::detail_::TypeModel</a>&lt; T &gt;::value_type =  typename <a class="el" href="structwtf_1_1type__traits_1_1float__traits.html#af75bef8dc79d5db7e3143c87329a822b">traits_type::value_type</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Unpack traits_type into the API </p>
-
-</div>
-</div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a24682f19f5d4782fc32f05abf0d956d0" name="a24682f19f5d4782fc32f05abf0d956d0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a24682f19f5d4782fc32f05abf0d956d0">&#9670;&#160;</a></span>TypeModel()</h2>
@@ -246,7 +221,7 @@ template&lt;concepts::FloatingPoint T&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;concepts::FloatingPoint T&gt; </div>
+template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
