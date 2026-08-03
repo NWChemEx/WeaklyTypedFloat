@@ -41,4 +41,4 @@ fallback_version = "0.0.0"
 
 [[tool.scikit-build.overrides]]
 if.state = "editable"
-cmake.args = ["-DBUILD_TESTING=ON", "-DDEVELOPER_SETUP=ON"]
+cmake.args = ["-DDEVELOPER_SETUP=ON"]
