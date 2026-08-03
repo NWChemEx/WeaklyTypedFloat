@@ -48,5 +48,9 @@ _build/
 Debug/
 Release/
 install/
+
 # Users commonly store their specific CMake settings in a toolchain file
 toolchain.cmake
+
+# In developer mode CMake will automatically generate
+.pre-commit-config.yaml
