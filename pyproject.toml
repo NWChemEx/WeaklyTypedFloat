@@ -15,9 +15,7 @@
 [build-system]
 requires = [
     "scikit-build-core>=0.10",
-    "pybind11",
     "setuptools-scm>=8",
-    "nwchemex-nwxcmake @ git+https://github.com/ryanmrichard/NWXCMake",
 ]
 build-backend = "scikit_build_core.build"
 
@@ -27,6 +25,10 @@ dynamic = ["version"]
 description = "Weakly Typed Float — a DSL for type-erased floating-point types"
 license = { text = "Apache-2.0" }
 requires-python = ">=3.8"
+dependencies = [
+    "pybind11",
+    "nwchemex-nwxcmake @ git+https://github.com/ryanmrichard/NWXCMake",
+]
 
 [project.optional-dependencies]
 dev = ["pytest", "pre-commit"]
