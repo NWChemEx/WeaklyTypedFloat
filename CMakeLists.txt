@@ -13,45 +13,35 @@
 # limitations under the License.
 
 cmake_minimum_required(VERSION 3.14)
-# Downloads common CMake modules used throughout NWChemEx
+
+# Downloads common CMake modules used throughout NWChemEx. Included before
+# project() so nwx_set_version() is available to compute the version.
 include(cmake/get_nwx_cmake.cmake)
 
-project(wtf VERSION "1.0.0" LANGUAGES CXX)
-include(cmake/disable_in_source_builds.cmake)
-set(CMAKE_CXX_STANDARD 20)
+# Version from scikit-build-core (wheels/sdists) or the latest git tag.
+include(nwx_set_version)
+nwx_set_version(wtf_version "${CMAKE_CURRENT_LIST_DIR}")
+project(wtf VERSION "${wtf_version}" LANGUAGES CXX)
 
-option(BUILD_TESTING "Whether to build the unit tests" OFF)
-
-include(cmake/get_dependencies.cmake)
+include(disable_in_source_builds)
+include(set_default_nwx_options)
 
 # Define the documentation target
 include(nwx_cxx_api_docs)
-nwx_cxx_api_docs("include" "src")
+nwx_cxx_api_docs("cxx/include" "cxx/src")
 
 # Build the Library
-file(GLOB_RECURSE WTF_HEADER_FILES CONFIGURE_DEPENDS include/wtf/*.hpp)
-file(GLOB_RECURSE WTF_SOURCE_FILES CONFIGURE_DEPENDS src/wtf/*.cpp)
-add_library(${PROJECT_NAME} ${WTF_SOURCE_FILES})
-target_link_libraries(${PROJECT_NAME})
-target_include_directories(${PROJECT_NAME}
-    PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>
-)
+include(nwx_library)
+nwx_library(${PROJECT_NAME} "cxx/include" "cxx/src")
 
-if(${BUILD_TESTING})
-    include(CTest)
-    get_dependencies(catch2)
-    include(cmake/catch2_tests_from_dir.cmake)
-    catch2_tests_from_dir(
-        "unit_test_${PROJECT_NAME}"
-        tests/unit_tests/wtf
-        ${PROJECT_NAME}
-    )
-endif()
-
-include(cmake/install_target.cmake)
-install_library(
+# Register the C++ tests
+include(catch2_tests_from_dir)
+catch2_tests_from_dir(
+    "unit_test_${PROJECT_NAME}"
+    "tests/cxx/unit_tests/${PROJECT_NAME}"
     ${PROJECT_NAME}
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}"
 )
+
+# Register the Python module
+include(nwx_python_module)
+nwx_python_module(${PROJECT_NAME} "cxx/src")

@@ -25,6 +25,42 @@ writes their interfaces in terms of "weakly typed" objects like `Float` and
 `FloatBuffer`, and determination of the actual floating-point type is deferred
 to runtime.
 
+## Development Setup
+
+### Prerequisites
+
+- CMake >= 3.14
+- A C++20-capable compiler
+- Python >= 3.8
+
+### Editable install
+
+Create and activate a virtual environment, then install the package in editable
+(dev) mode. This builds the Python bindings and the C++ test suite:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev]"
+```
+
+### Running the C++ tests
+
+The editable install keeps its build tree in `build/` (configured via
+`build-dir` in `pyproject.toml`). Run CTest directly from there:
+
+```bash
+cd build && ctest --output-on-failure
+```
+
+### Running the Python tests
+
+With the virtual environment active:
+
+```bash
+pytest tests/python/
+```
+
 ## Problem Description
 
 Full description (TODO: Add link to the documentation)
