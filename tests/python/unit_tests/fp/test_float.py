@@ -1,4 +1,4 @@
-# Copyright 2025 NWChemEx-Project
+# Copyright 2026 NWChemEx-Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,18 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_guard()
+"""Unit tests for the wtf.Float Python binding."""
 
-function(catch2_tests_from_dir ctfd_target_name ctfd_dir)
-    file(GLOB_RECURSE ctfd_test_files CONFIGURE_DEPENDS ${ctfd_dir}/*.cpp)
+import wtf
 
-    add_executable(${ctfd_target_name} ${ctfd_test_files})
 
-    target_link_libraries(
-        ${ctfd_target_name} PRIVATE Catch2::Catch2WithMain ${ARGN})
+def test_import():
+    assert hasattr(wtf, "Float")
 
-        add_test(NAME ${ctfd_target_name}
-             COMMAND ${ctfd_target_name}
-             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    )
-endfunction()
+
+def test_set_value():
+    f = wtf.Float(3.14)
+    assert f is not None
+
+
+def test_to_string():
+    f = wtf.Float(3.14)
+    s = f.to_string()
+    assert "3.14" in s
