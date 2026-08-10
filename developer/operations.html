@@ -55,6 +55,11 @@
 <li class="toctree-l4"><a class="reference internal" href="#solving-the-expression-problem">Solving the Expression Problem</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#current-solution">Current Solution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#past-implementations">Past Implementations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#current-implementation">Current Implementation</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="architecture.html">Architecture of WTF</a></li>
@@ -103,7 +108,7 @@ operations in a performant and type-safe manner.</p>
 something like:</p>
 <div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">MyFunctor</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
-<span class="w">      </span><span class="kt">void</span><span class="w"> </span><span class="n">run</span><span class="p">()(</span><span class="n">T</span><span class="w"> </span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kt">void</span><span class="w"> </span><span class="n">run</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">           </span><span class="c1">// do something with val</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w"> </span><span class="p">};</span>
@@ -115,8 +120,25 @@ something like:</p>
 <p>can be implemented by having the <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> function call a virtual function
 on the holder. The model class, then implements <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> by calling the
 <code class="docutils literal notranslate"><span class="pre">run</span></code> method on the functor it was given and passing it the type-restored
-value. This could relatively easily be extended to forward any result back to
-the user.</p>
+value. This would look something like:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Class that can wrap any functor with a run method (assumes a set of types)</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">FunctorInterface</span><span class="p">;</span>
+
+<span class="n">BufferHolder</span><span class="o">::</span><span class="n">evaluate</span><span class="p">(</span><span class="n">FunctorInterface</span><span class="o">&amp;</span><span class="w"> </span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="c1">// call the virtual function on the holder</span>
+<span class="w">     </span><span class="n">m_holder</span><span class="o">-&gt;</span><span class="n">evaluate</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Drived from BufferHolder, has the value, i.e., `m_value_` of type T</span>
+<span class="n">BufferModel</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">evaluate</span><span class="p">(</span><span class="n">FunctorInterface</span><span class="o">&amp;</span><span class="w"> </span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="c1">// call the run method on the functor, passing the type-restored value</span>
+<span class="w">     </span><span class="n">f</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">m_value_</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This could relatively easily be extended to forward any result back to
+the user by capturing the return value in a lambda and then binding the lambda
+to the functor.</p>
 </section>
 <section id="double-dispatch">
 <h2>Double Dispatch<a class="headerlink" href="#double-dispatch" title="Link to this heading"></a></h2>
@@ -195,6 +217,10 @@ construct is. While this could eventually be worked through, we also noted that
 the author of Yomm2 appears to be in the process of moving Yomm2 to Boost. If
 we want to consider Yomm2, we should probably wait until it’s in Boost, and then
 use the Boost version.</p>
+</section>
+</section>
+<section id="current-solution">
+<h2>Current Solution<a class="headerlink" href="#current-solution" title="Link to this heading"></a></h2>
 <p>For now our solution is to assume that the user of WTF is only supporting a
 finite set of floating point types and that they know what those types are. If
 that is the case, the user can provide us with the list of types they support
@@ -208,6 +234,49 @@ restricts each execution of an operation to a set of types. Of note, each time
 an operation is invoked it can be invoked with a different set of types. Of
 course, if the held floating-point type is not convertible to one of the types
 in the set, an exception will be thrown at runtime.</p>
+<section id="past-implementations">
+<h3>Past Implementations<a class="headerlink" href="#past-implementations" title="Link to this heading"></a></h3>
+<p>We tried recursion, but…</p>
+<p>Our first implementation of the “downcast to a <code class="docutils literal notranslate"><span class="pre">std::variant</span></code> alternative”
+step used a recursive template <code class="docutils literal notranslate"><span class="pre">downcast_impl&lt;I,</span> <span class="pre">VariantType&gt;</span></code>: it tried
+<code class="docutils literal notranslate"><span class="pre">dynamic_cast</span></code> to the <code class="docutils literal notranslate"><span class="pre">I</span></code>-th alternative of <code class="docutils literal notranslate"><span class="pre">VariantType</span></code>, and if that
+failed it called itself with <code class="docutils literal notranslate"><span class="pre">I</span> <span class="pre">+</span> <span class="pre">1</span></code>, terminating (by throwing) once <code class="docutils literal notranslate"><span class="pre">I</span></code>
+ran off the end of the variant. Multi-argument dispatch was built the same
+way: a <code class="docutils literal notranslate"><span class="pre">DispatchHelper&lt;VariantTuple&gt;</span></code> class accumulated one resolved
+<code class="docutils literal notranslate"><span class="pre">std::variant</span></code> per argument, and a pair of mutually recursive functions
+(<code class="docutils literal notranslate"><span class="pre">dispatch_impl</span></code>/<code class="docutils literal notranslate"><span class="pre">dispatch_impl_common</span></code>) downcast one holder per
+recursion step, each step producing a <em>new</em> <code class="docutils literal notranslate"><span class="pre">DispatchHelper&lt;...&gt;</span></code>
+instantiation (via <code class="docutils literal notranslate"><span class="pre">std::tuple_cat</span></code>) to hold the growing tuple of variants.</p>
+<p>Both recursions worked, but neither actually needed to be a recursion: the
+loop over a variant’s alternatives, and the downcasting of each dispatch
+argument, are independent per-step, not a chain of steps that depend on each
+other’s results. Implementing them as recursive template instantiation
+anyway meant the compiler instantiated one distinct template (and one
+distinct <code class="docutils literal notranslate"><span class="pre">DispatchHelper&lt;...&gt;</span></code> type) per index/argument, so error messages
+and compile times got visibly worse the more candidate types or dispatch
+arguments were involved, without buying anything in return.</p>
+</section>
+<section id="current-implementation">
+<h3>Current Implementation<a class="headerlink" href="#current-implementation" title="Link to this heading"></a></h3>
+<p>Both recursions have been replaced with non-recursive, fold-expression-based
+equivalents that produce the same <code class="docutils literal notranslate"><span class="pre">std::variant</span></code> alternatives and the same
+combinatorial <code class="docutils literal notranslate"><span class="pre">std::visit</span></code> call, just without a deep chain of template
+instantiations.</p>
+<p><code class="docutils literal notranslate"><span class="pre">downcast_impl</span></code> now expands a <code class="docutils literal notranslate"><span class="pre">std::index_sequence</span></code> over the variant’s
+alternatives and tries each one in a single fold expression, short-circuiting
+on the first <code class="docutils literal notranslate"><span class="pre">dynamic_cast</span></code> that succeeds (tracked with a
+<code class="docutils literal notranslate"><span class="pre">std::optional&lt;VariantType&gt;</span></code>) and throwing only if none of them match.</p>
+<p>For multi-argument dispatch, each holder’s downcast is independent of every
+other holder’s, so <code class="docutils literal notranslate"><span class="pre">dispatch</span></code> no longer threads an accumulator through a
+recursive call chain. Instead, each argument is downcast on its own (via a
+per-argument helper, <code class="docutils literal notranslate"><span class="pre">downcast_arg</span></code>, which also flattens the “was the
+holder const?” branch into a single variant type using a small
+<code class="docutils literal notranslate"><span class="pre">variant_cat_t</span></code> helper), the resulting variants are collected into one
+<code class="docutils literal notranslate"><span class="pre">std::tuple</span></code> by ordinary parameter-pack expansion, and exactly one
+<code class="docutils literal notranslate"><span class="pre">std::visit</span></code> is made across all of them at the end. The braced-init-list
+used to build that tuple preserves left-to-right evaluation order, so a
+holder whose type isn’t in the candidate list still throws deterministically
+from the leftmost offending argument, matching the old recursive behavior.</p>
 </section>
 </section>
 </section>

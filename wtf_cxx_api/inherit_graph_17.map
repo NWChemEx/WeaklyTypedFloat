@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$classwtf_1_1rtti_1_1TypeInfo.html" title="Custom RTTI class for floating&#45;point types." alt="" coords="5,5,137,31"/>
+<area shape="rect" id="Node000000" href="$classwtf_1_1rtti_1_1detail___1_1TypeHolder.html" title="Defines the interface for interacting with the type&#45;erased type." alt="" coords="5,5,127,45"/>
+<area shape="rect" id="Node000001" href="$classwtf_1_1rtti_1_1detail___1_1TypeModel.html" title="Implements TypeHolder for type T." alt="" coords="175,5,313,45"/>
+<area shape="poly" id="edge7_Node000000_Node000001" title=" " alt="" coords="140,23,174,23,174,28,140,28"/>
 </map>
