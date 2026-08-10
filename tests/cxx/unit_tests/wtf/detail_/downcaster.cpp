@@ -36,15 +36,17 @@ TEMPLATE_LIST_TEST_CASE("downcaster_impl", "", test_wtf::default_fp_types) {
     value corr{&model};
     cvalue corr_c{&const_model};
 
-    REQUIRE(downcast_impl<0, value>(model) == corr);
-    REQUIRE(downcast_impl<0, cvalue>(const_model) == corr_c);
+    REQUIRE(downcast_impl<value>(model) == corr);
+    REQUIRE(downcast_impl<cvalue>(const_model) == corr_c);
 
     // Can't go const to non-const
-    REQUIRE_THROWS_AS((downcast_impl<0, value>(const_model)),
-                      std::runtime_error);
+    REQUIRE_THROWS_AS((downcast_impl<value>(const_model)), std::runtime_error);
 
-    // Throws if we run out of types
-    REQUIRE_THROWS_AS((downcast_impl<1, value>(model)), std::runtime_error);
+    // Throws if the type is not in the variant
+    struct Sentinel {};
+    using no_match_variant = std::variant<TypeModel<Sentinel>*>;
+    REQUIRE_THROWS_AS((downcast_impl<no_match_variant>(model)),
+                      std::runtime_error);
 }
 
 TEMPLATE_LIST_TEST_CASE("downcaster", "", test_wtf::default_fp_types) {

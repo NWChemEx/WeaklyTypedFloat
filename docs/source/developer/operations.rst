@@ -30,7 +30,7 @@ something like:
 
    struct MyFunctor {
          template<typename T>
-         void run()(T val) {
+         void run(T val) {
               // do something with val
          }
     };
@@ -41,8 +41,28 @@ something like:
 can be implemented by having the ``evaluate`` function call a virtual function
 on the holder. The model class, then implements ``evaluate`` by calling the
 ``run`` method on the functor it was given and passing it the type-restored
-value. This could relatively easily be extended to forward any result back to
-the user.
+value. This would look something like:
+
+.. code-block:: c++
+
+   // Class that can wrap any functor with a run method (assumes a set of types)
+   struct FunctorInterface;
+
+   BufferHolder::evaluate(FunctorInterface& f) {
+        // call the virtual function on the holder
+        m_holder->evaluate(f);
+   }
+
+   // Drived from BufferHolder, has the value, i.e., `m_value_` of type T
+   BufferModel<T>::evaluate(FunctorInterface& f) {
+        // call the run method on the functor, passing the type-restored value
+        f.run(m_value_);
+   }
+
+
+This could relatively easily be extended to forward any result back to
+the user by capturing the return value in a lambda and then binding the lambda
+to the functor.
 
 ***************
 Double Dispatch
@@ -135,6 +155,10 @@ the author of Yomm2 appears to be in the process of moving Yomm2 to Boost. If
 we want to consider Yomm2, we should probably wait until it's in Boost, and then
 use the Boost version.
 
+****************
+Current Solution
+****************
+
 For now our solution is to assume that the user of WTF is only supporting a
 finite set of floating point types and that they know what those types are. If
 that is the case, the user can provide us with the list of types they support
@@ -148,3 +172,53 @@ restricts each execution of an operation to a set of types. Of note, each time
 an operation is invoked it can be invoked with a different set of types. Of
 course, if the held floating-point type is not convertible to one of the types
 in the set, an exception will be thrown at runtime.
+
+Past Implementations
+=====================
+
+We tried recursion, but...
+
+Our first implementation of the "downcast to a ``std::variant`` alternative"
+step used a recursive template ``downcast_impl<I, VariantType>``: it tried
+``dynamic_cast`` to the ``I``-th alternative of ``VariantType``, and if that
+failed it called itself with ``I + 1``, terminating (by throwing) once ``I``
+ran off the end of the variant. Multi-argument dispatch was built the same
+way: a ``DispatchHelper<VariantTuple>`` class accumulated one resolved
+``std::variant`` per argument, and a pair of mutually recursive functions
+(``dispatch_impl``/``dispatch_impl_common``) downcast one holder per
+recursion step, each step producing a *new* ``DispatchHelper<...>``
+instantiation (via ``std::tuple_cat``) to hold the growing tuple of variants.
+
+Both recursions worked, but neither actually needed to be a recursion: the
+loop over a variant's alternatives, and the downcasting of each dispatch
+argument, are independent per-step, not a chain of steps that depend on each
+other's results. Implementing them as recursive template instantiation
+anyway meant the compiler instantiated one distinct template (and one
+distinct ``DispatchHelper<...>`` type) per index/argument, so error messages
+and compile times got visibly worse the more candidate types or dispatch
+arguments were involved, without buying anything in return.
+
+Current Implementation
+=======================
+
+Both recursions have been replaced with non-recursive, fold-expression-based
+equivalents that produce the same ``std::variant`` alternatives and the same
+combinatorial ``std::visit`` call, just without a deep chain of template
+instantiations.
+
+``downcast_impl`` now expands a ``std::index_sequence`` over the variant's
+alternatives and tries each one in a single fold expression, short-circuiting
+on the first ``dynamic_cast`` that succeeds (tracked with a
+``std::optional<VariantType>``) and throwing only if none of them match.
+
+For multi-argument dispatch, each holder's downcast is independent of every
+other holder's, so ``dispatch`` no longer threads an accumulator through a
+recursive call chain. Instead, each argument is downcast on its own (via a
+per-argument helper, ``downcast_arg``, which also flattens the "was the
+holder const?" branch into a single variant type using a small
+``variant_cat_t`` helper), the resulting variants are collected into one
+``std::tuple`` by ordinary parameter-pack expansion, and exactly one
+``std::visit`` is made across all of them at the end. The braced-init-list
+used to build that tuple preserves left-to-right evaluation order, so a
+holder whose type isn't in the candidate list still throws deterministically
+from the leftmost offending argument, matching the old recursive behavior.
