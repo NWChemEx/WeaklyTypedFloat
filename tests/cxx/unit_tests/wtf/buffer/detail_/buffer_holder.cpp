@@ -102,22 +102,15 @@ TEMPLATE_LIST_TEST_CASE("BufferHolder", "[wtf]", default_fp_types) {
         REQUIRE_FALSE(holder.are_equal(other_model_type(other_vector3)));
     }
 
-    SECTION("push_back(T) [ContiguousModel]") {
-        model.push_back(TestType{4.0});
-        REQUIRE(model.size() == 4);
-        REQUIRE(model.at(3) == TestType{4.0});
-
-        empty.push_back(TestType{5.0});
-        REQUIRE(empty.size() == 1);
-        REQUIRE(empty.at(0) == TestType{5.0});
-    }
-
     SECTION("reserve(n) [ContiguousModel]") {
         empty.reserve(10);
         REQUIRE(empty.size() == 0); // reserve does not change size
 
         auto* pdata = empty.data();
-        for(std::size_t i = 0; i < 10; ++i) empty.push_back(TestType(i));
+        for(std::size_t i = 0; i < 10; ++i) {
+            TestType val(i);
+            empty.push_back(wtf::fp::FloatView<const wtf::fp::Float>(val));
+        }
         REQUIRE(empty.size() == 10);
         REQUIRE(empty.data() == pdata); // no reallocation within reserved cap
     }

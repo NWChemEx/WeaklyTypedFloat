@@ -347,7 +347,7 @@ public:
     void push_back(T value) {
         using clean_t = std::decay_t<T>;
         if(!is_holding_()) { *this = FloatBuffer({value}); }
-        holder_().push_back(std::move(value));
+        push_back(fp::make_float<clean_t>(std::move(value)));
     }
 
     /** @brief Appends the value wrapped by @p value to the end of the buffer.
