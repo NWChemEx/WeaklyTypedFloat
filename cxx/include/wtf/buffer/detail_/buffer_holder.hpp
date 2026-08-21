@@ -185,6 +185,35 @@ public:
      */
     bool is_contiguous() const { return is_contiguous_(); }
 
+    /** @brief Appends a type-erased element to the end of the buffer.
+     *
+     *  This method is used to append an element to the held buffer without
+     *  knowing the buffer's element type at compile-time. The derived class
+     *  is responsible for un-erasing @p value (via fp::float_cast) and
+     *  appending it to its typed storage.
+     *
+     *  @param[in] value A type-erased view of the value to append.
+     *
+     *  @throw std::runtime_error if the type of @p value does not match the
+     *                            type held by *this. Strong throw guarantee.
+     *  @throw std::bad_alloc if reallocating the buffer fails. Strong throw
+     *                        guarantee.
+     */
+    void push_back(const_view_type value) { push_back_(value); }
+
+    /** @brief Reserves storage for at least @p n elements.
+     *
+     *  This method simply forwards to vector_type's reserve.
+     *
+     *  @param[in] n The number of elements to reserve storage for.
+     *
+     *  @throw std::bad_alloc if reallocating the buffer fails. Strong throw
+     *                        guarantee.
+     *  @throw std::length_error if @p n exceeds the buffer's max size. Strong
+     *                           throw guarantee.
+     */
+    void reserve(size_type n) { reserve_(n); }
+
     /** @brief Is this polymorphically equal to @p other?
      *
      *  Two BufferHolders are considered equal if the elements they hold have
@@ -223,6 +252,12 @@ private:
 
     /// Base ensures in bounds, derived should just return the element
     virtual const_view_type at_(size_type index) const = 0;
+
+    /// Derived un-erases value and appends it to its typed storage
+    virtual void push_back_(const_view_type value) = 0;
+
+    /// Derived forwards to vector_type's reserve
+    virtual void reserve_(size_type n) = 0;
 
     /// The size of the held buffer
     virtual size_type size_() const noexcept = 0;

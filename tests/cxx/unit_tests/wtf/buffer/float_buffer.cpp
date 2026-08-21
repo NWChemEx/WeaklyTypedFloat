@@ -235,6 +235,117 @@ TEMPLATE_LIST_TEST_CASE("FloatBuffer", "[wtf]", default_fp_types) {
         REQUIRE_THROWS_AS(cbuffer.template value<other_t>(),
                           std::runtime_error);
     }
+
+    SECTION("push_back(T)") {
+        TestType four{4.0};
+
+        defaulted.push_back(four);
+        REQUIRE(defaulted.size() == 1);
+        REQUIRE(defaulted.at(0) == four);
+
+        buffer.push_back(four);
+        REQUIRE(buffer.size() == 4);
+        REQUIRE(buffer.at(3) == four);
+
+        // Push a const lvalue too (not just a prvalue)
+        const TestType five{5.0};
+        buffer.push_back(five);
+        REQUIRE(buffer.size() == 5);
+        REQUIRE(buffer.at(4) == five);
+
+        // Wrong type throws and leaves the buffer untouched
+        other_t wrong{6.0};
+        REQUIRE_THROWS_AS(buffer.push_back(wrong), std::runtime_error);
+        REQUIRE(buffer.size() == 5);
+    }
+
+    SECTION("push_back(Float)") {
+        TestType four{4.0};
+        auto wrapped_mutable         = wtf::fp::make_float(four);
+        const auto wrapped_const_obj = wtf::fp::make_float(four);
+
+        SECTION("mutable Float lvalue") {
+            defaulted.push_back(wrapped_mutable);
+            REQUIRE(defaulted.size() == 1);
+            // Round-trips through value<TestType>() -- would throw if the
+            // stored element type had ended up const TestType.
+            REQUIRE(defaulted.template value<TestType>()[0] == four);
+
+            buffer.push_back(wrapped_mutable);
+            REQUIRE(buffer.size() == 4);
+            REQUIRE(buffer.at(3) == four);
+        }
+
+        SECTION("const Float lvalue") {
+            defaulted.push_back(wrapped_const_obj);
+            REQUIRE(defaulted.size() == 1);
+            REQUIRE(defaulted.template value<TestType>()[0] == four);
+
+            buffer.push_back(wrapped_const_obj);
+            REQUIRE(buffer.size() == 4);
+            REQUIRE(buffer.at(3) == four);
+        }
+
+        SECTION("wrong type throws") {
+            other_t wrong{7.0};
+            auto wrapped_wrong = wtf::fp::make_float(wrong);
+            REQUIRE_THROWS_AS(buffer.push_back(wrapped_wrong),
+                              std::runtime_error);
+            REQUIRE(buffer.size() == 3);
+        }
+    }
+
+    SECTION("push_back(FloatView)") {
+        TestType four{4.0};
+        const TestType const_four{4.0};
+
+        SECTION("FloatView aliasing a mutable value") {
+            wtf::fp::FloatView<wtf::fp::Float> view(four);
+
+            defaulted.push_back(view);
+            REQUIRE(defaulted.size() == 1);
+            REQUIRE(defaulted.template value<TestType>()[0] == four);
+
+            buffer.push_back(view);
+            REQUIRE(buffer.size() == 4);
+            REQUIRE(buffer.at(3) == four);
+        }
+
+        SECTION("FloatView aliasing a const value") {
+            wtf::fp::FloatView<const wtf::fp::Float> view(const_four);
+
+            defaulted.push_back(view);
+            REQUIRE(defaulted.size() == 1);
+            // Must be plain TestType, not const TestType.
+            REQUIRE(defaulted.template value<TestType>()[0] == const_four);
+
+            buffer.push_back(view);
+            REQUIRE(buffer.size() == 4);
+            REQUIRE(buffer.at(3) == const_four);
+        }
+
+        SECTION("wrong type throws") {
+            other_t wrong{8.0};
+            wtf::fp::FloatView<wtf::fp::Float> view(wrong);
+            REQUIRE_THROWS_AS(buffer.push_back(view), std::runtime_error);
+            REQUIRE(buffer.size() == 3);
+        }
+    }
+
+    SECTION("reserve(T)") {
+        defaulted.template reserve<TestType>(10);
+        REQUIRE(defaulted.size() == 0); // reserve does not change size
+
+        for(std::size_t i = 0; i < 10; ++i) defaulted.push_back(TestType(i));
+        REQUIRE(defaulted.size() == 10);
+
+        buffer.template reserve<TestType>(10);
+        REQUIRE(buffer.size() == 3); // reserve does not change size
+
+        // Wrong type throws
+        REQUIRE_THROWS_AS(buffer.template reserve<other_t>(10),
+                          std::runtime_error);
+    }
 }
 
 TEMPLATE_LIST_TEST_CASE("make_float_buffer(args...)", "[wtf]", all_fp_types) {

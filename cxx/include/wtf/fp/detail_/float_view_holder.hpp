@@ -116,6 +116,14 @@ public:
      */
     const_type_info_reference type() const { return m_type_; }
 
+    /** @brief Is the aliased value read-only?
+     *
+     *  @return True if the aliased value is const-qualified, false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    bool is_const() const { return is_const_(); }
+
     /** @brief Does *this contain an object of type @p T?
      *
      *  @tparam T The type to check against. Must satisfy the
@@ -197,6 +205,9 @@ protected:
     explicit FloatViewHolder(type_info ti) : m_type_(std::move(ti)) {}
 
 private:
+    /// Derived class reports whether the aliased value is const-qualified
+    virtual bool is_const_() const = 0;
+
     /// Clones *this polymorphically
     virtual holder_type* clone_() const = 0;
 

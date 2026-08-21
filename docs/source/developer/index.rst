@@ -24,4 +24,5 @@ Developer Documentation
    scope
    type_erasure
    operations
+   float_buffer
    architecture

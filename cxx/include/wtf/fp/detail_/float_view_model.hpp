@@ -19,6 +19,7 @@
 #include <utility> // for std::move, std::swap
 #include <wtf/concepts/floating_point.hpp>
 #include <wtf/concepts/stream_insertion.hpp>
+#include <wtf/detail_/dispatcher.hpp>
 #include <wtf/forward.hpp>
 #include <wtf/fp/detail_/float_view_holder.hpp>
 #include <wtf/type_traits/float_traits.hpp>
@@ -200,6 +201,9 @@ public:
     }
 
 private:
+    /// Implements is_const by checking if FloatType is const
+    bool is_const_() const override { return is_const_model_; }
+
     /// Implements clone() by making a new FloatViewModel with the copy
     holder_type* clone_() const override { return new FloatViewModel(*this); }
 
@@ -239,5 +243,24 @@ private:
     /// The value being aliased
     pointer m_pvalue_;
 };
+
+/** @brief Wraps the process of visiting zero or more FloatViewModel objects
+ *         via FloatViewHolder references.
+ *
+ *  @relates FloatViewModel
+ *
+ *  @tparam TupleType A tuple of floating-point types to try.
+ *  @tparam Visitor The type of the visitor being invoked.
+ *  @tparam Args The cv-qualified FloatViewHolder objects to downcast.
+ */
+template<typename TupleType, typename Visitor, typename... Args>
+auto visit_float_view_model(Visitor&& visitor, Args&&... args) {
+    auto lambda = [&](auto&&... inner_args) {
+        return visitor(*inner_args.data()...);
+    };
+
+    return wtf::detail_::dispatch<FloatViewModel, TupleType>(
+      lambda, std::forward<Args>(args)...);
+}
 
 } // namespace wtf::fp::detail_
