@@ -346,7 +346,7 @@ public:
     template<concepts::FloatingPoint T>
     void push_back(T value) {
         using clean_t = std::decay_t<T>;
-        if(!is_holding_()) { *this = FloatBuffer({value}); }
+        if(!is_holding_()) { *this = FloatBuffer(std::vector<clean_t>{}); }
         push_back(fp::make_float<clean_t>(std::move(value)));
     }
 
@@ -469,8 +469,9 @@ public:
     template<concepts::FloatingPoint T>
     void reserve(size_type n) {
         using clean_t = std::decay_t<T>;
-        if(!is_holding_()) { *this = FloatBuffer(std::vector<clean_t>(n)); }
-        holder_().reserve(n);
+        if(!is_holding_()) { *this = FloatBuffer(std::vector<clean_t>{}); }
+        // Here to ensure we get a throw if clean_t doesn't match the held type
+        downcast_<clean_t>().reserve(n);
     }
 
 private:
