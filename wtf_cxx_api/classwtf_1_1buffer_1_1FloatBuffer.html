@@ -177,6 +177,26 @@ template&lt;typename T &gt; </td></tr>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a9fc3dd522556be5c2bfbc8adb96c5012"><td class="memTemplItemLeft" align="right" valign="top">std::span&lt; const T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>value</b> () const</td></tr>
 <tr class="separator:a9fc3dd522556be5c2bfbc8adb96c5012"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7b47ad64dd179aedd90ddc6bc26dde8" id="r_ab7b47ad64dd179aedd90ddc6bc26dde8"><td class="memTemplParams" colspan="2">template&lt;concepts::FloatingPoint T&gt; </td></tr>
+<tr class="memitem:ab7b47ad64dd179aedd90ddc6bc26dde8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#ab7b47ad64dd179aedd90ddc6bc26dde8">push_back</a> (T value)</td></tr>
+<tr class="memdesc:ab7b47ad64dd179aedd90ddc6bc26dde8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends <code>value</code> to the end of the buffer.  <br /></td></tr>
+<tr class="separator:ab7b47ad64dd179aedd90ddc6bc26dde8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a612bb7307b6b37f8770aadfb69676e47" id="r_a612bb7307b6b37f8770aadfb69676e47"><td class="memTemplParams" colspan="2">template&lt;typename TupleType  = wtf::default_fp_types&gt; </td></tr>
+<tr class="memitem:a612bb7307b6b37f8770aadfb69676e47"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#a612bb7307b6b37f8770aadfb69676e47">push_back</a> (value_type &amp;value)</td></tr>
+<tr class="memdesc:a612bb7307b6b37f8770aadfb69676e47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends the value wrapped by <code>value</code> to the end of the buffer.  <br /></td></tr>
+<tr class="separator:a612bb7307b6b37f8770aadfb69676e47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9e9cedcc837402ad572898642c19bca" id="r_ae9e9cedcc837402ad572898642c19bca"><td class="memTemplParams" colspan="2">template&lt;typename TupleType  = wtf::default_fp_types&gt; </td></tr>
+<tr class="memitem:ae9e9cedcc837402ad572898642c19bca"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#ae9e9cedcc837402ad572898642c19bca">push_back</a> (const value_type &amp;value)</td></tr>
+<tr class="memdesc:ae9e9cedcc837402ad572898642c19bca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends the value wrapped by <code>value</code> to the end of the buffer.  <br /></td></tr>
+<tr class="separator:ae9e9cedcc837402ad572898642c19bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad49a068877bda94f7b2e337f1766188c" id="r_ad49a068877bda94f7b2e337f1766188c"><td class="memTemplParams" colspan="2">template&lt;typename TupleType  = wtf::default_fp_types, concepts::WTFFloat FloatType&gt; </td></tr>
+<tr class="memitem:ad49a068877bda94f7b2e337f1766188c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#ad49a068877bda94f7b2e337f1766188c">push_back</a> (<a class="el" href="classwtf_1_1fp_1_1FloatView.html">fp::FloatView</a>&lt; FloatType &gt; value)</td></tr>
+<tr class="memdesc:ad49a068877bda94f7b2e337f1766188c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends the value aliased by <code>value</code> to the end of the buffer.  <br /></td></tr>
+<tr class="separator:ad49a068877bda94f7b2e337f1766188c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61554678936dd30fd11f35a5f880c70f" id="r_a61554678936dd30fd11f35a5f880c70f"><td class="memTemplParams" colspan="2">template&lt;concepts::FloatingPoint T&gt; </td></tr>
+<tr class="memitem:a61554678936dd30fd11f35a5f880c70f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#a61554678936dd30fd11f35a5f880c70f">reserve</a> (size_type n)</td></tr>
+<tr class="memdesc:a61554678936dd30fd11f35a5f880c70f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserves storage for at least <code>n</code> elements.  <br /></td></tr>
+<tr class="separator:a61554678936dd30fd11f35a5f880c70f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
@@ -196,7 +216,7 @@ Related Symbols</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A type-erased buffer of floating-point values. </p>
-<p>Conceptually this class type-erases a buffer (i.e. an array) of floating- point types. Think of the buffer more like std::array rather than std::vector. In particular, the size of <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> objects are fixed and can not be changed (aside from assigning a new <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> to them). </p>
+<p>Conceptually this class type-erases a buffer (i.e. an array) of floating- point types. Think of the buffer more like std::vector rather than std::array: <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> objects own their memory and can grow via <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#ab7b47ad64dd179aedd90ddc6bc26dde8" title="Appends value to the end of the buffer.">push_back()</a>/reserve(). See <a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">BufferView</a> for the span-like, non-owning counterpart to this class. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a33ae684e80d7ae56007efd7066f7a087" name="a33ae684e80d7ae56007efd7066f7a087"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a33ae684e80d7ae56007efd7066f7a087">&#9670;&#160;</a></span>holder_pointer</h2>
@@ -832,6 +852,257 @@ template&lt;concepts::FPIterator BeginItr, concepts::FPIterator EndItr&gt; </div
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">No-throw</td><td>guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae9e9cedcc837402ad572898642c19bca" name="ae9e9cedcc837402ad572898642c19bca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9e9cedcc837402ad572898642c19bca">&#9670;&#160;</a></span>push_back() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TupleType  = wtf::default_fp_types&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wtf::buffer::FloatBuffer::push_back </td>
+          <td>(</td>
+          <td class="paramtype">const value_type &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Appends the value wrapped by <code>value</code> to the end of the buffer. </p>
+<p>This is the const-qualified overload of <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#a612bb7307b6b37f8770aadfb69676e47" title="Appends the value wrapped by value to the end of the buffer.">push_back(value_type&amp;)</a>. See that method's documentation for more details.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TupleType</td><td>A std::tuple of candidate floating-point types to try when *this is not yet holding a buffer.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>The Float to unwrap and append to the buffer.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if *this is holding a buffer whose element type does not match the type wrapped by <code>value</code>, or if *this is not holding a buffer and none of the types in <code>TupleType</code> match. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>if allocating storage for the new element fails. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad49a068877bda94f7b2e337f1766188c" name="ad49a068877bda94f7b2e337f1766188c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad49a068877bda94f7b2e337f1766188c">&#9670;&#160;</a></span>push_back() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TupleType  = wtf::default_fp_types, concepts::WTFFloat FloatType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wtf::buffer::FloatBuffer::push_back </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classwtf_1_1fp_1_1FloatView.html">fp::FloatView</a>&lt; FloatType &gt;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Appends the value aliased by <code>value</code> to the end of the buffer. </p>
+<p>This is the FloatView overload of <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#a612bb7307b6b37f8770aadfb69676e47" title="Appends the value wrapped by value to the end of the buffer.">push_back(value_type&amp;)</a>. It accepts both mutable (<code><a class="el" href="classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating-point value.">fp::FloatView</a>&lt;<a class="el" href="classwtf_1_1fp_1_1Float.html" title="Type-erases a floating-point number.">fp::Float</a>&gt;</code>) and read-only (<code><a class="el" href="classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating-point value.">fp::FloatView</a>&lt;const <a class="el" href="classwtf_1_1fp_1_1Float.html" title="Type-erases a floating-point number.">fp::Float</a>&gt;</code>) views; either way, the value is copied into the buffer. See <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#a612bb7307b6b37f8770aadfb69676e47" title="Appends the value wrapped by value to the end of the buffer.">push_back(value_type&amp;)</a> for more details, including how <code>TupleType</code> is used.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TupleType</td><td>A std::tuple of candidate floating-point types to try when *this is not yet holding a buffer. </td></tr>
+    <tr><td class="paramname">FloatType</td><td>The type of Float being aliased by <code>value</code>. Must satisfy the concepts::WTFFloat concept.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>The FloatView to unwrap and append to the buffer.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if *this is holding a buffer whose element type does not match the type aliased by <code>value</code>, or if *this is not holding a buffer and none of the types in <code>TupleType</code> match. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>if allocating storage for the new element fails. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab7b47ad64dd179aedd90ddc6bc26dde8" name="ab7b47ad64dd179aedd90ddc6bc26dde8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7b47ad64dd179aedd90ddc6bc26dde8">&#9670;&#160;</a></span>push_back() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;concepts::FloatingPoint T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wtf::buffer::FloatBuffer::push_back </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Appends <code>value</code> to the end of the buffer. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of floating-point value being appended. Must satisfy the concepts::FloatingPoint concept.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>If *this is not currently holding a buffer, this method creates a new, empty buffer capable of holding values of type std::decay_t&lt;T&gt; and then appends <code>value</code> to it. If *this is already holding a buffer, <code>value</code> is appended provided std::decay_t&lt;T&gt; matches the type held by *this.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>The value to append to the buffer.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if *this is holding a buffer whose element type is not std::decay_t&lt;T&gt;. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>if allocating storage for the new element fails. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a612bb7307b6b37f8770aadfb69676e47" name="a612bb7307b6b37f8770aadfb69676e47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a612bb7307b6b37f8770aadfb69676e47">&#9670;&#160;</a></span>push_back() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TupleType  = wtf::default_fp_types&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wtf::buffer::FloatBuffer::push_back </td>
+          <td>(</td>
+          <td class="paramtype">value_type &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Appends the value wrapped by <code>value</code> to the end of the buffer. </p>
+<p>This overload (and its FloatView and const-qualified analogs) allow a type-erased <a class="el" href="classwtf_1_1fp_1_1Float.html" title="Type-erases a floating-point number.">fp::Float</a>/fp::FloatView to be appended without the caller needing to know the wrapped type. If *this is not currently holding a buffer, the type is instead recovered at runtime by trying each type in <code>TupleType</code> (see fp::visit_float); the default, <code>TupleType</code> = <a class="el" href="namespacewtf.html#a746023b756b44de96d0dd25e8af54c30" title="A tuple holding C++&#39;s default, real, floating-point types.">wtf::default_fp_types</a>, covers float/double/long double, so callers wrapping one of those never need to specify this template argument explicitly.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TupleType</td><td>A std::tuple of candidate floating-point types to try when *this is not yet holding a buffer. Ignored if *this already holds a buffer (in that case the existing element type is used directly).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>The Float to unwrap and append to the buffer.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if *this is holding a buffer whose element type does not match the type wrapped by <code>value</code>, or if *this is not holding a buffer and none of the types in <code>TupleType</code> match. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>if allocating storage for the new element fails. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a61554678936dd30fd11f35a5f880c70f" name="a61554678936dd30fd11f35a5f880c70f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61554678936dd30fd11f35a5f880c70f">&#9670;&#160;</a></span>reserve()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;concepts::FloatingPoint T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wtf::buffer::FloatBuffer::reserve </td>
+          <td>(</td>
+          <td class="paramtype">size_type&#160;</td>
+          <td class="paramname"><em>n</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reserves storage for at least <code>n</code> elements. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of floating-point value the buffer will hold. Must satisfy the concepts::FloatingPoint concept.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>If *this is not currently holding a buffer, this method creates a new, empty buffer capable of holding values of type std::decay_t&lt;T&gt; and reserves storage in it. If *this is already holding a buffer, storage is reserved provided std::decay_t&lt;T&gt; matches the type held by *this.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">n</td><td>The number of elements to reserve storage for.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if *this is holding a buffer whose element type is not std::decay_t&lt;T&gt;. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>if allocating storage fails. Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>

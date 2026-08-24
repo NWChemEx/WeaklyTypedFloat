@@ -1,0 +1,201 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FloatBuffer and BufferView Containers &mdash; WeaklyTypedFloats 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Architecture of WTF" href="architecture.html" />
+    <link rel="prev" title="Performing Type-Safe Operations" href="operations.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="statement_of_need.html">Why do we need WTF?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scope.html">What is the Scope of WTF?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_erasure.html">Type-Erasure in WTF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Performing Type-Safe Operations</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">FloatBuffer and BufferView Containers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#design-considerations">Design Considerations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#floatbuffer-is-vector-like-not-array-like">FloatBuffer is vector-like, not array-like</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bufferview-is-span-like-not-vector-like">BufferView is span-like, not vector-like</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#misc-notes">Misc. Notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#implementing-push-back-for-a-type-erased-t">Implementing push_back for a type-erased T</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Architecture of WTF</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../adding_a_new_type.html">Registering a New Type with WTF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../writing_a_visitor.html">Writing a Visitor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/WeaklyTypedFloat/wtf_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WeaklyTypedFloats</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Developer Documentation</a></li>
+      <li class="breadcrumb-item active">FloatBuffer and BufferView Containers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/developer/float_buffer.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="floatbuffer-and-bufferview-containers">
+<h1>FloatBuffer and BufferView Containers<a class="headerlink" href="#floatbuffer-and-bufferview-containers" title="Link to this heading"></a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">wtf::FloatBuffer</span></code> and <code class="docutils literal notranslate"><span class="pre">wtf::BufferView</span></code> both type-erase a buffer of
+floating-point values. In practice, array-of-structure objects like
+<code class="docutils literal notranslate"><span class="pre">std::vector&lt;Float&gt;</span></code> are performance inefficient and the point of
+<code class="docutils literal notranslate"><span class="pre">wtf::FloatBuffer</span></code> and <code class="docutils literal notranslate"><span class="pre">wtf::BufferView</span></code> is to provide an abstraction over
+the underlying memory so that user code looks/behave like it uses
+<code class="docutils literal notranslate"><span class="pre">std::vector&lt;Float&gt;</span></code> as much as possible. The two classes exist to serve two
+different relationships to
+the underlying memory (see <a class="reference internal" href="scope.html"><span class="doc">What is the Scope of WTF?</span></a> for the original design goals):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">wtf::FloatBuffer</span></code> <strong>owns</strong> the memory it type-erases.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">wtf::BufferView</span></code> <strong>aliases</strong> memory owned by someone else (a
+<code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code>, a <code class="docutils literal notranslate"><span class="pre">std::vector</span></code>, a raw pointer, …).</p></li>
+</ul>
+<p>Both are implemented with the same “Interface”/”Holder”/”Model” type-erasure
+pattern described in <a class="reference internal" href="type_erasure.html"><span class="doc">Type-Erasure in WTF</span></a>.</p>
+<section id="design-considerations">
+<h2>Design Considerations<a class="headerlink" href="#design-considerations" title="Link to this heading"></a></h2>
+<section id="floatbuffer-is-vector-like-not-array-like">
+<h3>FloatBuffer is vector-like, not array-like<a class="headerlink" href="#floatbuffer-is-vector-like-not-array-like" title="Link to this heading"></a></h3>
+<p>Early on, <code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code> was a fixed-size once constructed – more like
+<code class="docutils literal notranslate"><span class="pre">std::array&lt;T,</span> <span class="pre">N&gt;</span></code> than <code class="docutils literal notranslate"><span class="pre">std::vector&lt;T&gt;</span></code>. This led to a pattern where the
+user had to: 1. Create a <code class="docutils literal notranslate"><span class="pre">std::vector&lt;Float&gt;</span></code> and then 2. Move the
+<code class="docutils literal notranslate"><span class="pre">std::vector&lt;Float&gt;</span></code> into the <code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code>. This felt like a workaround
+to get around the fact that <code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code> was not vector-like. So we opted
+to make <code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code> vector-like, so that it can be constructed empty and
+then grow as needed.</p>
+</section>
+<section id="bufferview-is-span-like-not-vector-like">
+<h3>BufferView is span-like, not vector-like<a class="headerlink" href="#bufferview-is-span-like-not-vector-like" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">BufferView</span></code> intentionally does <strong>not</strong> get <code class="docutils literal notranslate"><span class="pre">push_back</span></code>/<code class="docutils literal notranslate"><span class="pre">reserve</span></code>.
+A view aliases memory it does not own; there is nothing for it to grow into
+without invalidating whatever it is aliasing (and, if it aliased a
+<code class="docutils literal notranslate"><span class="pre">std::vector</span></code> that reallocated, the view would be left dangling regardless).
+So <code class="docutils literal notranslate"><span class="pre">BufferView</span></code> stays span-like: a fixed-size, non-owning window onto
+another object’s contiguous memory.</p>
+</section>
+</section>
+<section id="misc-notes">
+<h2>Misc. Notes<a class="headerlink" href="#misc-notes" title="Link to this heading"></a></h2>
+<section id="implementing-push-back-for-a-type-erased-t">
+<h3>Implementing push_back for a type-erased T<a class="headerlink" href="#implementing-push-back-for-a-type-erased-t" title="Link to this heading"></a></h3>
+<p>We want <code class="docutils literal notranslate"><span class="pre">push_back</span></code> to be able to accept raw floating-point values (e.g.
+<code class="docutils literal notranslate"><span class="pre">double</span></code>), <code class="docutils literal notranslate"><span class="pre">wtf::Float</span></code>, or <code class="docutils literal notranslate"><span class="pre">wtf::FloatView</span></code>. In each case the
+implementation should work out what concrete C++ type to store. For the raw-
+value overload this is trivial – the type is a template parameter, known at
+compile time. For <code class="docutils literal notranslate"><span class="pre">Float</span></code>/ <code class="docutils literal notranslate"><span class="pre">FloatView</span></code> it is only known at runtime.</p>
+<p>The easy type-erasure scenario is when <code class="docutils literal notranslate"><span class="pre">*this</span></code> already holds a buffer: the
+held buffer’s element type is known (via RTTI), so the incoming <code class="docutils literal notranslate"><span class="pre">Float</span></code>/
+<code class="docutils literal notranslate"><span class="pre">FloatView</span></code> just needs to be un-erased to that type (via <code class="docutils literal notranslate"><span class="pre">fp::float_cast</span></code>,
+throwing <code class="docutils literal notranslate"><span class="pre">std::runtime_error</span></code> on a mismatch, the same throw-on-mismatch idiom
+used everywhere else in WTF) and appended.</p>
+<p>The hard case is appending a <code class="docutils literal notranslate"><span class="pre">Float</span></code>/ <code class="docutils literal notranslate"><span class="pre">FloatView</span></code> to an <em>empty</em>
+<code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code> – because we need to work out what type the buffer should hold.
+The first solution we tried relies on the fact that the <code class="docutils literal notranslate"><span class="pre">Float</span></code>/
+<code class="docutils literal notranslate"><span class="pre">FloatView</span></code>’s own internal model knows the held type, so if it can build the
+<code class="docutils literal notranslate"><span class="pre">ContiguousModel</span></code> directly we would not need a candidate list. The problem is
+that we have a firm <code class="docutils literal notranslate"><span class="pre">buffer</span></code> depends on <code class="docutils literal notranslate"><span class="pre">fp</span></code> architecture, i.e., the
+<code class="docutils literal notranslate"><span class="pre">fp</span></code> module needs to be fully resolved before the <code class="docutils literal notranslate"><span class="pre">buffer</span></code> module can be
+compiled. Having <code class="docutils literal notranslate"><span class="pre">Float</span></code>/ <code class="docutils literal notranslate"><span class="pre">FloatView</span></code>’s model build the <code class="docutils literal notranslate"><span class="pre">ContiguousModel</span></code>
+directly would require us to resolve part of the <code class="docutils literal notranslate"><span class="pre">buffer</span></code> module before the
+<code class="docutils literal notranslate"><span class="pre">fp</span></code> module can be compiled, which is a circular dependency.</p>
+<p>The current solution is to have the caller supply a <code class="docutils literal notranslate"><span class="pre">TupleType</span></code> of candidate
+types,  exactly the same mechanism <a class="reference internal" href="operations.html"><span class="doc">Performing Type-Safe Operations</span></a> describes for dispatching
+operations.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="operations.html" class="btn btn-neutral float-left" title="Performing Type-Safe Operations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="architecture.html" class="btn btn-neutral float-right" title="Architecture of WTF" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, NWChemEx Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

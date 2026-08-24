@@ -140,6 +140,9 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~FloatViewHolder</
 <tr class="memitem:a486dc804376c6dab66cb623201af8703" id="r_a486dc804376c6dab66cb623201af8703"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatViewHolder.html#ad9d9106ecb0cca71a99a1aaff690af0f">const_type_info_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatViewHolder.html#a486dc804376c6dab66cb623201af8703">type</a> () const</td></tr>
 <tr class="memdesc:a486dc804376c6dab66cb623201af8703"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides access to the RTTI of the derived type.  <br /></td></tr>
 <tr class="separator:a486dc804376c6dab66cb623201af8703"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fa3f0f83e8d92a25267a1288ad2575a" id="r_a3fa3f0f83e8d92a25267a1288ad2575a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatViewHolder.html#a3fa3f0f83e8d92a25267a1288ad2575a">is_const</a> () const</td></tr>
+<tr class="memdesc:a3fa3f0f83e8d92a25267a1288ad2575a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the aliased value read-only?  <br /></td></tr>
+<tr class="separator:a3fa3f0f83e8d92a25267a1288ad2575a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6761dd3d7647a39d229407e08a86e0a" id="r_aa6761dd3d7647a39d229407e08a86e0a"><td class="memTemplParams" colspan="2">template&lt;concepts::FloatingPoint T&gt; </td></tr>
 <tr class="memitem:aa6761dd3d7647a39d229407e08a86e0a"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatViewHolder.html#aa6761dd3d7647a39d229407e08a86e0a">is_type</a> () const</td></tr>
 <tr class="memdesc:aa6761dd3d7647a39d229407e08a86e0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does *this contain an object of type <code>T</code>?  <br /></td></tr>
@@ -320,6 +323,42 @@ template&lt;concepts::WTFFloat FloatType&gt; </div>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::bad_alloc</td><td>if memory could not be allocated for the copy. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3fa3f0f83e8d92a25267a1288ad2575a" name="a3fa3f0f83e8d92a25267a1288ad2575a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3fa3f0f83e8d92a25267a1288ad2575a">&#9670;&#160;</a></span>is_const()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;concepts::WTFFloat FloatType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatViewHolder.html">wtf::fp::detail_::FloatViewHolder</a>&lt; FloatType &gt;::is_const </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Is the aliased value read-only? </p>
+<dl class="section return"><dt>Returns</dt><dd>True if the aliased value is const-qualified, false otherwise.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>

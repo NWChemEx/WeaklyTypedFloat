@@ -214,6 +214,10 @@ Friends</h2></td></tr>
 template&lt;concepts::FloatingPoint T&gt; </td></tr>
 <tr class="memitem:a832907c4a98f11d4a6eab22667a0a6ed"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>make_float_view</b> (T &amp;<a class="el" href="classwtf_1_1fp_1_1FloatView.html#a5e836fd67fe914733449a2543235ab75">value</a>)</td></tr>
 <tr class="separator:a832907c4a98f11d4a6eab22667a0a6ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94b52471a600daaff6c42df88f22ac40" id="r_a94b52471a600daaff6c42df88f22ac40"><td class="memTemplParams" colspan="2"><a id="a94b52471a600daaff6c42df88f22ac40" name="a94b52471a600daaff6c42df88f22ac40"></a>
+template&lt;typename TupleType , typename Visitor , typename... Args&gt; </td></tr>
+<tr class="memitem:a94b52471a600daaff6c42df88f22ac40"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>visit_float_view</b> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args)</td></tr>
+<tr class="separator:a94b52471a600daaff6c42df88f22ac40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="related" name="related"></a>
 Related Symbols</h2></td></tr>
@@ -227,6 +231,10 @@ Related Symbols</h2></td></tr>
 <tr class="memitem:a832907c4a98f11d4a6eab22667a0a6ed"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1FloatView.html#a832907c4a98f11d4a6eab22667a0a6ed">make_float_view</a> (T &amp;<a class="el" href="classwtf_1_1fp_1_1FloatView.html#a5e836fd67fe914733449a2543235ab75">value</a>)</td></tr>
 <tr class="memdesc:a832907c4a98f11d4a6eab22667a0a6ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function for creating a <a class="el" href="classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating-point value.">FloatView</a>.  <br /></td></tr>
 <tr class="separator:a832907c4a98f11d4a6eab22667a0a6ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94b52471a600daaff6c42df88f22ac40" id="r_a94b52471a600daaff6c42df88f22ac40"><td class="memTemplParams" colspan="2">template&lt;typename TupleType , typename Visitor , typename... Args&gt; </td></tr>
+<tr class="memitem:a94b52471a600daaff6c42df88f22ac40"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1FloatView.html#a94b52471a600daaff6c42df88f22ac40">visit_float_view</a> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args)</td></tr>
+<tr class="memdesc:a94b52471a600daaff6c42df88f22ac40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the process of visiting zero or more <a class="el" href="classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating-point value.">FloatView</a> objects.  <br /></td></tr>
+<tr class="separator:a94b52471a600daaff6c42df88f22ac40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -1085,6 +1093,62 @@ template&lt;concepts::FloatingPoint T&gt; </div>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::bad_alloc</td><td>if memory for the internal holder can not be allocated. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a94b52471a600daaff6c42df88f22ac40" name="a94b52471a600daaff6c42df88f22ac40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94b52471a600daaff6c42df88f22ac40">&#9670;&#160;</a></span>visit_float_view()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TupleType , typename Visitor , typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto visit_float_view </td>
+          <td>(</td>
+          <td class="paramtype">Visitor &amp;&amp;&#160;</td>
+          <td class="paramname"><em>visitor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Wraps the process of visiting zero or more <a class="el" href="classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating-point value.">FloatView</a> objects. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TupleType</td><td>A std::tuple of floating-point types to try. Must be provided by the caller. </td></tr>
+    <tr><td class="paramname">Visitor</td><td>The type of the visitor to call. Must be a callable object. Will be inferred by the compiler. </td></tr>
+    <tr><td class="paramname">Args</td><td>The cv-qualified <a class="el" href="classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating-point value.">FloatView</a> objects to type-restore. Will be inferred by the compiler.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This is the <a class="el" href="classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating-point value.">FloatView</a> analog of wtf::fp::visit_float. See that function's documentation for more details.</p>
+<dl class="section return"><dt>Returns</dt><dd>The result of invoking <code>visitor</code> with the type-restored aliased values.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if none of the types in <code>TupleType</code> match the type aliased by <code>args</code>. Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>

@@ -181,6 +181,12 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~BufferHolder</b> 
 <tr class="memitem:a1eb9cd1b364e629f3a8011dd261d224e" id="r_a1eb9cd1b364e629f3a8011dd261d224e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#a1eb9cd1b364e629f3a8011dd261d224e">is_contiguous</a> () const</td></tr>
 <tr class="memdesc:a1eb9cd1b364e629f3a8011dd261d224e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Are the elements in the buffer contiguous?  <br /></td></tr>
 <tr class="separator:a1eb9cd1b364e629f3a8011dd261d224e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2ac371b06f6020248e5dc90e7d0636c" id="r_aa2ac371b06f6020248e5dc90e7d0636c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#aa2ac371b06f6020248e5dc90e7d0636c">push_back</a> (<a class="el" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#a4c7c8f0d1d017a3f0911025f6cbfaf2d">const_view_type</a> value)</td></tr>
+<tr class="memdesc:aa2ac371b06f6020248e5dc90e7d0636c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends a type-erased element to the end of the buffer.  <br /></td></tr>
+<tr class="separator:aa2ac371b06f6020248e5dc90e7d0636c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10bf264477c7a7a212dcafc5805acd15" id="r_a10bf264477c7a7a212dcafc5805acd15"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#a10bf264477c7a7a212dcafc5805acd15">reserve</a> (<a class="el" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#a049b31cff676c3cf6d23f2f8f3df2395">size_type</a> n)</td></tr>
+<tr class="memdesc:a10bf264477c7a7a212dcafc5805acd15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserves storage for at least <code>n</code> elements.  <br /></td></tr>
+<tr class="separator:a10bf264477c7a7a212dcafc5805acd15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e9cafb661eef68563da782d90736781" id="r_a9e9cafb661eef68563da782d90736781"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#a9e9cafb661eef68563da782d90736781">are_equal</a> (const <a class="el" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#ac8a67bf1b4219f16429a66df2a6de9eb">holder_type</a> &amp;other) const</td></tr>
 <tr class="memdesc:a9e9cafb661eef68563da782d90736781"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is this polymorphically equal to <code>other</code>?  <br /></td></tr>
 <tr class="separator:a9e9cafb661eef68563da782d90736781"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -494,6 +500,90 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>assert_in_range</b> (
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">None</td><td>No-throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa2ac371b06f6020248e5dc90e7d0636c" name="aa2ac371b06f6020248e5dc90e7d0636c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2ac371b06f6020248e5dc90e7d0636c">&#9670;&#160;</a></span>push_back()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wtf::buffer::detail_::BufferHolder::push_back </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#a4c7c8f0d1d017a3f0911025f6cbfaf2d">const_view_type</a>&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Appends a type-erased element to the end of the buffer. </p>
+<p>This method is used to append an element to the held buffer without knowing the buffer's element type at compile-time. The derived class is responsible for un-erasing <code>value</code> (via fp::float_cast) and appending it to its typed storage.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>A type-erased view of the value to append.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if the type of <code>value</code> does not match the type held by *this. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>if reallocating the buffer fails. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a10bf264477c7a7a212dcafc5805acd15" name="a10bf264477c7a7a212dcafc5805acd15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10bf264477c7a7a212dcafc5805acd15">&#9670;&#160;</a></span>reserve()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wtf::buffer::detail_::BufferHolder::reserve </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#a049b31cff676c3cf6d23f2f8f3df2395">size_type</a>&#160;</td>
+          <td class="paramname"><em>n</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reserves storage for at least <code>n</code> elements. </p>
+<p>This method simply forwards to vector_type's reserve.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">n</td><td>The number of elements to reserve storage for.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::bad_alloc</td><td>if reallocating the buffer fails. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::length_error</td><td>if <code>n</code> exceeds the buffer's max size. Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
