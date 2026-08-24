@@ -379,8 +379,14 @@ private:
     template<concepts::FloatingPoint T>
     friend auto make_float_view(T& value);
 
+    template<typename TupleType, typename Visitor, typename... Args>
+    friend auto visit_float_view(Visitor&& visitor, Args&&... args);
+
     /// Determines if *this is holding a value or not
     bool is_holding_() const noexcept { return m_pfloat_ != nullptr; }
+
+    auto& holder_() { return *m_pfloat_; }
+    const auto& holder_() const { return *m_pfloat_; }
 
     /** @brief Returns the RTTI of the held float.
      *
@@ -529,6 +535,32 @@ T FloatView<FloatType>::value() const {
         throw std::runtime_error("wtf::FloatView::value: bad cast");
     }
     return *pderived->data();
+}
+
+/** @brief Wraps the process of visiting zero or more FloatView objects.
+ *
+ *  @relates FloatView
+ *
+ *  @tparam TupleType A std::tuple of floating-point types to try. Must be
+ *                    provided by the caller.
+ *  @tparam Visitor The type of the visitor to call. Must be a callable object.
+ *                 Will be inferred by the compiler.
+ *  @tparam Args The cv-qualified FloatView objects to type-restore. Will be
+ *               inferred by the compiler.
+ *
+ *  This is the FloatView analog of wtf::fp::visit_float. See that function's
+ *  documentation for more details.
+ *
+ *  @return The result of invoking @p visitor with the type-restored aliased
+ *          values.
+ *
+ *  @throw std::runtime_error if none of the types in @p TupleType match the
+ *                            type aliased by @p args. Strong throw guarantee.
+ */
+template<typename TupleType, typename Visitor, typename... Args>
+auto visit_float_view(Visitor&& visitor, Args&&... args) {
+    return detail_::visit_float_view_model<TupleType>(
+      std::forward<Visitor>(visitor), (args.holder_())...);
 }
 
 } // namespace wtf::fp

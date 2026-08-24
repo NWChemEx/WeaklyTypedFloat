@@ -101,4 +101,36 @@ TEMPLATE_LIST_TEST_CASE("BufferHolder", "[wtf]", default_fp_types) {
         std::vector<other_t> other_vector3{1.0, 2.0, 3.0};
         REQUIRE_FALSE(holder.are_equal(other_model_type(other_vector3)));
     }
+
+    SECTION("reserve(n) [ContiguousModel]") {
+        empty.reserve(10);
+        REQUIRE(empty.size() == 0); // reserve does not change size
+
+        auto* pdata = empty.data();
+        for(std::size_t i = 0; i < 10; ++i) {
+            TestType val(i);
+            empty.push_back(wtf::fp::FloatView<const wtf::fp::Float>(val));
+        }
+        REQUIRE(empty.size() == 10);
+        REQUIRE(empty.data() == pdata); // no reallocation within reserved cap
+    }
+
+    SECTION("push_back(const_view_type) [BufferHolder]") {
+        TestType four{4.0};
+        wtf::fp::FloatView<const wtf::fp::Float> view(four);
+
+        holder.push_back(view);
+        REQUIRE(holder.size() == 4);
+        REQUIRE(holder.at(3) == four);
+
+        empty_holder.push_back(view);
+        REQUIRE(empty_holder.size() == 1);
+        REQUIRE(empty_holder.at(0) == four);
+
+        // Wrong type -- throws and leaves the buffer untouched
+        other_t wrong{5.0};
+        wtf::fp::FloatView<const wtf::fp::Float> wrong_view(wrong);
+        REQUIRE_THROWS_AS(holder.push_back(wrong_view), std::runtime_error);
+        REQUIRE(holder.size() == 4);
+    }
 }

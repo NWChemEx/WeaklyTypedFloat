@@ -19,15 +19,17 @@
 #include <wtf/buffer/buffer_view.hpp>
 #include <wtf/buffer/detail_/contiguous_model.hpp>
 #include <wtf/concepts/iterator.hpp>
+#include <wtf/fp/float.hpp>
 
 namespace wtf::buffer {
 
 /** @brief A type-erased buffer of floating-point values.
  *
  *  Conceptually this class type-erases a buffer (i.e. an array) of floating-
- *  point types. Think of the buffer more like std::array rather than
- *  std::vector. In particular, the size of FloatBuffer objects are fixed and
- *  can not be changed (aside from assigning a new FloatBuffer to them).
+ *  point types. Think of the buffer more like std::vector rather than
+ *  std::array: FloatBuffer objects own their memory and can grow via
+ *  push_back()/reserve(). See BufferView for the
+ *  span-like, non-owning counterpart to this class.
  */
 class FloatBuffer {
 public:
@@ -316,6 +318,160 @@ public:
     template<typename T>
     std::span<const T> value() const {
         return is_holding_() ? downcast_<T>().span() : std::span<const T>{};
+    }
+
+    // -------------------------------------------------------------------------
+    // Growth
+    // -------------------------------------------------------------------------
+
+    /** @brief Appends @p value to the end of the buffer.
+     *
+     *  @tparam T The type of floating-point value being appended. Must
+     *            satisfy the concepts::FloatingPoint concept.
+     *
+     *  If *this is not currently holding a buffer, this method creates a new,
+     *  empty buffer capable of holding values of type std::decay_t<T> and
+     *  then appends @p value to it. If *this is already holding a buffer,
+     *  @p value is appended provided std::decay_t<T> matches the type held
+     *  by *this.
+     *
+     *  @param[in] value The value to append to the buffer.
+     *
+     *  @throw std::runtime_error if *this is holding a buffer whose element
+     *                            type is not std::decay_t<T>. Strong throw
+     *                            guarantee.
+     *  @throw std::bad_alloc if allocating storage for the new element fails.
+     *                        Strong throw guarantee.
+     */
+    template<concepts::FloatingPoint T>
+    void push_back(T value) {
+        using clean_t = std::decay_t<T>;
+        if(!is_holding_()) { *this = FloatBuffer(std::vector<clean_t>{}); }
+        push_back(fp::make_float<clean_t>(std::move(value)));
+    }
+
+    /** @brief Appends the value wrapped by @p value to the end of the buffer.
+     *
+     *  This overload (and its FloatView and const-qualified analogs) allow a
+     *  type-erased fp::Float/fp::FloatView to be appended without the caller
+     *  needing to know the wrapped type. If *this is not currently holding a
+     *  buffer, the type is instead recovered at runtime by trying each type
+     *  in @p TupleType (see fp::visit_float); the default, @p TupleType =
+     *  wtf::default_fp_types, covers float/double/long double, so callers
+     *  wrapping one of those never need to specify this template argument
+     *  explicitly.
+     *
+     *  @tparam TupleType A std::tuple of candidate floating-point types to
+     *                    try when *this is not yet holding a buffer. Ignored
+     *                    if *this already holds a buffer (in that case the
+     *                    existing element type is used directly).
+     *
+     *  @param[in] value The Float to unwrap and append to the buffer.
+     *
+     *  @throw std::runtime_error if *this is holding a buffer whose element
+     *                            type does not match the type wrapped by
+     *                            @p value, or if *this is not holding a
+     *                            buffer and none of the types in
+     *                            @p TupleType match. Strong throw guarantee.
+     *  @throw std::bad_alloc if allocating storage for the new element fails.
+     *                        Strong throw guarantee.
+     */
+    template<typename TupleType = wtf::default_fp_types>
+    void push_back(value_type& value) {
+        if(!is_holding_()) {
+            fp::visit_float<TupleType>(
+              [this](auto v) { push_back(std::move(v)); }, value);
+        } else {
+            holder_().push_back(value.as_view());
+        }
+    }
+
+    /** @brief Appends the value wrapped by @p value to the end of the buffer.
+     *
+     *  This is the const-qualified overload of push_back(value_type&). See
+     *  that method's documentation for more details.
+     *
+     *  @tparam TupleType A std::tuple of candidate floating-point types to
+     *                    try when *this is not yet holding a buffer.
+     *
+     *  @param[in] value The Float to unwrap and append to the buffer.
+     *
+     *  @throw std::runtime_error if *this is holding a buffer whose element
+     *                            type does not match the type wrapped by
+     *                            @p value, or if *this is not holding a
+     *                            buffer and none of the types in
+     *                            @p TupleType match. Strong throw guarantee.
+     *  @throw std::bad_alloc if allocating storage for the new element fails.
+     *                        Strong throw guarantee.
+     */
+    template<typename TupleType = wtf::default_fp_types>
+    void push_back(const value_type& value) {
+        if(!is_holding_()) {
+            fp::visit_float<TupleType>(
+              [this](auto v) { push_back(std::move(v)); }, value);
+        } else {
+            holder_().push_back(value.as_view());
+        }
+    }
+
+    /** @brief Appends the value aliased by @p value to the end of the buffer.
+     *
+     *  This is the FloatView overload of push_back(value_type&). It accepts
+     *  both mutable (`fp::FloatView<fp::Float>`) and read-only
+     *  (`fp::FloatView<const fp::Float>`) views; either way, the value is
+     *  copied into the buffer. See push_back(value_type&) for more details,
+     *  including how @p TupleType is used.
+     *
+     *  @tparam TupleType A std::tuple of candidate floating-point types to
+     *                    try when *this is not yet holding a buffer.
+     *  @tparam FloatType The type of Float being aliased by @p value. Must
+     *                    satisfy the concepts::WTFFloat concept.
+     *
+     *  @param[in] value The FloatView to unwrap and append to the buffer.
+     *
+     *  @throw std::runtime_error if *this is holding a buffer whose element
+     *                            type does not match the type aliased by
+     *                            @p value, or if *this is not holding a
+     *                            buffer and none of the types in
+     *                            @p TupleType match. Strong throw guarantee.
+     *  @throw std::bad_alloc if allocating storage for the new element fails.
+     *                        Strong throw guarantee.
+     */
+    template<typename TupleType = wtf::default_fp_types,
+             concepts::WTFFloat FloatType>
+    void push_back(fp::FloatView<FloatType> value) {
+        if(!is_holding_()) {
+            fp::visit_float_view<TupleType>(
+              [this](auto v) { push_back(std::move(v)); }, value);
+        } else {
+            holder_().push_back(value);
+        }
+    }
+
+    /** @brief Reserves storage for at least @p n elements.
+     *
+     *  @tparam T The type of floating-point value the buffer will hold. Must
+     *            satisfy the concepts::FloatingPoint concept.
+     *
+     *  If *this is not currently holding a buffer, this method creates a new,
+     *  empty buffer capable of holding values of type std::decay_t<T> and
+     *  reserves storage in it. If *this is already holding a buffer, storage
+     *  is reserved provided std::decay_t<T> matches the type held by *this.
+     *
+     *  @param[in] n The number of elements to reserve storage for.
+     *
+     *  @throw std::runtime_error if *this is holding a buffer whose element
+     *                            type is not std::decay_t<T>. Strong throw
+     *                            guarantee.
+     *  @throw std::bad_alloc if allocating storage fails. Strong throw
+     *                        guarantee.
+     */
+    template<concepts::FloatingPoint T>
+    void reserve(size_type n) {
+        using clean_t = std::decay_t<T>;
+        if(!is_holding_()) { *this = FloatBuffer(std::vector<clean_t>{}); }
+        // Here to ensure we get a throw if clean_t doesn't match the held type
+        downcast_<clean_t>().reserve(n);
     }
 
 private:

@@ -190,6 +190,14 @@ private:
         return const_view_type(m_buffer_[index]);
     }
 
+    /// Unwraps the type-erased value and appends it to m_buffer_
+    void push_back_(const_view_type value) override {
+        m_buffer_.push_back(fp::float_cast<FloatType>(value));
+    }
+
+    /// Forwards to vector_type's reserve
+    void reserve_(size_type n) override { m_buffer_.reserve(n); }
+
     /// Calls vector_type's size()
     size_type size_() const noexcept override { return m_buffer_.size(); }
 
