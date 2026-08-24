@@ -80,12 +80,12 @@ The hard case is appending a ``Float``/ ``FloatView`` to an *empty*
 ``FloatBuffer`` -- because we need to work out what type the buffer should hold.
 The first solution we tried relies on the fact that the ``Float``/
 ``FloatView``'s own internal model knows the held type, so if it can build the
- ``ContiguousModel`` directly we would not need a candidate list. The problem is
- that we have a firm ``buffer`` depends on ``fp`` architecture, i.e., the
- ``fp`` module needs to be fully resolved before the ``buffer`` module can be
- compiled. Having ``Float``/ ``FloatView``'s model build the ``ContiguousModel``
- directly would require us to resolve part of the ``buffer`` module before the
- ``fp`` module can be compiled, which is a circular dependency.
+``ContiguousModel`` directly we would not need a candidate list. The problem is
+that we have a firm ``buffer`` depends on ``fp`` architecture, i.e., the
+``fp`` module needs to be fully resolved before the ``buffer`` module can be
+compiled. Having ``Float``/ ``FloatView``'s model build the ``ContiguousModel``
+directly would require us to resolve part of the ``buffer`` module before the
+``fp`` module can be compiled, which is a circular dependency.
 
 The current solution is to have the caller supply a ``TupleType`` of candidate
 types,  exactly the same mechanism :doc:`operations` describes for dispatching
