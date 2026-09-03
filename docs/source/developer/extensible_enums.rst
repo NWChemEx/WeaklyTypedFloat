@@ -37,7 +37,7 @@ The problem is that a plain ``enum class`` is a closed set: its enumerators
 are fixed the moment WTF itself is compiled. :doc:`statement_of_need`
 lists, as one of WTF's goals, that "the user can extend WTF to support their
 own custom FP types without needing to modify the WTF source" -- and indeed,
-:doc:`adding_a_new_type` and ``WTF_REGISTER_FP_TYPE`` already let a
+:doc:`/adding_a_new_type` and ``WTF_REGISTER_FP_TYPE`` already let a
 downstream consumer do exactly that for compile-time use. TensorWrapper, for
 example, registers 10 custom scalar types this way. But none of those custom
 types could ever appear in a plain enum shipped by WTF, because adding an
