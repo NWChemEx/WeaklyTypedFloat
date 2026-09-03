@@ -23,17 +23,24 @@
 #include <wtf/type_traits/tuple_append.hpp>
 #include <wtf/type_traits/type_name.hpp>
 
-/** @brief Macro for quickly registering a @p T for use with WTF.
+/** @brief Macro for quickly registering a @p T for use with WTF under a
+ *         caller-chosen name.
  *
  *  This macro should be used to register a custom floating-point type @p T
  *  with WTF. "Custom" in this context means any type for which
  *  C++20's std::is_floating_point<T> is false.
  *
  *  @param[in] T The unqualified type to be registered.
+ *  @param[in] NAME A string literal to register/display @p T as (used for
+ *                  both TypeName<T>::value and the wtf::enums::FloatKind
+ *                  name). Useful when @p T's spelling (e.g. a namespace-
+ *                  qualified name or a template instantiation) would make a
+ *                  poor runtime/display name -- see WTF_REGISTER_FP_TYPE(T)
+ *                  for the common case of using @p T's own spelling.
  *
  *  In addition to specializing IsFloatingPoint<T> and TypeName<T>, this
  *  macro registers a wtf::enums::FloatKind enumerator for @p T (see
- *  wtf::enums::float_kind), so `wtf::enums::from_string(#T)` works without
+ *  wtf::enums::float_kind), so `wtf::enums::from_string(NAME)` works without
  *  any further action from the caller.
  *
  *  @note This macro should be used in the global namespace.
@@ -46,13 +53,13 @@
  *        TU (and thus the registration) entirely. If that happens, call
  *        wtf::enums::float_kind<T>() explicitly once at startup instead.
  */
-#define WTF_REGISTER_FP_TYPE(T)                                              \
+#define WTF_REGISTER_FP_TYPE_AS(T, NAME)                                     \
     namespace wtf::type_traits {                                             \
     template<>                                                               \
     struct IsFloatingPoint<T> : std::true_type {};                           \
     template<>                                                               \
     struct TypeName<T> {                                                     \
-        static constexpr const char* value = #T;                             \
+        static constexpr const char* value = NAME;                           \
     };                                                                       \
     } /* namespace wtf::type_traits */                                       \
     namespace wtf::enums::detail_ {                                          \
@@ -60,6 +67,21 @@
                                               __COUNTER__) =                 \
       wtf::enums::detail_::register_float_kind_<T>();                        \
     } /* namespace wtf::enums::detail_ */
+
+/** @brief Macro for quickly registering a @p T for use with WTF using @p T's
+ *         own spelling as its name.
+ *
+ *  @param[in] T The unqualified type to be registered.
+ *
+ *  This is shorthand for WTF_REGISTER_FP_TYPE_AS(T, #T), i.e. @p T is
+ *  registered/displayed under its own (stringized) spelling. Use
+ *  WTF_REGISTER_FP_TYPE_AS directly when @p T's spelling would make a poor
+ *  runtime/display name.
+ *
+ *  @note See WTF_REGISTER_FP_TYPE_AS for the notes/caveats that apply here
+ *        as well.
+ */
+#define WTF_REGISTER_FP_TYPE(T) WTF_REGISTER_FP_TYPE_AS(T, #T)
 
 /// @brief Namespace for type traits provided by WTF.
 namespace wtf::type_traits {}
