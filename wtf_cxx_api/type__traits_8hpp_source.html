@@ -106,22 +106,24 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &lt;wtf/type_traits/tuple_append.hpp&gt;</span></div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &lt;wtf/type_traits/type_name.hpp&gt;</span></div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#define WTF_REGISTER_FP_TYPE(T)                                              \</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">    namespace wtf::type_traits {                                             \</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">    template&lt;&gt;                                                               \</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">    struct IsFloatingPoint&lt;T&gt; : std::true_type {};                           \</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">    template&lt;&gt;                                                               \</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">    struct TypeName&lt;T&gt; {                                                     \</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">        static constexpr const char* value = #T;                             \</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">    };                                                                       \</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">    } </span><span class="comment">/* namespace wtf::type_traits */</span><span class="preprocessor">                                       \</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">    namespace wtf::enums::detail_ {                                          \</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">    static const bool WTF_ENUMS_DETAIL_CONCAT(wtf_float_kind_auto_register_, \</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">                                              __COUNTER__) =                 \</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">      wtf::enums::detail_::register_float_kind_&lt;T&gt;();                        \</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">    } </span><span class="comment">/* namespace wtf::enums::detail_ */</span><span class="preprocessor"></span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacewtf_1_1type__traits.html">wtf::type_traits</a> {}</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#define WTF_REGISTER_FP_TYPE_AS(T, NAME)                                     \</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">    namespace wtf::type_traits {                                             \</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">    template&lt;&gt;                                                               \</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">    struct IsFloatingPoint&lt;T&gt; : std::true_type {};                           \</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">    template&lt;&gt;                                                               \</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">    struct TypeName&lt;T&gt; {                                                     \</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">        static constexpr const char* value = NAME;                           \</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">    };                                                                       \</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">    } </span><span class="comment">/* namespace wtf::type_traits */</span><span class="preprocessor">                                       \</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">    namespace wtf::enums::detail_ {                                          \</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">    static const bool WTF_ENUMS_DETAIL_CONCAT(wtf_float_kind_auto_register_, \</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">                                              __COUNTER__) =                 \</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">      wtf::enums::detail_::register_float_kind_&lt;T&gt;();                        \</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">    } </span><span class="comment">/* namespace wtf::enums::detail_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="preprocessor">#define WTF_REGISTER_FP_TYPE(T) WTF_REGISTER_FP_TYPE_AS(T, #T)</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacewtf_1_1type__traits.html">wtf::type_traits</a> {}</div>
 <div class="ttc" id="anamespacewtf_1_1type__traits_html"><div class="ttname"><a href="namespacewtf_1_1type__traits.html">wtf::type_traits</a></div><div class="ttdoc">Namespace for type traits provided by WTF.</div><div class="ttdef"><b>Definition</b> float_traits.hpp:20</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
