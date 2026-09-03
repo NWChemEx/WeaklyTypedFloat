@@ -82,7 +82,10 @@
 <p>These are notes on how to register a new type with WTF.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The macro <code class="docutils literal notranslate"><span class="pre">WTF_REGISTER_TYPE</span></code> will do all of this for you.</p>
+<p>The macro <code class="docutils literal notranslate"><span class="pre">WTF_REGISTER_FP_TYPE</span></code> will do all of this for you, and will
+also register a <code class="docutils literal notranslate"><span class="pre">wtf::enums::FloatKind</span></code> enumerator for your type so it
+can be looked up by name at runtime (see
+<a class="reference internal" href="developer/extensible_enums.html"><span class="doc">Extensible Runtime Enumerators</span></a>).</p>
 </div>
 <ul class="simple">
 <li><p>Specialize IsFloatingPoint for your type</p></li>

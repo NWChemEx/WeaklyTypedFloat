@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['model_5ftype_0',['model_type',['../structwtf_1_1detail___1_1VariantFromTuple_3_01ModelType_00_01std_1_1tuple_3_01Args_8_8_8_01_4_01_4.html#ad90d38d9eb01a1f50f1f3332efcb1441',1,'wtf::detail_::VariantFromTuple&lt; ModelType, std::tuple&lt; Args... &gt; &gt;::model_type'],['../structwtf_1_1detail___1_1ConstVariantFromTuple_3_01ModelType_00_01std_1_1tuple_3_01Args_8_8_8_01_4_01_4.html#a2df57bf3b29dc014935cccefa811a7ce',1,'wtf::detail_::ConstVariantFromTuple&lt; ModelType, std::tuple&lt; Args... &gt; &gt;::model_type'],['../classwtf_1_1fp_1_1detail___1_1FloatViewModel.html#a85ce8b161110301ef158f6cacb9bc698',1,'wtf::fp::detail_::FloatViewModel::model_type']]]
+  ['id_5ftype_0',['id_type',['../classwtf_1_1enums_1_1detail___1_1FloatKindRegistry.html#ab2bdead93a9739b8af2d5740adeab554',1,'wtf::enums::detail_::FloatKindRegistry::id_type'],['../classwtf_1_1enums_1_1FloatKind.html#a2a6bf13a645ba8d462d9a01b639fb5a9',1,'wtf::enums::FloatKind::id_type']]]
 ];

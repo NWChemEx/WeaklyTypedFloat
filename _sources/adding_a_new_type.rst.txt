@@ -20,7 +20,10 @@ These are notes on how to register a new type with WTF.
 
 .. note::
 
-   The macro ``WTF_REGISTER_TYPE`` will do all of this for you.
+   The macro ``WTF_REGISTER_FP_TYPE`` will do all of this for you, and will
+   also register a ``wtf::enums::FloatKind`` enumerator for your type so it
+   can be looked up by name at runtime (see
+   :doc:`developer/extensible_enums`).
 
 - Specialize IsFloatingPoint for your type
 - Specialize TypeName for your type

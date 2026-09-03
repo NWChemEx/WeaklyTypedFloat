@@ -15,8 +15,9 @@ var searchData=
   ['wtf_3a_3aconcepts_3a_3aunmodifiedfloatingpoint_12',['UnmodifiedFloatingPoint',['../conceptwtf_1_1concepts_1_1UnmodifiedFloatingPoint.html',1,'wtf::concepts']]],
   ['wtf_3a_3aconcepts_3a_3avolatilequalified_13',['VolatileQualified',['../conceptwtf_1_1concepts_1_1VolatileQualified.html',1,'wtf::concepts']]],
   ['wtf_3a_3aconcepts_3a_3awtffloat_14',['WTFFloat',['../conceptwtf_1_1concepts_1_1WTFFloat.html',1,'wtf::concepts']]],
-  ['wtf_3a_3afp_15',['fp',['../namespacewtf_1_1fp.html',1,'wtf']]],
-  ['wtf_3a_3artti_16',['rtti',['../namespacewtf_1_1rtti.html',1,'wtf']]],
-  ['wtf_3a_3atype_5ftraits_17',['type_traits',['../namespacewtf_1_1type__traits.html',1,'wtf']]],
-  ['wtf_5ftypeid_18',['wtf_typeid',['../classwtf_1_1rtti_1_1TypeInfo.html#a97b3019fb2af9ac1319490e9021b8c04',1,'wtf::rtti::TypeInfo']]]
+  ['wtf_3a_3aenums_15',['enums',['../namespacewtf_1_1enums.html',1,'wtf']]],
+  ['wtf_3a_3afp_16',['fp',['../namespacewtf_1_1fp.html',1,'wtf']]],
+  ['wtf_3a_3artti_17',['rtti',['../namespacewtf_1_1rtti.html',1,'wtf']]],
+  ['wtf_3a_3atype_5ftraits_18',['type_traits',['../namespacewtf_1_1type__traits.html',1,'wtf']]],
+  ['wtf_5ftypeid_19',['wtf_typeid',['../classwtf_1_1rtti_1_1TypeInfo.html#a97b3019fb2af9ac1319490e9021b8c04',1,'wtf::rtti::TypeInfo']]]
 ];

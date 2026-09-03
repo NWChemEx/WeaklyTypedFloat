@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$structwtf_1_1type__traits_1_1float__traits.html" title="Works out the types associated with T." alt="" coords="5,5,163,45"/>
+<area shape="rect" id="Node000000" href="$classwtf_1_1fp_1_1FloatBase.html" title=" " alt="" coords="5,5,216,45"/>
+<area shape="rect" id="Node000001" href="$classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating&#45;point value." alt="" coords="264,5,400,45"/>
+<area shape="poly" id="edge6_Node000000_Node000001" title=" " alt="" coords="230,23,263,23,263,28,230,28"/>
 </map>

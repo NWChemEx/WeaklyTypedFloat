@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['isconvertible_0',['IsConvertible',['../structwtf_1_1type__traits_1_1IsConvertible.html',1,'wtf::type_traits']]],
-  ['isfloatingpoint_1',['IsFloatingPoint',['../structwtf_1_1type__traits_1_1IsFloatingPoint.html',1,'wtf::type_traits']]]
+  ['hash_3c_20wtf_3a_3aenums_3a_3afloatkind_20_3e_0',['hash&lt; wtf::enums::FloatKind &gt;',['../structstd_1_1hash_3_01wtf_1_1enums_1_1FloatKind_01_4.html',1,'std']]]
 ];

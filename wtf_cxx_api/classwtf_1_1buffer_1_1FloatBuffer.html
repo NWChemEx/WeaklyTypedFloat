@@ -209,6 +209,10 @@ template&lt;typename TupleType , typename Visitor , typename... Args&gt; </td></
 Related Symbols</h2></td></tr>
 <tr><td class="ititle" colspan="2"><p>(Note that these are not member symbols.) </p>
 </td></tr>
+<tr class="memitem:afebcbe94251a42b9941933aabf3294be" id="r_afebcbe94251a42b9941933aabf3294be"><td class="memTemplParams" colspan="2">template&lt;typename TupleType  = wtf::default_fp_types, std::integral SizeType = FloatBuffer::size_type&gt; </td></tr>
+<tr class="memitem:afebcbe94251a42b9941933aabf3294be"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#afebcbe94251a42b9941933aabf3294be">make_float_buffer</a> (<a class="el" href="classwtf_1_1enums_1_1FloatKind.html">enums::FloatKind</a> kind, SizeType n=0)</td></tr>
+<tr class="memdesc:afebcbe94251a42b9941933aabf3294be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an empty <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> by selecting its element type at runtime.  <br /></td></tr>
+<tr class="separator:afebcbe94251a42b9941933aabf3294be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a61270d41b7b3c12b74fa06c27a131a" id="r_a1a61270d41b7b3c12b74fa06c27a131a"><td class="memTemplParams" colspan="2">template&lt;typename TupleType , typename Visitor , typename... Args&gt; </td></tr>
 <tr class="memitem:a1a61270d41b7b3c12b74fa06c27a131a"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#a1a61270d41b7b3c12b74fa06c27a131a">visit_contiguous_buffer</a> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args)</td></tr>
 <tr class="memdesc:a1a61270d41b7b3c12b74fa06c27a131a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the process of calling a visitor with zero or more <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> objects.  <br /></td></tr>
@@ -1145,6 +1149,69 @@ template&lt;concepts::FloatingPoint T&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Symbol Documentation</h2>
+<a id="afebcbe94251a42b9941933aabf3294be" name="afebcbe94251a42b9941933aabf3294be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afebcbe94251a42b9941933aabf3294be">&#9670;&#160;</a></span>make_float_buffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TupleType  = wtf::default_fp_types, std::integral SizeType = FloatBuffer::size_type&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a> make_float_buffer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classwtf_1_1enums_1_1FloatKind.html">enums::FloatKind</a>&#160;</td>
+          <td class="paramname"><em>kind</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SizeType&#160;</td>
+          <td class="paramname"><em>n</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates an empty <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> by selecting its element type at runtime. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TupleType</td><td>A std::tuple of candidate floating-point types to search for the type identified by <code>kind</code>. Defaults to <a class="el" href="namespacewtf.html#a746023b756b44de96d0dd25e8af54c30" title="A tuple holding C++&#39;s default, real, floating-point types.">wtf::default_fp_types</a>. </td></tr>
+    <tr><td class="paramname">SizeType</td><td>The type of <code>n</code>. Deduced by the compiler; only present so this overload out-competes the variadic, forwarding make_float_buffer(Args&amp;&amp;...) overload above during overload resolution (a fixed FloatBuffer::size_type parameter would require an implicit conversion for integer literals/other integral types, which that overload does not).</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This function is the runtime counterpart to constructing a <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> from an explicitly typed <code>std::vector&lt;T&gt;</code>: instead of specifying the element type as a template parameter, the caller provides a <a class="el" href="classwtf_1_1enums_1_1FloatKind.html" title="An extensible, runtime enumerator identifying a registered floating-point type.">wtf::enums::FloatKind</a> identifying the type at runtime (e.g. as recovered from wtf::enums::from_string). The resulting buffer contains <code>n</code> default-initialized elements of the identified type; use <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#ab7b47ad64dd179aedd90ddc6bc26dde8" title="Appends value to the end of the buffer.">push_back()</a> or <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#a79439d94db5eea1d58d16c5f54669929" title="Returns the element with offset index.">at()</a> to populate it.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">kind</td><td>The FloatKind identifying the element type of the buffer. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">n</td><td>The number of default-initialized elements the buffer should be created with. Defaults to zero.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> whose element type is the one identified by <code>kind</code>, containing <code>n</code> default-initialized elements.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if <code>kind</code> does not identify one of the types in <code>TupleType</code>. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the buffer. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a1a61270d41b7b3c12b74fa06c27a131a" name="a1a61270d41b7b3c12b74fa06c27a131a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1a61270d41b7b3c12b74fa06c27a131a">&#9670;&#160;</a></span>visit_contiguous_buffer()</h2>
 

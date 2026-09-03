@@ -1,0 +1,296 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Extensible Runtime Enumerators &mdash; WeaklyTypedFloats 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Performing Type-Safe Operations" href="operations.html" />
+    <link rel="prev" title="Type-Erasure in WTF" href="type_erasure.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="statement_of_need.html">Why do we need WTF?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scope.html">What is the Scope of WTF?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_erasure.html">Type-Erasure in WTF</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Extensible Runtime Enumerators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#motivation">Motivation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#problem-statement">Problem Statement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-won-t-work">What won’t work?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#current-solution">Current Solution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#known-limitations">Known Limitations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#further-considerations">Further Considerations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Performing Type-Safe Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="float_buffer.html">FloatBuffer and BufferView Containers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Architecture of WTF</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../adding_a_new_type.html">Registering a New Type with WTF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../writing_a_visitor.html">Writing a Visitor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/WeaklyTypedFloat/wtf_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WeaklyTypedFloats</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Developer Documentation</a></li>
+      <li class="breadcrumb-item active">Extensible Runtime Enumerators</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/developer/extensible_enums.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="extensible-runtime-enumerators">
+<h1>Extensible Runtime Enumerators<a class="headerlink" href="#extensible-runtime-enumerators" title="Link to this heading"></a></h1>
+<p>WTF needs a way for callers to select a floating-point type at <em>runtime</em>
+(not just at compile time, via a template parameter). This page motivates
+that need and explains the design of <code class="docutils literal notranslate"><span class="pre">wtf::enums::FloatKind</span></code>, the
+extensible, enum-like value WTF uses for it.</p>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading"></a></h2>
+<p>Runtime factories like <code class="docutils literal notranslate"><span class="pre">make_float</span></code> and <code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code>’s constructors
+need to pick an underlying FP type from something other than a compile-time
+template parameter. A common case is that the desired type crossed a
+language boundary (e.g. from Python, or from a config file) as a string, so
+there is no <code class="docutils literal notranslate"><span class="pre">T</span></code> available for the compiler to deduce or for the caller to
+spell out explicitly. Historically, this kind of runtime type selection has
+been done with a plain <code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">class</span></code>.</p>
+<p>The problem is that a plain <code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">class</span></code> is a closed set: its enumerators
+are fixed the moment WTF itself is compiled. <a class="reference internal" href="statement_of_need.html"><span class="doc">Why do we need WTF?</span></a>
+lists, as one of WTF’s goals, that “the user can extend WTF to support their
+own custom FP types without needing to modify the WTF source” – and indeed,
+<a class="reference internal" href="../adding_a_new_type.html"><span class="doc">Registering a New Type with WTF</span></a> and <code class="docutils literal notranslate"><span class="pre">WTF_REGISTER_FP_TYPE</span></code> already let a
+downstream consumer do exactly that for compile-time use. TensorWrapper, for
+example, registers 10 custom scalar types this way. But none of those custom
+types could ever appear in a plain enum shipped by WTF, because adding an
+enumerator means patching and recompiling WTF.</p>
+</section>
+<section id="problem-statement">
+<h2>Problem Statement<a class="headerlink" href="#problem-statement" title="Link to this heading"></a></h2>
+<p>We need two things:</p>
+<ul class="simple">
+<li><p>A small, comparable, copyable value that identifies “which registered FP
+type is this”. It should be seeded with an enumerator for each type in
+<code class="docutils literal notranslate"><span class="pre">wtf::default_fp_types</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>, <code class="docutils literal notranslate"><span class="pre">double</span></code>, <code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">double</span></code>), and it
+must be possible to add more enumerators after WTF has already been
+compiled.</p></li>
+<li><p>A way to convert that value to and from a human-readable string, since a
+string is the form this value usually takes at a language/format boundary
+(e.g. a config file, a Python argument, an error message).</p></li>
+</ul>
+<p>Critically, extending the set of enumerators must be a side effect of the
+registration step that already exists (<code class="docutils literal notranslate"><span class="pre">WTF_REGISTER_FP_TYPE</span></code>). Asking
+users to perform a <em>second</em>, separate registration call for the runtime
+enum would be exactly the kind of extra maintenance burden WTF is trying to
+spare its adopters.</p>
+</section>
+<section id="what-won-t-work">
+<h2>What won’t work?<a class="headerlink" href="#what-won-t-work" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>A plain ``enum class FloatKind { Float, Double, LongDouble };``.</strong> This
+is the closed-set problem described above, and the reason we’re not just
+doing the obvious thing.</p></li>
+<li><p><strong>Skip the enum, dispatch on ``std::string`` everywhere.</strong> This works, but
+throws away everything an enum-like value is good for: cheap, O(1)
+equality/hashing without repeated string comparisons; cheap storage as a
+map key or in a tight loop; and a natural switch/lookup-table shape for
+factories. We still want the string as the <em>serialization</em> form of the
+value, not its primary, everyday form.</p></li>
+<li><p><strong>Wrap ``wtf::rtti::TypeInfo``/``TypeHolder``.</strong> WTF already has a
+runtime, name-keyed registry of types in the <code class="docutils literal notranslate"><span class="pre">rtti</span></code> module, so reusing
+it is tempting. But <code class="docutils literal notranslate"><span class="pre">TypeHolder</span></code>’s registry supports only “do I already
+have a model for this name” – it has no enumeration or id-based reverse
+lookup, and there’s no reason to add one, since <code class="docutils literal notranslate"><span class="pre">TypeHolder</span></code> is bundled
+with concerns that have nothing to do with an enum: const-qualification,
+whether the type is <code class="docutils literal notranslate"><span class="pre">std::nullptr_t</span></code>, and tuple-based implicit
+convertibility (see <a class="reference internal" href="type_erasure.html"><span class="doc">Type-Erasure in WTF</span></a>). Extending <code class="docutils literal notranslate"><span class="pre">TypeHolder</span></code>’s
+public surface just to serve this feature would leak an unrelated concern
+into the RTTI module.</p></li>
+<li><p><strong>Build a fully generic ``ExtensibleEnum&lt;Tag&gt;`` template up front.</strong> We
+only have one concrete need today (floating-point types). Generalizing now
+would mean guessing at an API shape with nothing to validate it against.
+We’d rather ship the concrete <code class="docutils literal notranslate"><span class="pre">FloatKind</span></code> and generalize later, if and
+when a second use case actually shows up.</p></li>
+</ul>
+</section>
+<section id="current-solution">
+<h2>Current Solution<a class="headerlink" href="#current-solution" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">wtf::enums::FloatKind</span></code> is a small value type that wraps an integer id.
+Ids are assigned by <code class="docutils literal notranslate"><span class="pre">wtf::enums::detail_::FloatKindRegistry</span></code>, a Meyer’s
+singleton holding a name-to-id map (and its inverse). The registry is seeded
+at construction with the names of <code class="docutils literal notranslate"><span class="pre">wtf::default_fp_types</span></code>, so
+<code class="docutils literal notranslate"><span class="pre">from_string(&quot;double&quot;)</span></code> works even if nothing has wrapped a <code class="docutils literal notranslate"><span class="pre">double</span></code>
+yet. Beyond the seeded defaults, new names are registered lazily and
+idempotently: registering the same name twice just returns the id it was
+already assigned.</p>
+<p><code class="docutils literal notranslate"><span class="pre">FloatKind</span></code> objects can only be created through two entry points, mirroring
+the private-constructor-plus-friend-factory pattern <code class="docutils literal notranslate"><span class="pre">wtf::rtti::TypeInfo</span></code>
+already uses for <code class="docutils literal notranslate"><span class="pre">wtf_typeid&lt;T&gt;()</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">wtf::enums::float_kind&lt;T&gt;()</span></code> – registers (if necessary) and returns
+the <code class="docutils literal notranslate"><span class="pre">FloatKind</span></code> for a compile-time type <code class="docutils literal notranslate"><span class="pre">T</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">wtf::enums::from_string(name)</span></code> – looks up the <code class="docutils literal notranslate"><span class="pre">FloatKind</span></code> registered
+under <code class="docutils literal notranslate"><span class="pre">name</span></code>, throwing <code class="docutils literal notranslate"><span class="pre">std::runtime_error</span></code> if nothing is registered
+under that name.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">wtf::enums::to_string(kind)</span></code> converts the other direction.</p>
+<p><code class="docutils literal notranslate"><span class="pre">WTF_REGISTER_FP_TYPE(T)</span></code> (see <code class="docutils literal notranslate"><span class="pre">wtf/type_traits/type_traits.hpp</span></code>) was
+extended to also emit a static-initializer that calls
+<code class="docutils literal notranslate"><span class="pre">wtf::enums::float_kind&lt;T&gt;()</span></code> once. This means registering a type for use
+with WTF at all – the thing users already had to do – is the only thing
+required to make it show up in <code class="docutils literal notranslate"><span class="pre">from_string</span></code> too. There is no second
+registration step.</p>
+<p>Runtime type selection is then just a matter of walking a caller-supplied
+candidate tuple looking for the type whose <code class="docutils literal notranslate"><span class="pre">float_kind&lt;T&gt;()</span></code> matches a
+given <code class="docutils literal notranslate"><span class="pre">FloatKind</span></code>. <code class="docutils literal notranslate"><span class="pre">wtf::enums::detail_::dispatch_by_kind&lt;TupleType&gt;</span></code>
+implements this as a non-recursive fold expression over the tuple’s indices
+– the same non-recursive, index-sequence-driven style
+<a class="reference internal" href="operations.html"><span class="doc">Performing Type-Safe Operations</span></a>’s “Current Implementation” section adopted for multi-type
+dispatch, and for the same reason: a recursive template here would
+instantiate one distinct function per candidate type for no benefit, since
+each candidate is checked independently of the others.</p>
+<p><code class="docutils literal notranslate"><span class="pre">make_float</span></code> and <code class="docutils literal notranslate"><span class="pre">make_float_buffer</span></code> each gained an overload that takes
+a <code class="docutils literal notranslate"><span class="pre">FloatKind</span></code> instead of a template parameter, built directly on
+<code class="docutils literal notranslate"><span class="pre">dispatch_by_kind</span></code>:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">kind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">enums</span><span class="o">::</span><span class="n">from_string</span><span class="p">(</span><span class="s">&quot;double&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// recovered at runtime</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">make_float</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span><span class="w"> </span><span class="mf">3.14</span><span class="p">);</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">buffer</span><span class="o">::</span><span class="n">make_float_buffer</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span><span class="w"> </span><span class="cm">/*n=*/</span><span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Both default their candidate <code class="docutils literal notranslate"><span class="pre">TupleType</span></code> to <code class="docutils literal notranslate"><span class="pre">wtf::default_fp_types</span></code>, so
+callers only need to name a candidate tuple explicitly when they want a
+custom type to be selectable.</p>
+</section>
+<section id="known-limitations">
+<h2>Known Limitations<a class="headerlink" href="#known-limitations" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Static-init registration can be dropped by the linker.</strong> The
+auto-registration in <code class="docutils literal notranslate"><span class="pre">WTF_REGISTER_FP_TYPE</span></code> is a static-init side
+effect with no explicit call site. If the translation unit invoking the
+macro is linked into a static library and nothing else in that TU is
+referenced by the final binary, the linker is free to drop the whole
+object file – and the registration along with it. If a registered type
+mysteriously fails to show up in <code class="docutils literal notranslate"><span class="pre">from_string</span></code>, this is the first thing
+to check; the workaround is to call <code class="docutils literal notranslate"><span class="pre">wtf::enums::float_kind&lt;T&gt;()</span></code>
+explicitly once at startup.</p></li>
+<li><p><strong>A new, narrow dependency from ``type_traits`` on ``enums``.</strong> Housing
+the auto-registration inside <code class="docutils literal notranslate"><span class="pre">WTF_REGISTER_FP_TYPE</span></code> means
+<code class="docutils literal notranslate"><span class="pre">wtf/type_traits/type_traits.hpp</span></code> now includes
+<code class="docutils literal notranslate"><span class="pre">wtf/enums/detail_/kind_dispatch.hpp</span></code>. This is a deliberate, narrow
+exception to keeping <code class="docutils literal notranslate"><span class="pre">type_traits</span></code> a pure leaf module: it is isolated to
+one small header, rather than pulling in the whole <code class="docutils literal notranslate"><span class="pre">enums</span></code> public API,
+specifically so this dependency stays easy to point to and doesn’t grow
+by accident.</p></li>
+<li><p><strong>``FloatKind::operator&lt;`` reflects registration order, not precision.</strong>
+It exists so <code class="docutils literal notranslate"><span class="pre">FloatKind</span></code> objects can be used in ordered containers; it
+is not a proxy for the numeric properties of the underlying type (for
+that, see <code class="docutils literal notranslate"><span class="pre">wtf::type_traits::Precision</span></code>).</p></li>
+</ul>
+</section>
+<section id="further-considerations">
+<h2>Further Considerations<a class="headerlink" href="#further-considerations" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>If a second extensible enum is ever needed elsewhere in WTF, the natural
+refactor is to lift <code class="docutils literal notranslate"><span class="pre">FloatKindRegistry</span></code>’s logic into a
+<code class="docutils literal notranslate"><span class="pre">template&lt;typename</span> <span class="pre">Tag&gt;</span> <span class="pre">class</span> <span class="pre">ExtensibleEnumRegistry</span></code> and make
+<code class="docutils literal notranslate"><span class="pre">FloatKind</span></code> a thin instantiation of a corresponding
+<code class="docutils literal notranslate"><span class="pre">ExtensibleEnum&lt;Tag&gt;</span></code>. We deliberately did not build that generalization
+now (see “What won’t work?” above).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">make_float(FloatKind,</span> <span class="pre">Source)</span></code> currently requires <code class="docutils literal notranslate"><span class="pre">Source</span></code> to be
+<code class="docutils literal notranslate"><span class="pre">static_cast</span></code>-convertible to every type in the candidate <code class="docutils literal notranslate"><span class="pre">TupleType</span></code>.
+This is sufficient for every type WTF and its known downstream consumers
+register today, but a type that needs a different construction path (e.g.
+one that isn’t constructible from a single arithmetic value) would need a
+new overload.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="type_erasure.html" class="btn btn-neutral float-left" title="Type-Erasure in WTF" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="operations.html" class="btn btn-neutral float-right" title="Performing Type-Safe Operations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, NWChemEx Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
