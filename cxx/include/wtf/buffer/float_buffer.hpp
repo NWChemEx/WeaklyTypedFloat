@@ -15,10 +15,12 @@
  */
 
 #pragma once
+#include <concepts>
 #include <span>
 #include <wtf/buffer/buffer_view.hpp>
 #include <wtf/buffer/detail_/contiguous_model.hpp>
 #include <wtf/concepts/iterator.hpp>
+#include <wtf/enums/enums.hpp>
 #include <wtf/fp/float.hpp>
 
 namespace wtf::buffer {
@@ -529,6 +531,50 @@ private:
 template<typename... Args>
 auto make_float_buffer(Args&&... args) {
     return FloatBuffer(std::forward<Args>(args)...);
+}
+
+/** @brief Creates an empty FloatBuffer by selecting its element type at
+ *         runtime.
+ *
+ *  @related FloatBuffer
+ *
+ *  @tparam TupleType A std::tuple of candidate floating-point types to
+ *                    search for the type identified by @p kind. Defaults to
+ *                    wtf::default_fp_types.
+ *  @tparam SizeType The type of @p n. Deduced by the compiler; only present
+ *                   so this overload out-competes the variadic, forwarding
+ *                   make_float_buffer(Args&&...) overload above during
+ *                   overload resolution (a fixed FloatBuffer::size_type
+ *                   parameter would require an implicit conversion for
+ *                   integer literals/other integral types, which that
+ *                   overload does not).
+ *
+ *  This function is the runtime counterpart to constructing a FloatBuffer
+ *  from an explicitly typed `std::vector<T>`: instead of specifying the
+ *  element type as a template parameter, the caller provides a
+ *  wtf::enums::FloatKind identifying the type at runtime (e.g. as recovered
+ *  from wtf::enums::from_string). The resulting buffer contains @p n
+ *  default-initialized elements of the identified type; use push_back() or
+ *  at() to populate it.
+ *
+ *  @param[in] kind The FloatKind identifying the element type of the buffer.
+ *  @param[in] n The number of default-initialized elements the buffer
+ *               should be created with. Defaults to zero.
+ *
+ *  @return A FloatBuffer whose element type is the one identified by
+ *          @p kind, containing @p n default-initialized elements.
+ *
+ *  @throw std::runtime_error if @p kind does not identify one of the types
+ *                            in @p TupleType. Strong throw guarantee.
+ *  @throw std::bad_alloc if there is a problem allocating the buffer. Strong
+ *                        throw guarantee.
+ */
+template<typename TupleType     = wtf::default_fp_types,
+         std::integral SizeType = FloatBuffer::size_type>
+FloatBuffer make_float_buffer(enums::FloatKind kind, SizeType n = 0) {
+    auto size = static_cast<FloatBuffer::size_type>(n);
+    return enums::detail_::dispatch_by_kind<TupleType>(
+      kind, [&]<typename T>() { return FloatBuffer(std::vector<T>(size)); });
 }
 
 /** @brief Wraps the process of making a FloatBuffer from a vector of Float

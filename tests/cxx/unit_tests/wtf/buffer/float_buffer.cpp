@@ -378,6 +378,28 @@ TEST_CASE("make_float_buffer(vector<Float>)") {
                       std::runtime_error);
 }
 
+TEST_CASE("make_float_buffer(FloatKind, n)") {
+    SECTION("Selects the type identified by kind") {
+        auto kind   = wtf::enums::from_string("double");
+        auto buffer = make_float_buffer(kind, 3);
+        REQUIRE(buffer.size() == 3);
+        REQUIRE(buffer == FloatBuffer(std::vector<double>(3)));
+    }
+
+    SECTION("Defaults to an empty buffer") {
+        auto kind   = wtf::enums::from_string("float");
+        auto buffer = make_float_buffer(kind);
+        REQUIRE(buffer.size() == 0);
+    }
+
+    SECTION("Throws if kind is not in the candidate TupleType") {
+        auto kind = wtf::enums::float_kind<long double>();
+        REQUIRE_THROWS_AS(
+          (make_float_buffer<std::tuple<float, double>>(kind, 3)),
+          std::runtime_error);
+    }
+}
+
 TEST_CASE("make_float_buffer(initializer_list<Float>)") {
     float one{1.0};
     auto wrap_one = wtf::fp::make_float(one);
