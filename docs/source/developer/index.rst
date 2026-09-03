@@ -23,6 +23,7 @@ Developer Documentation
    statement_of_need
    scope
    type_erasure
+   extensible_enums
    operations
    float_buffer
    architecture

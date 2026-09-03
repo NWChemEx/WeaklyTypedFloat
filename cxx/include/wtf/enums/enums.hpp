@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 NWChemEx-Project
+ * Copyright 2026 NWChemEx-Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,9 @@
  */
 
 #pragma once
-#include <wtf/buffer/buffer.hpp>
-#include <wtf/concepts/concepts.hpp>
-#include <wtf/enums/enums.hpp>
-#include <wtf/fp/fp.hpp>
-#include <wtf/rtti/rtti.hpp>
-#include <wtf/type_traits/type_traits.hpp>
-#include <wtf/types.hpp>
-#include <wtf/warnings.hpp>
+#include <wtf/enums/detail_/float_kind_registry.hpp>
+#include <wtf/enums/detail_/kind_dispatch.hpp>
+#include <wtf/enums/float_kind.hpp>
 
-/** @brief Contains all public-facing APIs for the Weakly Typed Float library.
- *
- */
-namespace wtf {}
+/// @brief Contains WTF's extensible runtime-enumerator infrastructure.
+namespace wtf::enums {}

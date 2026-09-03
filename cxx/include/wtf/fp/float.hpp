@@ -17,9 +17,11 @@
 #pragma once
 #include <memory>
 #include <wtf/concepts/floating_point.hpp>
+#include <wtf/enums/enums.hpp>
 #include <wtf/fp/detail_/float_model.hpp>
 #include <wtf/fp/float_base.hpp>
 #include <wtf/fp/float_view.hpp>
+#include <wtf/types.hpp>
 #include <wtf/warnings.hpp>
 
 namespace wtf::fp {
@@ -352,6 +354,43 @@ bool operator!=(T lhs, const Float& rhs) {
 template<concepts::FloatingPoint T>
 Float make_float(T value) {
     return Float(std::make_unique<detail_::FloatModel<T>>(std::move(value)));
+}
+
+/** @brief Creates a Float object by selecting its type at runtime.
+ *
+ *  @related Float
+ *
+ *  @tparam TupleType A std::tuple of candidate floating-point types to
+ *                    search for the type identified by @p kind. Defaults to
+ *                    wtf::default_fp_types.
+ *  @tparam Source The type of @p value. Must satisfy the
+ *                 concepts::UnmodifiedFloatingPoint concept, and must be
+ *                 `static_cast`-convertible to every type in @p TupleType.
+ *                 Will be inferred by the compiler.
+ *
+ *  This function is the runtime counterpart to make_float<T>(value): instead
+ *  of specifying the wrapped type as a template parameter, the caller
+ *  provides a wtf::enums::FloatKind identifying the type at runtime (e.g. as
+ *  recovered from wtf::enums::from_string). This is useful when the desired
+ *  type is not known until runtime, for example because it crossed a
+ *  language boundary as a string.
+ *
+ *  @param[in] kind The FloatKind identifying the type to wrap @p value as.
+ *  @param[in] value The floating-point value to be wrapped.
+ *
+ *  @return A Float object wrapping @p value as the type identified by
+ *          @p kind.
+ *
+ *  @throw std::runtime_error if @p kind does not identify one of the types
+ *                            in @p TupleType. Strong throw guarantee.
+ *  @throw std::bad_alloc if there is a problem creating the holder. Strong
+ *                        throw guarantee.
+ */
+template<typename TupleType = wtf::default_fp_types,
+         concepts::UnmodifiedFloatingPoint Source>
+Float make_float(enums::FloatKind kind, Source value) {
+    return enums::detail_::dispatch_by_kind<TupleType>(
+      kind, [&]<typename T>() { return Float(static_cast<T>(value)); });
 }
 
 /** @brief Used to get the typed float back.

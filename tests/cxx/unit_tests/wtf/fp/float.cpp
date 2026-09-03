@@ -160,6 +160,21 @@ TEST_CASE("float_cast", "[wtf]") {
     REQUIRE_THROWS_AS(float_cast<double>(f), std::runtime_error);
 }
 
+TEST_CASE("make_float(FloatKind, ...)", "[wtf]") {
+    SECTION("Selects the type identified by kind") {
+        auto kind = wtf::enums::from_string("double");
+        auto f    = make_float(kind, 3.14);
+        REQUIRE(f == make_float(3.14));
+        REQUIRE(f.type_info() == wtf::rtti::wtf_typeid<double>());
+    }
+
+    SECTION("Throws if kind is not in the candidate TupleType") {
+        auto kind = wtf::enums::float_kind<long double>();
+        REQUIRE_THROWS_AS((make_float<std::tuple<float, double>>(kind, 3.14)),
+                          std::runtime_error);
+    }
+}
+
 TEMPLATE_LIST_TEST_CASE("visit_float", "[wtf]", test_wtf::all_fp_types) {
     using float_t = TestType;
 
