@@ -14,10 +14,18 @@
  * limitations under the License.
  */
 
-#include "export_wtf.hpp"
+#include "buffer/export_buffer.hpp"
+#include "fp/export_fp.hpp"
 
 namespace wtf {
 
-PYBIND11_MODULE(wtf, m) { fp::export_float(m); }
+PYBIND11_MODULE(wtf, m) {
+    m.doc() = "PyWTF : Python bindings for WeaklyTypedFloat";
+
+    // N.B. namespaces are exported hierarchically, i.e., wtf::buffer depends
+    //      on wtf::fp so wtf::fp is exported first.
+    fp::export_fp(m);
+    buffer::export_buffer(m);
+}
 
 } // namespace wtf
