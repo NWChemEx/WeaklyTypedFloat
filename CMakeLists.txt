@@ -45,3 +45,10 @@ catch2_tests_from_dir(
 # Register the Python module
 include(nwx_python_module)
 nwx_python_module(${PROJECT_NAME} "cxx/src")
+
+# Register the Python tests
+include(nwx_python_test)
+nwx_python_test(
+    py_${PROJECT_NAME}
+    "${CMAKE_CURRENT_LIST_DIR}/tests/python/unit_tests/test_${PROJECT_NAME}.py"
+)
