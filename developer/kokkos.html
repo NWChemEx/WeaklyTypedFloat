@@ -1,0 +1,529 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interoperating with Kokkos &mdash; WeaklyTypedFloats 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Registering a New Type with WTF" href="../adding_a_new_type.html" />
+    <link rel="prev" title="Architecture of WTF" href="architecture.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="statement_of_need.html">Why do we need WTF?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scope.html">What is the Scope of WTF?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_erasure.html">Type-Erasure in WTF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extensible_enums.html">Extensible Runtime Enumerators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Performing Type-Safe Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="float_buffer.html">FloatBuffer and BufferView Containers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Architecture of WTF</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Interoperating with Kokkos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#device-memory-belongs-to-a-view">Device Memory Belongs to a View</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#who-keeps-the-allocation-alive">Who Keeps the Allocation Alive?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#the-device-view-model">The Device View Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#element-access-a-device-floatview">Element Access: a Device FloatView</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-still-has-to-be-gated">What Still Has to Be Gated</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dispatching-to-a-portable-kernel">Dispatching to a Portable Kernel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#one-wrinkle">One Wrinkle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#two-constraints-on-the-visitor">Two Constraints on the Visitor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#example">Example</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#supporting-free-functions">Supporting Free Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#open-questions">Open Questions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../adding_a_new_type.html">Registering a New Type with WTF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../writing_a_visitor.html">Writing a Visitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python_bindings.html">Python Bindings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/WeaklyTypedFloat/wtf_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WeaklyTypedFloats</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Developer Documentation</a></li>
+      <li class="breadcrumb-item active">Interoperating with Kokkos</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/developer/kokkos.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="interoperating-with-kokkos">
+<h1>Interoperating with Kokkos<a class="headerlink" href="#interoperating-with-kokkos" title="Link to this heading"></a></h1>
+<p>Kokkos provides performance portability for <em>execution</em>: one kernel that runs
+on CPUs, NVIDIA GPUs, AMD GPUs, and Intel GPUs. WTF provides type erasure for
+<em>data</em>. This document works out how the two compose, and specifically how WTF
+can hand a caller a result that is still resident in device memory without the
+caller having to know that.</p>
+<p>Per <a class="reference internal" href="scope.html"><span class="doc">What is the Scope of WTF?</span></a>, WTF does not implement linear algebra and nothing here
+proposes that it should. What is proposed is that WTF be able to <em>describe</em> a
+buffer a Kokkos kernel produced, so the kernel’s caller can stay template-free.</p>
+<p>The pleasant surprise of this design is how little of it is new machinery. WTF
+already separates “what type is this” from “where does it live” via the
+Interface/Holder/Model pattern (<a class="reference internal" href="type_erasure.html"><span class="doc">Type-Erasure in WTF</span></a>); device residency turns
+out to be just another model at each of the two levels that already exist.</p>
+<section id="device-memory-belongs-to-a-view">
+<h2>Device Memory Belongs to a View<a class="headerlink" href="#device-memory-belongs-to-a-view" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code> <strong>owns</strong> its memory and <code class="docutils literal notranslate"><span class="pre">BufferView</span></code> <strong>aliases</strong> memory owned
+by someone else (<a class="reference internal" href="float_buffer.html"><span class="doc">FloatBuffer and BufferView Containers</span></a>). Today the only owning model,
+<code class="docutils literal notranslate"><span class="pre">ContiguousModel&lt;T&gt;</span></code>, stores a <code class="docutils literal notranslate"><span class="pre">std::vector&lt;std::decay_t&lt;T&gt;&gt;</span></code> – a host
+allocation, with no allocator or memory-space parameter anywhere in the class.</p>
+<p>The temptation is to generalize <code class="docutils literal notranslate"><span class="pre">ContiguousModel</span></code> over an allocator so
+<code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code> can own device memory. We should not, for three reasons.</p>
+<ol class="arabic simple">
+<li><p><strong>The host does not own device memory.</strong> <code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code>’s contract is that
+it owns what it type-erases and that copying it deep-copies. A device
+allocation is owned by the device runtime; the host holds a handle.
+Promising ownership we do not have is the wrong abstraction.</p></li>
+<li><p><strong>The owning interface cannot be honestly implemented.</strong> <code class="docutils literal notranslate"><span class="pre">BufferHolder</span></code>
+requires <code class="docutils literal notranslate"><span class="pre">push_back_</span></code> and <code class="docutils literal notranslate"><span class="pre">reserve_</span></code>. A <code class="docutils literal notranslate"><span class="pre">Kokkos::View</span></code> is fixed-size;
+“growing” one means allocate-and-copy, which is a catastrophic operation to
+hide behind an innocuous <code class="docutils literal notranslate"><span class="pre">push_back</span></code>. A device model deriving from
+<code class="docutils literal notranslate"><span class="pre">BufferHolder</span></code> would throw from two of its ten virtuals.
+<code class="docutils literal notranslate"><span class="pre">BufferViewHolder</span></code> requires neither, and all eight of its virtuals have a
+sensible device implementation.</p></li>
+<li><p><strong>The view already says the right thing about copies.</strong>
+<code class="docutils literal notranslate"><span class="pre">BufferViewHolder::clone</span></code> is specified as a <em>shallow</em> copy: the clone
+still aliases the same buffer. <code class="docutils literal notranslate"><span class="pre">Kokkos::View</span></code>’s copy constructor is a
+reference-counted shallow copy with exactly that meaning. The model gets
+correct copy semantics by doing nothing.</p></li>
+</ol>
+<p>So: <strong>a device-resident buffer is a</strong> <code class="docutils literal notranslate"><span class="pre">BufferView</span></code>.</p>
+<section id="who-keeps-the-allocation-alive">
+<h3>Who Keeps the Allocation Alive?<a class="headerlink" href="#who-keeps-the-allocation-alive" title="Link to this heading"></a></h3>
+<p>This is the one place the device case genuinely differs from the host case.</p>
+<p>A host <code class="docutils literal notranslate"><span class="pre">BufferView</span></code> aliases memory with an independent owner – a
+<code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code>, a <code class="docutils literal notranslate"><span class="pre">std::vector</span></code>, a caller’s raw pointer. If that owner dies
+first the view dangles; that is the documented bargain of a view.</p>
+<p>A device <code class="docutils literal notranslate"><span class="pre">BufferView</span></code> returned from a kernel has <strong>no other owner</strong>. The
+allocation was made inside the routine; the view is the only handle to it. If
+the view does not keep it alive, nothing does.</p>
+<p>The resolution is that the <em>model</em> holds its <code class="docutils literal notranslate"><span class="pre">Kokkos::View</span></code> by value, and
+<code class="docutils literal notranslate"><span class="pre">Kokkos::View</span></code> is reference-counted. Shallow-cloning the model copies the
+<code class="docutils literal notranslate"><span class="pre">Kokkos::View</span></code>, incrementing the refcount. When the last WTF handle dies the
+refcount hits zero and Kokkos frees the allocation.</p>
+<p>So a device <code class="docutils literal notranslate"><span class="pre">BufferView</span></code> is, strictly, <em>participating in</em> ownership even
+though <code class="docutils literal notranslate"><span class="pre">BufferView</span></code> is the non-owning class. We consider that acceptable and,
+importantly, invisible: the user sees a handle with value semantics that stays
+valid as long as they hold it. The alternative – making the user keep a
+separate owner object alive alongside the view – leaks the device into the
+API, which is exactly what we are avoiding.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Worth restating in the class docs if we adopt this: <code class="docutils literal notranslate"><span class="pre">BufferView</span></code> does not
+own its memory, <em>except</em> that a device-backed view shares ownership of the
+device allocation with every handle cloned from it.</p>
+</div>
+</section>
+</section>
+<section id="the-device-view-model">
+<h2>The Device View Model<a class="headerlink" href="#the-device-view-model" title="Link to this heading"></a></h2>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="n">concepts</span><span class="o">::</span><span class="n">FloatingPoint</span><span class="w"> </span><span class="n">FloatType</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">MemorySpace</span><span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DeviceViewModel</span>
+<span class="w">  </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">BufferViewHolder</span><span class="o">&lt;</span><span class="n">apply_const_t</span><span class="o">&lt;</span><span class="n">fp</span><span class="o">::</span><span class="n">Float</span><span class="p">,</span><span class="w"> </span><span class="n">FloatType</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="w">    </span><span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="n">FloatType</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">MemorySpace</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_view_</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Virtual</p></th>
+<th class="head"><p>Implementation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">size_()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m_view_.extent(0)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">is_contiguous_()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true</span></code> – a rank-1 <code class="docutils literal notranslate"><span class="pre">View</span></code> with the default layout is contiguous</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">is_const_()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">std::is_const_v&lt;FloatType&gt;</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">clone_()</span></code> / <code class="docutils literal notranslate"><span class="pre">const_clone_()</span></code></p></td>
+<td><p>Copy <code class="docutils literal notranslate"><span class="pre">m_view_</span></code>; the intended shallow, refcounted copy</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">at_(i)</span></code></p></td>
+<td><p>Returns a device-backed <code class="docutils literal notranslate"><span class="pre">FloatView</span></code> – see below</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">are_equal_(other)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Kokkos::parallel_reduce</span></code> over the two <code class="docutils literal notranslate"><span class="pre">View</span></code> objects</p></td>
+</tr>
+</tbody>
+</table>
+<p>There is no <code class="docutils literal notranslate"><span class="pre">push_back_</span></code> or <code class="docutils literal notranslate"><span class="pre">reserve_</span></code> to implement. That is the whole
+argument for putting this on the view side.</p>
+</section>
+<section id="element-access-a-device-floatview">
+<h2>Element Access: a Device FloatView<a class="headerlink" href="#element-access-a-device-floatview" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">at_</span></code> looks like the sharp edge. It returns an <code class="docutils literal notranslate"><span class="pre">fp::FloatView</span></code>, and the
+existing <code class="docutils literal notranslate"><span class="pre">ContiguousViewModel</span></code> builds one from a <em>reference</em> to an element
+(<code class="docutils literal notranslate"><span class="pre">return</span> <span class="pre">view_type(m_buffer_[index]);</span></code>). Forming a host reference to
+<code class="docutils literal notranslate"><span class="pre">CudaSpace</span></code> memory is a segfault, not an exception.</p>
+<p>But <code class="docutils literal notranslate"><span class="pre">FloatView</span></code> is itself a PIMPL over <code class="docutils literal notranslate"><span class="pre">FloatViewHolder</span></code>, and it has a
+public constructor taking a <code class="docutils literal notranslate"><span class="pre">holder_pointer</span></code>. So <code class="docutils literal notranslate"><span class="pre">at_</span></code> does not have to
+produce a reference – it can produce a <em>model</em>. The question becomes whether
+<code class="docutils literal notranslate"><span class="pre">FloatViewHolder</span></code>’s interface is implementable over device memory.</p>
+<p>It is. Its pure virtuals are <code class="docutils literal notranslate"><span class="pre">is_const_</span></code>, <code class="docutils literal notranslate"><span class="pre">clone_</span></code>, <code class="docutils literal notranslate"><span class="pre">const_clone_</span></code>,
+<code class="docutils literal notranslate"><span class="pre">change_value_</span></code>, <code class="docutils literal notranslate"><span class="pre">are_equal_</span></code>, and <code class="docutils literal notranslate"><span class="pre">to_string_</span></code>. <strong>None of them returns a
+reference to the value.</strong> The reference-returning <code class="docutils literal notranslate"><span class="pre">get_value()</span></code>/<code class="docutils literal notranslate"><span class="pre">data()</span></code>
+live on the concrete <code class="docutils literal notranslate"><span class="pre">FloatViewModel</span></code>, not on the type-erased interface. So
+we add a sibling model:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="n">concepts</span><span class="o">::</span><span class="n">FloatingPoint</span><span class="w"> </span><span class="n">FloatType</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">MemorySpace</span><span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DeviceFloatViewModel</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">FloatViewHolder</span><span class="o">&lt;</span><span class="p">...</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// rank-0 View aliasing exactly one element</span>
+<span class="w">    </span><span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="n">FloatType</span><span class="p">,</span><span class="w"> </span><span class="n">MemorySpace</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_value_</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>and <code class="docutils literal notranslate"><span class="pre">DeviceViewModel::at_</span></code> becomes:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">view_type</span><span class="w"> </span><span class="nf">at_</span><span class="p">(</span><span class="n">size_type</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DeviceFloatViewModel</span><span class="o">&lt;</span><span class="n">FloatType</span><span class="p">,</span><span class="w"> </span><span class="n">MemorySpace</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">view_type</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">model</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Kokkos</span><span class="o">::</span><span class="n">subview</span><span class="p">(</span><span class="n">m_view_</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Kokkos::subview(m_view_,</span> <span class="pre">i)</span></code> yields a rank-0 <code class="docutils literal notranslate"><span class="pre">View</span></code> aliasing element <code class="docutils literal notranslate"><span class="pre">i</span></code>
+<em>without dereferencing anything on the host</em>, and it refcount-shares the parent
+allocation. The lifetime story therefore holds all the way down to a single
+element: a <code class="docutils literal notranslate"><span class="pre">FloatView</span></code> into a device buffer keeps that buffer alive, exactly
+as a host <code class="docutils literal notranslate"><span class="pre">FloatView</span></code> into a <code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code> would be expected to.</p>
+<p>The remaining virtuals are all scalar transfers:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">change_value_(other)</span></code> – <code class="docutils literal notranslate"><span class="pre">Kokkos::deep_copy</span></code> from a host scalar.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">are_equal_(other)</span></code> – <code class="docutils literal notranslate"><span class="pre">deep_copy</span></code> both to host, compare.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">to_string_()</span></code> – <code class="docutils literal notranslate"><span class="pre">deep_copy</span></code> to host, format.</p></li>
+</ul>
+<p>Reading or writing one element of a device buffer is thus <strong>correct but slow</strong>:
+it costs a 4- or 8-byte transfer and a fence. That is the right failure mode
+for a convenience accessor. The user who writes <code class="docutils literal notranslate"><span class="pre">d_P.at(7)</span></code> in a loop gets
+bad performance; the user who writes it once in a debug print gets the right
+answer. Neither gets undefined behavior.</p>
+<section id="what-still-has-to-be-gated">
+<h3>What Still Has to Be Gated<a class="headerlink" href="#what-still-has-to-be-gated" title="Link to this heading"></a></h3>
+<p>With <code class="docutils literal notranslate"><span class="pre">at()</span></code> handled, the only remaining hazards are the APIs that hand out a
+raw host pointer and cannot be made safe: <code class="docutils literal notranslate"><span class="pre">BufferView::value&lt;T&gt;()</span></code>,
+<code class="docutils literal notranslate"><span class="pre">contiguous_buffer_view_cast</span></code>, and the models’ <code class="docutils literal notranslate"><span class="pre">data()</span></code>. Those need a
+runtime query, sibling to the existing <code class="docutils literal notranslate"><span class="pre">is_contiguous()</span></code>:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">/// Can the elements of this buffer be reached by a host pointer?</span>
+<span class="kt">bool</span><span class="w"> </span><span class="nf">is_host_accessible</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>backed by a new <code class="docutils literal notranslate"><span class="pre">virtual</span> <span class="pre">bool</span> <span class="pre">is_host_accessible_()</span> <span class="pre">const</span></code> defaulted to
+<code class="docutils literal notranslate"><span class="pre">true</span></code> in <code class="docutils literal notranslate"><span class="pre">BufferViewHolder</span></code> and <code class="docutils literal notranslate"><span class="pre">BufferHolder</span></code>, so <code class="docutils literal notranslate"><span class="pre">ContiguousModel</span></code>
+and <code class="docutils literal notranslate"><span class="pre">ContiguousViewModel</span></code> are untouched. <code class="docutils literal notranslate"><span class="pre">DeviceViewModel</span></code> returns
+<code class="docutils literal notranslate"><span class="pre">Kokkos::SpaceAccessibility&lt;Kokkos::HostSpace,</span> <span class="pre">MemorySpace&gt;::accessible</span></code> –
+<code class="docutils literal notranslate"><span class="pre">true</span></code> for <code class="docutils literal notranslate"><span class="pre">HostSpace</span></code> and <code class="docutils literal notranslate"><span class="pre">CudaUVMSpace</span></code>, <code class="docutils literal notranslate"><span class="pre">false</span></code> for <code class="docutils literal notranslate"><span class="pre">CudaSpace</span></code>.
+The pointer-returning methods throw “not host accessible; call <code class="docutils literal notranslate"><span class="pre">to_host()</span></code>”
+rather than faulting.</p>
+<p>Note this is a narrower gate than it first appeared. <code class="docutils literal notranslate"><span class="pre">is_host_accessible()</span></code>
+answers “may I do pointer arithmetic here”, which is precisely the question
+<code class="docutils literal notranslate"><span class="pre">is_contiguous()</span></code> already answers for layout. The two belong together.</p>
+</section>
+</section>
+<section id="dispatching-to-a-portable-kernel">
+<h2>Dispatching to a Portable Kernel<a class="headerlink" href="#dispatching-to-a-portable-kernel" title="Link to this heading"></a></h2>
+<p>WTF already has the right hook.
+<code class="docutils literal notranslate"><span class="pre">visit_contiguous_buffer_view&lt;TupleType&gt;</span></code> resolves each argument’s type once,
+with a single <code class="docutils literal notranslate"><span class="pre">std::visit</span></code> over <code class="docutils literal notranslate"><span class="pre">dynamic_cast</span></code> results, and hands the
+visitor <code class="docutils literal notranslate"><span class="pre">std::span&lt;T&gt;...</span></code>. Crucially, <strong>the type-erasure cost is paid once
+per call, at the buffer level – never per element</strong>. That is what makes this
+composable with a kernel at all.</p>
+<p>Rather than write a device-specific copy of that function, note that the two
+existing visit helpers are already near-duplicates:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// contiguous_model.hpp</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">auto</span><span class="o">&amp;&amp;</span><span class="p">...</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">visitor</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">span</span><span class="p">()...);</span><span class="w"> </span><span class="p">};</span>
+<span class="k">return</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">detail_</span><span class="o">::</span><span class="n">dispatch</span><span class="o">&lt;</span><span class="n">ContiguousModel</span><span class="p">,</span><span class="w"> </span><span class="n">TupleType</span><span class="o">&gt;</span><span class="p">(</span><span class="n">lambda</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span>
+
+<span class="c1">// contiguous_view_model.hpp -- identical but for the model</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">auto</span><span class="o">&amp;&amp;</span><span class="p">...</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">visitor</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">span</span><span class="p">()...);</span><span class="w"> </span><span class="p">};</span>
+<span class="k">return</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">detail_</span><span class="o">::</span><span class="n">dispatch</span><span class="o">&lt;</span><span class="n">ContiguousViewModel</span><span class="p">,</span><span class="w"> </span><span class="n">TupleType</span><span class="o">&gt;</span><span class="p">(</span><span class="n">lambda</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span>
+</pre></div>
+</div>
+<p>Both bodies vary in exactly one token. So hoist the model and give every model
+a uniformly-named accessor for “the thing you iterate”:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">template</span><span class="o">&lt;</span><span class="n">concepts</span><span class="o">::</span><span class="n">FloatingPoint</span><span class="o">&gt;</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">ModelType</span><span class="p">,</span>
+<span class="w">         </span><span class="k">typename</span><span class="w"> </span><span class="nc">TupleType</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">Visitor</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="p">...</span><span class="w"> </span><span class="n">Args</span><span class="o">&gt;</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">visit_buffer_as</span><span class="p">(</span><span class="n">Visitor</span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">visitor</span><span class="p">,</span><span class="w"> </span><span class="n">Args</span><span class="o">&amp;&amp;</span><span class="p">...</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">auto</span><span class="o">&amp;&amp;</span><span class="p">...</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">visitor</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">handle</span><span class="p">()...);</span><span class="w"> </span><span class="p">};</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">detail_</span><span class="o">::</span><span class="n">dispatch</span><span class="o">&lt;</span><span class="n">ModelType</span><span class="p">,</span><span class="w"> </span><span class="n">TupleType</span><span class="o">&gt;</span><span class="p">(</span>
+<span class="w">      </span><span class="n">lambda</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Args</span><span class="o">&gt;</span><span class="p">(</span><span class="n">args</span><span class="p">)...);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">handle()</span></code> returns <code class="docutils literal notranslate"><span class="pre">std::span&lt;T&gt;</span></code> on the contiguous models and
+<code class="docutils literal notranslate"><span class="pre">Kokkos::View&lt;T*,</span> <span class="pre">Space&gt;</span></code> on the device model. Every visit helper then
+collapses to a one-line forwarder, and <strong>the device model needs no new dispatch
+code at all</strong>. These are all <code class="docutils literal notranslate"><span class="pre">detail_</span></code> classes, so renaming <code class="docutils literal notranslate"><span class="pre">span()</span></code> to
+<code class="docutils literal notranslate"><span class="pre">handle()</span></code> is not a public API break; <code class="docutils literal notranslate"><span class="pre">span()</span></code> can stay as an alias on the
+contiguous models where the name is honest.</p>
+<p>This is a refactor worth doing regardless of Kokkos – it deletes duplication
+that is in the tree today.</p>
+<section id="one-wrinkle">
+<h3>One Wrinkle<a class="headerlink" href="#one-wrinkle" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">dispatch</span></code>’s model parameter is declared
+<code class="docutils literal notranslate"><span class="pre">template&lt;concepts::FloatingPoint&gt;</span> <span class="pre">typename</span> <span class="pre">ModelType</span></code> – exactly one
+argument – and <code class="docutils literal notranslate"><span class="pre">DeviceViewModel&lt;T,</span> <span class="pre">Space&gt;</span></code> takes two. Bind the space with an
+alias template, which is a valid template-template argument:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="n">concepts</span><span class="o">::</span><span class="n">FloatingPoint</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="n">DefaultDeviceViewModel</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="n">DeviceViewModel</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">Kokkos</span><span class="o">::</span><span class="n">DefaultExecutionSpace</span><span class="o">::</span><span class="n">memory_space</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>A given call therefore dispatches over one memory space at a time. That seems
+right: mixing spaces within one kernel launch is not meaningful anyway.</p>
+</section>
+<section id="two-constraints-on-the-visitor">
+<h3>Two Constraints on the Visitor<a class="headerlink" href="#two-constraints-on-the-visitor" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">wtf::default_fp_types</span></code> is <code class="docutils literal notranslate"><span class="pre">std::tuple&lt;float,</span> <span class="pre">double,</span> <span class="pre">long</span> <span class="pre">double&gt;</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">double</span></code> has no device support. Every device-facing visit must pass a
+restricted tuple, e.g. <code class="docutils literal notranslate"><span class="pre">std::tuple&lt;float,</span> <span class="pre">double&gt;</span></code>. A buffer holding
+<code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">double</span></code> then throws from dispatch, which is the correct outcome.</p>
+<p>More subtly: <strong>the visitor must be a named functor, not a generic lambda.</strong>
+<code class="docutils literal notranslate"><span class="pre">nvcc</span></code> restricts where an extended <code class="docutils literal notranslate"><span class="pre">__device__</span></code> lambda may be defined, and
+inside a generic lambda is one of the restricted contexts. Since WTF delivers
+the recovered type <em>through</em> a generic lambda, a <code class="docutils literal notranslate"><span class="pre">KOKKOS_LAMBDA</span></code> written
+directly in the visitor body is a portability hazard. The pattern that works: a
+struct with a templated <code class="docutils literal notranslate"><span class="pre">operator()</span></code> forwarding to a free function template
+that contains the <code class="docutils literal notranslate"><span class="pre">KOKKOS_LAMBDA</span></code>. WTF’s own tests already use named-functor
+visitors, so this matches existing practice.</p>
+</section>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>Rotate <code class="docutils literal notranslate"><span class="pre">n</span></code> points by a 3x3 rotation matrix. Inputs and output are type-erased
+and may be device-resident; the caller writes no templates and names no memory
+space.</p>
+<p>The kernel – a free function template, so <code class="docutils literal notranslate"><span class="pre">KOKKOS_LAMBDA</span></code> sits in a context
+<code class="docutils literal notranslate"><span class="pre">nvcc</span></code> accepts:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">Scalar</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">Space</span><span class="o">&gt;</span>
+<span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="n">Scalar</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">Space</span><span class="o">&gt;</span><span class="w"> </span><span class="n">rotate_points_kernel</span><span class="p">(</span>
+<span class="w">  </span><span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="k">const</span><span class="w"> </span><span class="n">Scalar</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">Space</span><span class="o">&gt;</span><span class="w"> </span><span class="n">R</span><span class="p">,</span>
+<span class="w">  </span><span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="k">const</span><span class="w"> </span><span class="n">Scalar</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">Space</span><span class="o">&gt;</span><span class="w"> </span><span class="n">P</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">exec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">Space</span><span class="o">::</span><span class="n">execution_space</span><span class="p">;</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">P</span><span class="p">.</span><span class="n">extent</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="n">Scalar</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">Space</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Q</span><span class="p">(</span>
+<span class="w">      </span><span class="n">Kokkos</span><span class="o">::</span><span class="n">view_alloc</span><span class="p">(</span><span class="s">&quot;Q&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Kokkos</span><span class="o">::</span><span class="n">WithoutInitializing</span><span class="p">),</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">Kokkos</span><span class="o">::</span><span class="n">parallel_for</span><span class="p">(</span>
+<span class="w">      </span><span class="s">&quot;wtf::rotate_points&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Kokkos</span><span class="o">::</span><span class="n">RangePolicy</span><span class="o">&lt;</span><span class="n">exec</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">),</span>
+<span class="w">      </span><span class="n">KOKKOS_LAMBDA</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="k">const</span><span class="w"> </span><span class="n">Scalar</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">P</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">          </span><span class="k">const</span><span class="w"> </span><span class="n">Scalar</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">P</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">          </span><span class="k">const</span><span class="w"> </span><span class="n">Scalar</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">P</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+<span class="w">          </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="n">Q</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">R</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                             </span><span class="n">R</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">z</span><span class="p">;</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">      </span><span class="p">});</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Q</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All <code class="docutils literal notranslate"><span class="pre">n</span></code> threads read the same 9 elements of <code class="docutils literal notranslate"><span class="pre">R</span></code>. A production kernel
+would stage those in scratch or registers; it is left explicit here so the
+indexing is readable.</p>
+</div>
+<p>The visitor – templated <code class="docutils literal notranslate"><span class="pre">operator()</span></code>, no lambda:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">RotateVisitor</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">wtf</span><span class="o">::</span><span class="n">buffer</span><span class="o">::</span><span class="n">BufferView</span><span class="o">&lt;</span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">Float</span><span class="o">&gt;*</span><span class="w"> </span><span class="n">m_prv</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">R</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">P</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">Space</span><span class="o">&gt;</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="k">operator</span><span class="p">()(</span><span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="n">R</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">Space</span><span class="o">&gt;</span><span class="w"> </span><span class="n">r</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="n">P</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">Space</span><span class="o">&gt;</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">using</span><span class="w"> </span><span class="n">r_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">remove_const_t</span><span class="o">&lt;</span><span class="n">R</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">using</span><span class="w"> </span><span class="n">p_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">remove_const_t</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="p">(</span><span class="o">!</span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">r_t</span><span class="p">,</span><span class="w"> </span><span class="n">p_t</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span>
+<span class="w">              </span><span class="s">&quot;rotate_points: rotation and points must hold the same type&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">extent</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">9</span><span class="p">)</span>
+<span class="w">                </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;Rotation must have 9 elements&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">extent</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<span class="w">                </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;Points must be a multiple of 3&quot;</span><span class="p">);</span>
+
+<span class="w">            </span><span class="o">*</span><span class="n">m_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">buffer</span><span class="o">::</span><span class="n">make_device_view</span><span class="p">(</span>
+<span class="w">              </span><span class="n">rotate_points_kernel</span><span class="o">&lt;</span><span class="n">r_t</span><span class="p">,</span><span class="w"> </span><span class="n">Space</span><span class="o">&gt;</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">));</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Dispatch is a full Cartesian product over the type list, so the mixed-type
+instantiations are reachable and must compile. Rejecting them at runtime is
+the simple option; promoting to <code class="docutils literal notranslate"><span class="pre">std::common_type_t</span></code> on the device is
+possible but costs a conversion pass, so we defer that until something needs
+it.</p>
+</div>
+<p>The public API – template-free, and it never names a memory space:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">wtf</span><span class="o">::</span><span class="n">buffer</span><span class="o">::</span><span class="n">BufferView</span><span class="o">&lt;</span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">Float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">rotate_points</span><span class="p">(</span>
+<span class="w">  </span><span class="n">wtf</span><span class="o">::</span><span class="n">buffer</span><span class="o">::</span><span class="n">BufferView</span><span class="o">&lt;</span><span class="k">const</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">Float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">R</span><span class="p">,</span>
+<span class="w">  </span><span class="n">wtf</span><span class="o">::</span><span class="n">buffer</span><span class="o">::</span><span class="n">BufferView</span><span class="o">&lt;</span><span class="k">const</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">Float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">points</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">device_types</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">wtf</span><span class="o">::</span><span class="n">buffer</span><span class="o">::</span><span class="n">BufferView</span><span class="o">&lt;</span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">Float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">rv</span><span class="p">;</span>
+<span class="w">    </span><span class="n">wtf</span><span class="o">::</span><span class="n">buffer</span><span class="o">::</span><span class="n">visit_buffer_as</span><span class="o">&lt;</span><span class="n">DefaultDeviceViewModel</span><span class="p">,</span><span class="w"> </span><span class="n">device_types</span><span class="o">&gt;</span><span class="p">(</span>
+<span class="w">      </span><span class="n">RotateVisitor</span><span class="p">{</span><span class="o">&amp;</span><span class="n">rv</span><span class="p">},</span><span class="w"> </span><span class="n">R</span><span class="p">,</span><span class="w"> </span><span class="n">points</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">rv</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>And the call site:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">wtf</span><span class="o">::</span><span class="n">buffer</span><span class="o">::</span><span class="n">FloatBuffer</span><span class="w"> </span><span class="n">h_R</span><span class="p">{</span><span class="cm">/* 9 elements */</span><span class="p">};</span>
+<span class="n">wtf</span><span class="o">::</span><span class="n">buffer</span><span class="o">::</span><span class="n">FloatBuffer</span><span class="w"> </span><span class="n">h_P</span><span class="p">{</span><span class="cm">/* 3n elements */</span><span class="p">};</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">d_R</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">buffer</span><span class="o">::</span><span class="n">to_device</span><span class="p">(</span><span class="n">h_R</span><span class="p">);</span><span class="w">   </span><span class="c1">// host -&gt; device view</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">d_P</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">buffer</span><span class="o">::</span><span class="n">to_device</span><span class="p">(</span><span class="n">h_P</span><span class="p">);</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">d_Q</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">rotate_points</span><span class="p">(</span><span class="n">d_R</span><span class="p">,</span><span class="w"> </span><span class="n">d_P</span><span class="p">);</span><span class="w">      </span><span class="c1">// result stays on device</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">d_Q2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rotate_points</span><span class="p">(</span><span class="n">d_R</span><span class="p">,</span><span class="w"> </span><span class="n">d_Q</span><span class="p">);</span><span class="w">      </span><span class="c1">// ... and feeds the next call</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">d_Q2</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">          </span><span class="c1">// works: one scalar transfer</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">h_Q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">buffer</span><span class="o">::</span><span class="n">to_host</span><span class="p">(</span><span class="n">d_Q2</span><span class="p">);</span><span class="w">    </span><span class="c1">// FloatBuffer, only when needed</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">d_Q</span></code> is a <code class="docutils literal notranslate"><span class="pre">BufferView</span></code>. It is the only handle to its device allocation and
+keeps it alive exactly as long as it lives. Nothing at the call site names
+<code class="docutils literal notranslate"><span class="pre">Kokkos</span></code>, a <code class="docutils literal notranslate"><span class="pre">Scalar</span></code>, or a memory space.</p>
+<p>The chained call is the payoff: because the intermediate never returns to the
+host, composing two device routines costs no transfers. And the <code class="docutils literal notranslate"><span class="pre">at(0)</span></code> on
+the next line still works – it just pays for what it does.</p>
+<section id="supporting-free-functions">
+<h3>Supporting Free Functions<a class="headerlink" href="#supporting-free-functions" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">make_device_view(Kokkos::View&lt;T*,</span> <span class="pre">Space&gt;)</span></code> – wraps a <code class="docutils literal notranslate"><span class="pre">View</span></code> in a
+<code class="docutils literal notranslate"><span class="pre">BufferView</span></code>. What a kernel author calls to re-erase a result.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">to_device(const</span> <span class="pre">FloatBuffer&amp;)</span></code> / <code class="docutils literal notranslate"><span class="pre">to_device&lt;Space&gt;(...)</span></code> – allocates in
+the target space and <code class="docutils literal notranslate"><span class="pre">deep_copy``s.</span> <span class="pre">Returns</span> <span class="pre">a</span> <span class="pre">``BufferView</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">to_host(BufferView)</span></code> – returns a <code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code>, since the host really
+does own that one.</p></li>
+</ul>
+</section>
+</section>
+<section id="open-questions">
+<h2>Open Questions<a class="headerlink" href="#open-questions" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Should <code class="docutils literal notranslate"><span class="pre">to_device</span></code> on an already-device view be the identity or an explicit
+copy? Identity is cheaper; explicit is less surprising.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">are_equal_</span></code> via <code class="docutils literal notranslate"><span class="pre">parallel_reduce</span></code> means <code class="docutils literal notranslate"><span class="pre">operator==</span></code> launches a
+kernel. Acceptable for a comparison operator, or should comparing a
+non-host-accessible view force an explicit <code class="docutils literal notranslate"><span class="pre">to_host</span></code>?</p></li>
+<li><p>Scalar <code class="docutils literal notranslate"><span class="pre">at()</span></code> access fences the execution space. Should a device
+<code class="docutils literal notranslate"><span class="pre">FloatView</span></code> cache its value on first read, and if so, how does it learn
+that the underlying buffer changed?</p></li>
+<li><p>Does <code class="docutils literal notranslate"><span class="pre">BufferView</span></code>’s implicit conversion from <code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code> need
+suppressing for device models, or is it naturally unreachable?</p></li>
+<li><p>Where does this live? A <code class="docutils literal notranslate"><span class="pre">WTF_ENABLE_KOKKOS</span></code> component keeps WTF’s core free
+of a hard Kokkos dependency but splits buffer behavior across a build flag. A
+satellite repo avoids that but leaves the <code class="docutils literal notranslate"><span class="pre">is_host_accessible()</span></code> hook
+(which must live in core) looking orphaned.</p></li>
+<li><p>WTF declares <code class="docutils literal notranslate"><span class="pre">cmake_minimum_required(VERSION</span> <span class="pre">3.14)</span></code>; Kokkos 4.x needs
+3.16+.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="architecture.html" class="btn btn-neutral float-left" title="Architecture of WTF" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../adding_a_new_type.html" class="btn btn-neutral float-right" title="Registering a New Type with WTF" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, NWChemEx Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
