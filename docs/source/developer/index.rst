@@ -27,3 +27,4 @@ Developer Documentation
    operations
    float_buffer
    architecture
+   kokkos
