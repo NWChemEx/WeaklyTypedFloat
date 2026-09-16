@@ -107,16 +107,104 @@ Typedefs</h2></td></tr>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>default_fp_types</b> = std::tuple&lt; float, double, long double &gt;</td></tr>
 <tr class="memdesc:a746023b756b44de96d0dd25e8af54c30"><td class="mdescLeft">&#160;</td><td class="mdescRight">A tuple holding C++'s default, real, floating-point types. <br /></td></tr>
 <tr class="separator:a746023b756b44de96d0dd25e8af54c30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f9858382c045d65f726137ba8d9ed0b" id="r_a4f9858382c045d65f726137ba8d9ed0b"><td class="memItemLeft" align="right" valign="top"><a id="a4f9858382c045d65f726137ba8d9ed0b" name="a4f9858382c045d65f726137ba8d9ed0b"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>python_module_reference</b> = py::module_ &amp;</td></tr>
+<tr class="memdesc:a4f9858382c045d65f726137ba8d9ed0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a reference to the Python module the bindings are added to. <br /></td></tr>
+<tr class="separator:a4f9858382c045d65f726137ba8d9ed0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d03e37774b3e23acb37912c471f78db" id="r_a0d03e37774b3e23acb37912c471f78db"><td class="memTemplParams" colspan="2"><a id="a0d03e37774b3e23acb37912c471f78db" name="a0d03e37774b3e23acb37912c471f78db"></a>
+template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:a0d03e37774b3e23acb37912c471f78db"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><b>python_class_type</b> = py::class_&lt; Args... &gt;</td></tr>
+<tr class="memdesc:a0d03e37774b3e23acb37912c471f78db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a Python class being exported. <br /></td></tr>
+<tr class="separator:a0d03e37774b3e23acb37912c471f78db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e3aa86b4d60977edbaf671a998c5217" id="r_a5e3aa86b4d60977edbaf671a998c5217"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewtf.html#a5e3aa86b4d60977edbaf671a998c5217">python_float_type</a> = double</td></tr>
+<tr class="memdesc:a5e3aa86b4d60977edbaf671a998c5217"><td class="mdescLeft">&#160;</td><td class="mdescRight">The floating-point type Python is limited to.  <br /></td></tr>
+<tr class="separator:a5e3aa86b4d60977edbaf671a998c5217"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a7ffa655e41ca63d7d3f10a464ec667f7" id="r_a7ffa655e41ca63d7d3f10a464ec667f7"><td class="memItemLeft" align="right" valign="top"><a id="a7ffa655e41ca63d7d3f10a464ec667f7" name="a7ffa655e41ca63d7d3f10a464ec667f7"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>PYBIND11_MODULE</b> (wtf, m)</td></tr>
 <tr class="separator:a7ffa655e41ca63d7d3f10a464ec667f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b436b06a0707cb032ce38bfa07212f2" id="r_a6b436b06a0707cb032ce38bfa07212f2"><td class="memTemplParams" colspan="2">template&lt;typename Fxn &gt; </td></tr>
+<tr class="memitem:a6b436b06a0707cb032ce38bfa07212f2"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacewtf.html#a6b436b06a0707cb032ce38bfa07212f2">as_python_float</a> (Fxn &amp;&amp;fxn, const std::string &amp;held_type)</td></tr>
+<tr class="memdesc:a6b436b06a0707cb032ce38bfa07212f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs <code>fxn</code>, mapping a WTF bad-cast into a Python TypeError.  <br /></td></tr>
+<tr class="separator:a6b436b06a0707cb032ce38bfa07212f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains all public-facing APIs for the Weakly Typed Float library. </p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Typedef Documentation</h2>
+<a id="a5e3aa86b4d60977edbaf671a998c5217" name="a5e3aa86b4d60977edbaf671a998c5217"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e3aa86b4d60977edbaf671a998c5217">&#9670;&#160;</a></span>python_float_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespacewtf.html#a5e3aa86b4d60977edbaf671a998c5217">wtf::python_float_type</a> = typedef double</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The floating-point type Python is limited to. </p>
+<p>Python's native <code>float</code> is a C++ <code>double</code>, which is the only floating-point type that crosses the Python/C++ boundary. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a6b436b06a0707cb032ce38bfa07212f2" name="a6b436b06a0707cb032ce38bfa07212f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b436b06a0707cb032ce38bfa07212f2">&#9670;&#160;</a></span>as_python_float()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Fxn &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">auto wtf::as_python_float </td>
+          <td>(</td>
+          <td class="paramtype">Fxn &amp;&amp;&#160;</td>
+          <td class="paramname"><em>fxn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>held_type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Runs <code>fxn</code>, mapping a WTF bad-cast into a Python TypeError. </p>
+<p>Every binding which unwraps (or overwrites) a type-erased value does so as a python_float_type. When the type-erased object is holding some other floating-point type the underlying WTF call throws a std::runtime_error. By default pybind11 surfaces that as a Python RuntimeError, which does not tell the user what went wrong. This function instead raises a TypeError naming the type that is actually being held.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Fxn</td><td>The type of the callable to run. Will be deduced.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">fxn</td><td>The callable performing the double-typed operation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">held_type</td><td>The name of the type the WTF object is holding. Used to make the error message actionable.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Whatever <code>fxn</code> returns.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">pybind11::type_error</td><td>if <code>fxn</code> throws std::runtime_error. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8

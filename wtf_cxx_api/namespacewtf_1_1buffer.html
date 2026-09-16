@@ -115,6 +115,17 @@ requires (concepts::FloatingPoint&lt;T&gt;)</td></tr>
 template&lt;concepts::FloatingPoint T&gt; </td></tr>
 <tr class="memitem:aeb45096c801c7e26bef6b8034dacbcac"><td class="memTemplItemLeft" align="right" valign="top">std::span&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>contiguous_buffer_cast</b> (<a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a> &amp;buffer)</td></tr>
 <tr class="separator:aeb45096c801c7e26bef6b8034dacbcac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cfb8a3f5257a39382bd52a29ea4fd65" id="r_a7cfb8a3f5257a39382bd52a29ea4fd65"><td class="memItemLeft" align="right" valign="top"><a id="a7cfb8a3f5257a39382bd52a29ea4fd65" name="a7cfb8a3f5257a39382bd52a29ea4fd65"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_float_buffer</b> (<a class="el" href="namespacewtf.html#a4f9858382c045d65f726137ba8d9ed0b">python_module_reference</a> m)</td></tr>
+<tr class="memdesc:a7cfb8a3f5257a39382bd52a29ea4fd65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exports the <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">wtf::buffer::FloatBuffer</a> class to the module <code>m</code>. <br /></td></tr>
+<tr class="separator:a7cfb8a3f5257a39382bd52a29ea4fd65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2addb3ef8ee7e14ea7dc8d5d8c321470" id="r_a2addb3ef8ee7e14ea7dc8d5d8c321470"><td class="memItemLeft" align="right" valign="top"><a id="a2addb3ef8ee7e14ea7dc8d5d8c321470" name="a2addb3ef8ee7e14ea7dc8d5d8c321470"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>export_buffer_view</b> (<a class="el" href="namespacewtf.html#a4f9858382c045d65f726137ba8d9ed0b">python_module_reference</a> m)</td></tr>
+<tr class="memdesc:a2addb3ef8ee7e14ea7dc8d5d8c321470"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exports the <a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">wtf::buffer::BufferView</a> class to the module <code>m</code>. <br /></td></tr>
+<tr class="separator:a2addb3ef8ee7e14ea7dc8d5d8c321470"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7df86df6f596e007e6e586c2db39c165" id="r_a7df86df6f596e007e6e586c2db39c165"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewtf_1_1buffer.html#a7df86df6f596e007e6e586c2db39c165">export_buffer</a> (<a class="el" href="namespacewtf.html#a4f9858382c045d65f726137ba8d9ed0b">python_module_reference</a> m)</td></tr>
+<tr class="memdesc:a7df86df6f596e007e6e586c2db39c165"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exports the contents of the <a class="el" href="namespacewtf_1_1buffer.html" title="Contains classes and functions for interacting with type-erased buffers.">wtf::buffer</a> namespace to <code>m</code>.  <br /></td></tr>
+<tr class="separator:a7df86df6f596e007e6e586c2db39c165"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains classes and functions for interacting with type-erased buffers. </p>
@@ -160,6 +171,41 @@ requires (concepts::FloatingPoint&lt;T&gt;)</div>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">pbuffer</td><td>A pointer to the first element in the buffer. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>The number of elements in the buffer. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7df86df6f596e007e6e586c2db39c165" name="a7df86df6f596e007e6e586c2db39c165"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7df86df6f596e007e6e586c2db39c165">&#9670;&#160;</a></span>export_buffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wtf::buffer::export_buffer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacewtf.html#a4f9858382c045d65f726137ba8d9ed0b">python_module_reference</a>&#160;</td>
+          <td class="paramname"><em>m</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Exports the contents of the <a class="el" href="namespacewtf_1_1buffer.html" title="Contains classes and functions for interacting with type-erased buffers.">wtf::buffer</a> namespace to <code>m</code>. </p>
+<p>This function creates the "buffer" submodule of <code>m</code> and then exports each class in the <a class="el" href="namespacewtf_1_1buffer.html" title="Contains classes and functions for interacting with type-erased buffers.">wtf::buffer</a> namespace into it. Classes are exported hierarchically, i.e., a class is exported after any class it depends on.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">m</td><td>The module to add the "buffer" submodule to. </td></tr>
   </table>
   </dd>
 </dl>
