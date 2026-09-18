@@ -15,13 +15,21 @@
  */
 
 #pragma once
+#include <wtf/cast/detail_/convert_one.hpp>
+#include <wtf/cast/detail_/restore.hpp>
+#include <wtf/cast/policies.hpp>
 #include <wtf/concepts/floating_point.hpp>
 #include <wtf/concepts/wtf_float.hpp>
 #include <wtf/fp/detail_/float_view_model.hpp>
 #include <wtf/fp/float_base.hpp>
+#include <wtf/types.hpp>
 #include <wtf/warnings.hpp>
 
 namespace wtf::fp {
+
+/// The conversion policies wtf::fp::convert_to accepts. See
+/// wtf::cast::policies for the definitions of Match, Convertible, and Widen.
+namespace policies = wtf::cast::policies;
 
 /** @brief Aliases an existing floating-point value.
  *
@@ -382,6 +390,9 @@ private:
     template<typename TupleType, typename Visitor, typename... Args>
     friend auto visit_float_view(Visitor&& visitor, Args&&... args);
 
+    template<typename T, typename Policy, typename TupleType>
+    friend T convert_to(FloatView<const Float> f);
+
     /// Determines if *this is holding a value or not
     bool is_holding_() const noexcept { return m_pfloat_ != nullptr; }
 
@@ -432,6 +443,45 @@ template<typename T, concepts::WTFFloat FloatType>
     requires concepts::FloatingPoint<std::decay_t<T>>
 IGNORE_DANGLING_REFERENCE T float_cast(FloatView<FloatType> fview) {
     return fview.template value<T>();
+}
+
+/** @brief Policy-driven, always-by-value conversion of a held value to type
+ *         @p T.
+ *
+ *  @related FloatView
+ *
+ *  Unlike float_cast, which requires @p T to exactly match the held type
+ *  (up to cv-qualification) and may return a mutable alias into the held
+ *  storage, convert_to always returns a newly-constructed value and lets
+ *  @p Policy decide whether/how to convert the held value to @p T. See
+ *  docs/source/developer/conversion.rst for the full design and the
+ *  built-in policies (wtf::fp::policies::Match, Convertible, Widen).
+ *
+ *  @tparam T The type to convert the held value to.
+ *  @tparam Policy The conversion policy to use. Must expose
+ *                 `static std::optional<T> convert<T, U>(U&& value)`.
+ *                 Defaults to policies::Match (only exact-type conversions,
+ *                 the same check float_cast performs).
+ *  @tparam TupleType A std::tuple of candidate floating-point types to try.
+ *                    Defaults to wtf::default_fp_types.
+ *
+ *  @param[in] f The FloatView to convert. Taking a `FloatView<const Float>`
+ *               by value lets this same function accept a `Float` directly
+ *               too, via Float's existing implicit conversion to
+ *               `FloatView<const Float>`.
+ *
+ *  @return The converted value.
+ *
+ *  @throw std::runtime_error if @p f does not hold one of the types in
+ *                            @p TupleType, or if @p Policy declines to
+ *                            convert the held value to @p T. Strong throw
+ *                            guarantee.
+ */
+template<typename T, typename Policy = policies::Match,
+         typename TupleType = wtf::default_fp_types>
+T convert_to(FloatView<const Float> f) {
+    return wtf::cast::detail_::convert_one<T, Policy, detail_::FloatViewModel,
+                                           TupleType>(f.holder_());
 }
 
 /** @brief Helper function for creating a FloatView.
@@ -512,14 +562,11 @@ template<concepts::WTFFloat FloatType>
 template<typename T>
     requires concepts::FloatingPoint<std::decay_t<T>>
 T FloatView<FloatType>::value() {
-    using clean_t      = std::decay_t<T>;
-    using fp_type      = std::conditional_t<is_const, const clean_t, clean_t>;
-    using derived_type = detail_::FloatViewModel<fp_type>;
-    auto pderived      = dynamic_cast<derived_type*>(m_pfloat_.get());
-    if(pderived == nullptr) {
-        throw std::runtime_error("wtf::FloatView::value: bad cast");
-    }
-    return *pderived->data();
+    using clean_t = std::decay_t<T>;
+    using fp_type = std::conditional_t<is_const, const clean_t, clean_t>;
+    auto& model = wtf::cast::detail_::restore<detail_::FloatViewModel, fp_type>(
+      *m_pfloat_, "wtf::FloatView::value: bad cast");
+    return *model.data();
 }
 
 template<concepts::WTFFloat FloatType>
@@ -527,14 +574,11 @@ template<typename T>
     requires(concepts::FloatingPoint<std::decay_t<T>> &&
              (concepts::ConstQualified<T> || concepts::Unmodified<T>))
 T FloatView<FloatType>::value() const {
-    using clean_t      = std::decay_t<T>;
-    using fp_type      = std::conditional_t<is_const, const clean_t, clean_t>;
-    using derived_type = detail_::FloatViewModel<fp_type>;
-    auto pderived      = dynamic_cast<derived_type*>(m_pfloat_.get());
-    if(pderived == nullptr) {
-        throw std::runtime_error("wtf::FloatView::value: bad cast");
-    }
-    return *pderived->data();
+    using clean_t = std::decay_t<T>;
+    using fp_type = std::conditional_t<is_const, const clean_t, clean_t>;
+    auto& model = wtf::cast::detail_::restore<detail_::FloatViewModel, fp_type>(
+      *m_pfloat_, "wtf::FloatView::value: bad cast");
+    return *model.data();
 }
 
 /** @brief Wraps the process of visiting zero or more FloatView objects.

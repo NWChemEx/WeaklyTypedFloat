@@ -16,6 +16,7 @@
 
 #pragma once
 #include <memory>
+#include <wtf/cast/detail_/restore.hpp>
 #include <wtf/concepts/floating_point.hpp>
 #include <wtf/enums/enums.hpp>
 #include <wtf/fp/detail_/float_model.hpp>
@@ -410,13 +411,10 @@ Float make_float(enums::FloatKind kind, Source value) {
 template<typename T>
     requires concepts::UnmodifiedFloatingPoint<std::decay_t<T>>
 IGNORE_DANGLING_REFERENCE T float_cast(Float& f) {
-    auto* p            = f.m_holder_.get();
-    using derived_type = detail_::FloatModel<std::decay_t<T>>;
-    auto pderived      = dynamic_cast<derived_type*>(p);
-    if(pderived == nullptr) {
-        throw std::runtime_error("wtf::float_cast: bad cast");
-    }
-    return *pderived->data();
+    auto& model =
+      wtf::cast::detail_::restore<detail_::FloatModel, std::decay_t<T>>(
+        f.holder_(), "wtf::float_cast: bad cast");
+    return *model.data();
 }
 
 /** @brief Wraps the process of visiting zero or more Float objects.

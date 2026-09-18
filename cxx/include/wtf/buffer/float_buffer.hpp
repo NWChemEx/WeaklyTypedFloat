@@ -19,6 +19,7 @@
 #include <span>
 #include <wtf/buffer/buffer_view.hpp>
 #include <wtf/buffer/detail_/contiguous_model.hpp>
+#include <wtf/cast/detail_/restore.hpp>
 #include <wtf/concepts/iterator.hpp>
 #include <wtf/enums/enums.hpp>
 #include <wtf/fp/float.hpp>
@@ -314,12 +315,26 @@ public:
 
     template<typename T>
     std::span<T> value() {
-        return is_holding_() ? downcast_<T>().span() : std::span<T>{};
+        if(!is_holding_()) return {};
+        return wtf::cast::detail_::restore<detail_::ContiguousModel, T>(
+                 holder_(),
+                 "FloatBuffer does not hold the requested floating-point "
+                 "type")
+          .span();
     }
 
     template<typename T>
     std::span<const T> value() const {
-        return is_holding_() ? downcast_<T>().span() : std::span<const T>{};
+        if(!is_holding_()) return {};
+        // The underlying holder is never actually const (only the
+        // unique_ptr member is, and only because *this is const); casting
+        // away *this's constness lets us reuse the same restore() call the
+        // non-const overload uses.
+        return wtf::cast::detail_::restore<detail_::ContiguousModel, T>(
+                 const_cast<FloatBuffer*>(this)->holder_(),
+                 "FloatBuffer does not hold the requested floating-point "
+                 "type")
+          .span();
     }
 
     // -------------------------------------------------------------------------
@@ -473,7 +488,10 @@ public:
         using clean_t = std::decay_t<T>;
         if(!is_holding_()) { *this = FloatBuffer(std::vector<clean_t>{}); }
         // Here to ensure we get a throw if clean_t doesn't match the held type
-        downcast_<clean_t>().reserve(n);
+        wtf::cast::detail_::restore<detail_::ContiguousModel, clean_t>(
+          holder_(),
+          "FloatBuffer does not hold the requested floating-point type")
+          .reserve(n);
     }
 
 private:
@@ -489,23 +507,6 @@ private:
     holder_type& holder_() { return *m_pholder_; }
 
     const holder_type& holder_() const { return *m_pholder_; }
-
-    template<typename T>
-    auto& downcast_() {
-        using model_type = detail_::ContiguousModel<T>;
-        auto pmodel      = dynamic_cast<model_type*>(m_pholder_.get());
-        if(pmodel == nullptr) {
-            throw std::runtime_error(
-              "FloatBuffer does not hold the requested floating-point type");
-        }
-
-        return *pmodel;
-    }
-
-    template<typename T>
-    const auto& downcast_() const {
-        return const_cast<FloatBuffer*>(this)->downcast_<T>();
-    }
 
     /// True if *this is actively type-erasing a buffer and false otherwise
     bool is_holding_() const noexcept { return m_pholder_ != nullptr; }
