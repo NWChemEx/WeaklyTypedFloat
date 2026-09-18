@@ -393,7 +393,9 @@ private:
     friend class BufferView;
 
     template<typename TupleType, typename Visitor, typename... Args>
-    friend auto visit_contiguous_buffer_view(Visitor&& visitor, Args&&... args);
+    friend auto visit_contiguous_buffer_view(Visitor&& visitor, Args&&... args)
+      -> decltype(detail_::visit_contiguous_view_model<TupleType>(
+        std::forward<Visitor>(visitor), args.holder_()...));
 
     holder_type& holder_() { return *m_pholder_; }
 
@@ -545,7 +547,9 @@ std::vector<T> convert_to(BufferView<const fp::Float> buffer) {
  *  @throw ??? if calling @p visitor throws. Same throw guarantee.
  */
 template<typename TupleType, typename Visitor, typename... Args>
-auto visit_contiguous_buffer_view(Visitor&& visitor, Args&&... args) {
+auto visit_contiguous_buffer_view(Visitor&& visitor, Args&&... args)
+  -> decltype(detail_::visit_contiguous_view_model<TupleType>(
+    std::forward<Visitor>(visitor), args.holder_()...)) {
     return detail_::visit_contiguous_view_model<TupleType>(
       std::forward<Visitor>(visitor), args.holder_()...);
 }

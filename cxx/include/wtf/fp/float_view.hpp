@@ -385,10 +385,13 @@ private:
     friend class FloatView;
 
     template<concepts::FloatingPoint T>
-    friend auto make_float_view(T& value);
+    friend auto make_float_view(T& value)
+      -> FloatView<std::conditional_t<std::is_const_v<T>, const Float, Float>>;
 
     template<typename TupleType, typename Visitor, typename... Args>
-    friend auto visit_float_view(Visitor&& visitor, Args&&... args);
+    friend auto visit_float_view(Visitor&& visitor, Args&&... args)
+      -> decltype(detail_::visit_float_view_model<TupleType>(
+        std::forward<Visitor>(visitor), (args.holder_())...));
 
     template<typename T, typename Policy, typename TupleType>
     friend T convert_to(FloatView<const Float> f);
@@ -504,7 +507,8 @@ T convert_to(FloatView<const Float> f) {
  *                        allocated. Strong throw guarantee.
  */
 template<concepts::FloatingPoint T>
-auto make_float_view(T& value) {
+auto make_float_view(T& value)
+  -> FloatView<std::conditional_t<std::is_const_v<T>, const Float, Float>> {
     auto pmodel = std::make_unique<detail_::FloatViewModel<T>>(&value);
     constexpr bool is_const = std::is_const_v<T>;
     using float_type        = std::conditional_t<is_const, const Float, Float>;
@@ -602,7 +606,9 @@ T FloatView<FloatType>::value() const {
  *                            type aliased by @p args. Strong throw guarantee.
  */
 template<typename TupleType, typename Visitor, typename... Args>
-auto visit_float_view(Visitor&& visitor, Args&&... args) {
+auto visit_float_view(Visitor&& visitor, Args&&... args)
+  -> decltype(detail_::visit_float_view_model<TupleType>(
+    std::forward<Visitor>(visitor), (args.holder_())...)) {
     return detail_::visit_float_view_model<TupleType>(
       std::forward<Visitor>(visitor), (args.holder_())...);
 }
