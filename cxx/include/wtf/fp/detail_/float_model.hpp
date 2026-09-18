@@ -17,6 +17,7 @@
 #pragma once
 #include <sstream>
 #include <utility> // for std::move, std::swap
+#include <wtf/cast/detail_/visit_as.hpp>
 #include <wtf/concepts/floating_point.hpp>
 #include <wtf/concepts/stream_insertion.hpp>
 #include <wtf/fp/detail_/float_holder.hpp>
@@ -47,6 +48,7 @@ public:
     /// of this class's public interface.
     ///@{
     using value_type      = typename float_traits::value_type;
+    using reference       = typename float_traits::reference;
     using const_reference = typename float_traits::const_reference;
     using pointer         = typename float_traits::pointer;
     using const_pointer   = typename float_traits::const_pointer;
@@ -115,6 +117,24 @@ public:
      *  @throw None No throw guarantee.
      */
     const_pointer data() const { return &value_; }
+
+    /** @brief Provides mutable access to the held value, for use by
+     *         wtf::cast::detail_::visit_as.
+     *
+     *  @return A reference to the held value.
+     *
+     *  @throw None No throw guarantee.
+     */
+    reference handle() { return *data(); }
+
+    /** @brief Provides read-only access to the held value, for use by
+     *         wtf::cast::detail_::visit_as.
+     *
+     *  @return A read-only reference to the held value.
+     *
+     *  @throw None No throw guarantee.
+     */
+    const_reference handle() const { return *data(); }
 
     // *************************************************************************
     // Utility
@@ -231,12 +251,8 @@ private:
  */
 template<typename TupleType, typename Visitor, typename... Args>
 auto visit_float_model(Visitor&& visitor, Args&&... args) {
-    auto lambda = [&](auto&&... inner_args) {
-        return visitor(*inner_args.data()...);
-    };
-
-    return wtf::detail_::dispatch<FloatModel, TupleType>(
-      lambda, std::forward<Args>(args)...);
+    return wtf::cast::detail_::visit_as<FloatModel, TupleType>(
+      std::forward<Visitor>(visitor), std::forward<Args>(args)...);
 }
 
 } // namespace wtf::fp::detail_

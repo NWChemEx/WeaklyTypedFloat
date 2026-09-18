@@ -17,6 +17,7 @@
 #pragma once
 #include <span>
 #include <wtf/buffer/detail_/buffer_view_holder.hpp>
+#include <wtf/cast/detail_/visit_as.hpp>
 #include <wtf/concepts/floating_point.hpp>
 #include <wtf/fp/float.hpp>
 #include <wtf/type_traits/float_traits.hpp>
@@ -177,6 +178,22 @@ public:
         return std::span<const FloatType>(data(), this->size());
     }
 
+    /** @brief Alias for span(), for use by wtf::cast::detail_::visit_as.
+     *
+     *  @return A std::span wrapping the underlying buffer.
+     *
+     *  @throw None No-throw guarantee.
+     */
+    auto handle() { return span(); }
+
+    /** @brief Alias for span() const, for use by wtf::cast::detail_::visit_as.
+     *
+     *  @return A std::span wrapping the underlying buffer.
+     *
+     *  @throw None No-throw guarantee.
+     */
+    auto handle() const { return span(); }
+
     /** @brief Compares the elements in the buffer for exact equality.
      *
      *  Value equal is defined as having the same elements in the same order.
@@ -268,11 +285,8 @@ private:
  */
 template<typename TupleType, typename Visitor, typename... Args>
 auto visit_contiguous_view_model(Visitor&& visitor, Args&&... args) {
-    auto lambda = [&](auto&&... inner_args) {
-        return visitor(inner_args.span()...);
-    };
-    return wtf::detail_::dispatch<ContiguousViewModel, TupleType>(
-      lambda, std::forward<Args>(args)...);
+    return wtf::cast::detail_::visit_as<ContiguousViewModel, TupleType>(
+      std::forward<Visitor>(visitor), std::forward<Args>(args)...);
 }
 
 } // namespace wtf::buffer::detail_

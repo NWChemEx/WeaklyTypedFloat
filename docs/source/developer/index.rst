@@ -24,6 +24,7 @@ Developer Documentation
    scope
    type_erasure
    extensible_enums
+   conversion
    operations
    float_buffer
    architecture

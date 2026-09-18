@@ -16,10 +16,14 @@
 
 #pragma once
 #include <span>
+#include <vector>
 #include <wtf/buffer/detail_/contiguous_view_model.hpp>
+#include <wtf/cast/detail_/restore.hpp>
 #include <wtf/concepts/float_buffer.hpp>
 #include <wtf/concepts/iterator.hpp>
 #include <wtf/concepts/wtf_float.hpp>
+#include <wtf/fp/float_view.hpp>
+#include <wtf/types.hpp>
 
 namespace wtf::buffer {
 
@@ -349,8 +353,10 @@ public:
     template<typename T>
     std::span<T> value() {
         if(!is_holding_()) return {};
-        auto& model = downcast_<T>();
-        return std::span<T>(model.data(), model.size());
+        return wtf::cast::detail_::restore<contiguous_model_type, T>(
+                 holder_(),
+                 "BufferView does not hold the requested floating-point type")
+          .span();
     }
 
     /** @brief Used to access the buffer.
@@ -371,8 +377,15 @@ public:
     template<typename T>
     std::span<const T> value() const {
         if(!is_holding_()) return {};
-        const auto& model = downcast_<T>();
-        return std::span<const T>(model.data(), model.size());
+        // The underlying holder is never actually const (only the
+        // unique_ptr member is, and only because *this is const); casting
+        // away *this's constness lets us reuse the same restore() call the
+        // non-const overload uses, with the correct constness of T already
+        // baked into contiguous_model_type<T> via apply_const_t.
+        return wtf::cast::detail_::restore<contiguous_model_type, T>(
+                 const_cast<BufferView*>(this)->holder_(),
+                 "BufferView does not hold the requested floating-point type")
+          .span();
     }
 
 private:
@@ -380,7 +393,9 @@ private:
     friend class BufferView;
 
     template<typename TupleType, typename Visitor, typename... Args>
-    friend auto visit_contiguous_buffer_view(Visitor&& visitor, Args&&... args);
+    friend auto visit_contiguous_buffer_view(Visitor&& visitor, Args&&... args)
+      -> decltype(detail_::visit_contiguous_view_model<TupleType>(
+        std::forward<Visitor>(visitor), args.holder_()...));
 
     holder_type& holder_() { return *m_pholder_; }
 
@@ -390,25 +405,6 @@ private:
         if(index >= size()) {
             throw std::out_of_range("BufferView: index out of range");
         }
-    }
-
-    /// Wraps converting to a contiguous model
-    template<typename T>
-    auto& downcast_() {
-        using model_type = contiguous_model_type<T>;
-        auto pmodel      = dynamic_cast<model_type*>(m_pholder_.get());
-        if(pmodel == nullptr) {
-            throw std::runtime_error(
-              "BufferView does not hold the requested floating-point type");
-        }
-
-        return *pmodel;
-    }
-
-    /// Wraps converting to a read-only contiguous model
-    template<typename T>
-    const auto& downcast_() const {
-        return const_cast<BufferView*>(this)->downcast_<T>();
     }
 
     /// True if *this is aliasing a buffer and false otherwise
@@ -484,6 +480,43 @@ std::span<T> contiguous_buffer_cast(BufferView<FloatType>& buffer) {
     return buffer.template value<T>();
 }
 
+/** @brief Policy-driven, always-by-value conversion of a buffer's elements
+ *         to type @p T.
+ *
+ *  @related BufferView
+ *
+ *  This is the BufferView analog of wtf::fp::convert_to: it applies that
+ *  function to each element and collects the results into a std::vector<T>,
+ *  rather than a std::span<T>, since the converted elements are newly
+ *  created values with no existing contiguous storage of type @p T to span
+ *  over.
+ *
+ *  @tparam T The type to convert each element to.
+ *  @tparam Policy The conversion policy to use. Defaults to
+ *                 fp::policies::Match (only exact-type conversions).
+ *  @tparam TupleType A std::tuple of candidate floating-point types to try.
+ *                    Defaults to wtf::default_fp_types.
+ *
+ *  @param[in] buffer The BufferView to convert.
+ *
+ *  @return A std::vector<T> holding the converted elements, in order.
+ *
+ *  @throw std::runtime_error if any element does not hold one of the types
+ *                            in @p TupleType, or if @p Policy declines to
+ *                            convert an element to @p T. Strong throw
+ *                            guarantee.
+ */
+template<typename T, typename Policy = fp::policies::Match,
+         typename TupleType = wtf::default_fp_types>
+std::vector<T> convert_to(BufferView<const fp::Float> buffer) {
+    std::vector<T> result;
+    result.reserve(buffer.size());
+    for(std::size_t i = 0; i < buffer.size(); ++i) {
+        result.push_back(fp::convert_to<T, Policy, TupleType>(buffer.at(i)));
+    }
+    return result;
+}
+
 /** @brief Wraps the process of calling a visitor with zero or more
  *         BufferView objects.
  *
@@ -514,7 +547,9 @@ std::span<T> contiguous_buffer_cast(BufferView<FloatType>& buffer) {
  *  @throw ??? if calling @p visitor throws. Same throw guarantee.
  */
 template<typename TupleType, typename Visitor, typename... Args>
-auto visit_contiguous_buffer_view(Visitor&& visitor, Args&&... args) {
+auto visit_contiguous_buffer_view(Visitor&& visitor, Args&&... args)
+  -> decltype(detail_::visit_contiguous_view_model<TupleType>(
+    std::forward<Visitor>(visitor), args.holder_()...)) {
     return detail_::visit_contiguous_view_model<TupleType>(
       std::forward<Visitor>(visitor), args.holder_()...);
 }
