@@ -217,6 +217,18 @@ Related Symbols</h2></td></tr>
 <tr class="memitem:a1a61270d41b7b3c12b74fa06c27a131a"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#a1a61270d41b7b3c12b74fa06c27a131a">visit_contiguous_buffer</a> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args)</td></tr>
 <tr class="memdesc:a1a61270d41b7b3c12b74fa06c27a131a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the process of calling a visitor with zero or more <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> objects.  <br /></td></tr>
 <tr class="separator:a1a61270d41b7b3c12b74fa06c27a131a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d64b28237af60852bab15df63ec3758" id="r_a0d64b28237af60852bab15df63ec3758"><td class="memTemplParams" colspan="2">template&lt;concepts::FloatingPoint T&gt; </td></tr>
+<tr class="memitem:a0d64b28237af60852bab15df63ec3758"><td class="memTemplItemLeft" align="right" valign="top">std::span&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#a0d64b28237af60852bab15df63ec3758">cast</a> (<a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html">buffer::FloatBuffer</a> &amp;buffer)</td></tr>
+<tr class="memdesc:a0d64b28237af60852bab15df63ec3758"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un-type-erases a <code><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">wtf::buffer::FloatBuffer</a></code> to a span of its exact held type.  <br /></td></tr>
+<tr class="separator:a0d64b28237af60852bab15df63ec3758"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a090c54585898f9ce95bf84569fe075a2" id="r_a090c54585898f9ce95bf84569fe075a2"><td class="memTemplParams" colspan="2">template&lt;typename T , typename Policy  = fp::policies::Match, typename TupleType  = wtf::default_fp_types&gt; </td></tr>
+<tr class="memitem:a090c54585898f9ce95bf84569fe075a2"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#a090c54585898f9ce95bf84569fe075a2">convert</a> (<a class="el" href="classwtf_1_1buffer_1_1BufferView.html">buffer::BufferView</a>&lt; const <a class="el" href="classwtf_1_1fp_1_1Float.html">fp::Float</a> &gt; buffer)</td></tr>
+<tr class="memdesc:a090c54585898f9ce95bf84569fe075a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Policy-driven, always-by-value conversion of a <code><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">wtf::buffer::FloatBuffer</a></code> (or <code><a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">wtf::buffer::BufferView</a></code>) to a <code>std::vector</code> of a requested type.  <br /></td></tr>
+<tr class="separator:a090c54585898f9ce95bf84569fe075a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa13ce968f855a7aecb3fbf1364d36fec" id="r_aa13ce968f855a7aecb3fbf1364d36fec"><td class="memTemplParams" colspan="2">template&lt;typename TupleType , typename Visitor , typename... Args&gt; </td></tr>
+<tr class="memitem:aa13ce968f855a7aecb3fbf1364d36fec"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#aa13ce968f855a7aecb3fbf1364d36fec">visit</a> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args)</td></tr>
+<tr class="memdesc:aa13ce968f855a7aecb3fbf1364d36fec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Visits zero or more <code><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">wtf::buffer::FloatBuffer</a></code> objects with their type-restored contiguous storage.  <br /></td></tr>
+<tr class="separator:aa13ce968f855a7aecb3fbf1364d36fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A type-erased buffer of floating-point values. </p>
@@ -1149,6 +1161,87 @@ template&lt;concepts::FloatingPoint T&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Symbol Documentation</h2>
+<a id="a0d64b28237af60852bab15df63ec3758" name="a0d64b28237af60852bab15df63ec3758"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d64b28237af60852bab15df63ec3758">&#9670;&#160;</a></span>cast()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;concepts::FloatingPoint T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::span&lt; T &gt; cast </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html">buffer::FloatBuffer</a> &amp;&#160;</td>
+          <td class="paramname"><em>buffer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Un-type-erases a <code><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">wtf::buffer::FloatBuffer</a></code> to a span of its exact held type. </p>
+<p>See <code>cast(<a class="el" href="classwtf_1_1fp_1_1Float.html" title="Type-erases a floating-point number.">fp::Float</a>&amp;)</code> above; this is the <code><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a></code> overload of the same unified name, forwarding to <code>wtf::buffer::contiguous_buffer_cast</code>.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of floating-point value being extracted. Must satisfy the concepts::FloatingPoint concept.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">buffer</td><td>The <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> to extract the span from.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A span aliasing the contiguous memory held by <code>buffer</code>.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if <code>buffer</code> is not contiguous, or does not hold values of type <code>T</code>. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a090c54585898f9ce95bf84569fe075a2" name="a090c54585898f9ce95bf84569fe075a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a090c54585898f9ce95bf84569fe075a2">&#9670;&#160;</a></span>convert()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename Policy  = fp::policies::Match, typename TupleType  = wtf::default_fp_types&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; T &gt; convert </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classwtf_1_1buffer_1_1BufferView.html">buffer::BufferView</a>&lt; const <a class="el" href="classwtf_1_1fp_1_1Float.html">fp::Float</a> &gt;&#160;</td>
+          <td class="paramname"><em>buffer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Policy-driven, always-by-value conversion of a <code><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">wtf::buffer::FloatBuffer</a></code> (or <code><a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">wtf::buffer::BufferView</a></code>) to a <code>std::vector</code> of a requested type. </p>
+<p>See <code>convert(<a class="el" href="classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating-point value.">fp::FloatView</a>&lt;const <a class="el" href="classwtf_1_1fp_1_1Float.html" title="Type-erases a floating-point number.">fp::Float</a>&gt;)</code> above; this is the <code><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a></code>/<code><a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">BufferView</a></code> overload of the same unified name, forwarding to <code>wtf::buffer::convert_to</code>. </p>
+
+</div>
+</div>
 <a id="afebcbe94251a42b9941933aabf3294be" name="afebcbe94251a42b9941933aabf3294be"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afebcbe94251a42b9941933aabf3294be">&#9670;&#160;</a></span>make_float_buffer()</h2>
 
@@ -1209,6 +1302,47 @@ template&lt;typename TupleType  = wtf::default_fp_types, std::integral SizeType 
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="aa13ce968f855a7aecb3fbf1364d36fec" name="aa13ce968f855a7aecb3fbf1364d36fec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa13ce968f855a7aecb3fbf1364d36fec">&#9670;&#160;</a></span>visit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TupleType , typename Visitor , typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto visit </td>
+          <td>(</td>
+          <td class="paramtype">Visitor &amp;&amp;&#160;</td>
+          <td class="paramname"><em>visitor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Visits zero or more <code><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">wtf::buffer::FloatBuffer</a></code> objects with their type-restored contiguous storage. </p>
+<p>See <code>visit(Visitor&amp;&amp;, Args&amp;&amp;...)</code> above; this is the <code><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a></code> overload of the same unified name, forwarding to <code>wtf::buffer::visit_contiguous_buffer</code>. </p>
 
 </div>
 </div>
@@ -1275,8 +1409,11 @@ template&lt;typename TupleType , typename Visitor , typename... Args&gt; </div>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>cxx/include/wtf/buffer/<a class="el" href="buffer_2float__buffer_8hpp_source.html">float_buffer.hpp</a></li>
+<li>cxx/include/wtf/cast/<a class="el" href="cast_8hpp_source.html">cast.hpp</a></li>
+<li>cxx/include/wtf/cast/<a class="el" href="convert_8hpp_source.html">convert.hpp</a></li>
+<li>cxx/include/wtf/cast/<a class="el" href="visit_8hpp_source.html">visit.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

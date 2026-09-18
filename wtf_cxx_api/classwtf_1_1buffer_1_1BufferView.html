@@ -178,10 +178,10 @@ requires (!std::is_same_v&lt;OtherFloat, FloatType&gt;)</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
-<tr class="memitem:a742e865aabb928a6da1e634a2a069a03" id="r_a742e865aabb928a6da1e634a2a069a03"><td class="memTemplParams" colspan="2"><a id="a742e865aabb928a6da1e634a2a069a03" name="a742e865aabb928a6da1e634a2a069a03"></a>
+<tr class="memitem:aa279493ae5ccef22b3e3bcda69a1ef83" id="r_aa279493ae5ccef22b3e3bcda69a1ef83"><td class="memTemplParams" colspan="2"><a id="aa279493ae5ccef22b3e3bcda69a1ef83" name="aa279493ae5ccef22b3e3bcda69a1ef83"></a>
 template&lt;typename TupleType , typename Visitor , typename... Args&gt; </td></tr>
-<tr class="memitem:a742e865aabb928a6da1e634a2a069a03"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>visit_contiguous_buffer_view</b> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args)</td></tr>
-<tr class="separator:a742e865aabb928a6da1e634a2a069a03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa279493ae5ccef22b3e3bcda69a1ef83"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>visit_contiguous_buffer_view</b> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args) -&gt; decltype(detail_::visit_contiguous_view_model&lt; TupleType &gt;(std::forward&lt; Visitor &gt;(visitor), args.holder_()...))</td></tr>
+<tr class="separator:aa279493ae5ccef22b3e3bcda69a1ef83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="related" name="related"></a>
 Related Symbols</h2></td></tr>
@@ -195,10 +195,22 @@ Related Symbols</h2></td></tr>
 <tr class="memitem:aa14553f1bad7e07d73b6a1d1679e214d"><td class="memTemplItemLeft" align="right" valign="top">std::span&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1BufferView.html#aa14553f1bad7e07d73b6a1d1679e214d">contiguous_buffer_cast</a> (<a class="el" href="classwtf_1_1buffer_1_1BufferView.html">BufferView</a>&lt; FloatType &gt; &amp;buffer)</td></tr>
 <tr class="memdesc:aa14553f1bad7e07d73b6a1d1679e214d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to retrieve the raw contiguous memory from a buffer view.  <br /></td></tr>
 <tr class="separator:aa14553f1bad7e07d73b6a1d1679e214d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a742e865aabb928a6da1e634a2a069a03" id="r_a742e865aabb928a6da1e634a2a069a03"><td class="memTemplParams" colspan="2">template&lt;typename TupleType , typename Visitor , typename... Args&gt; </td></tr>
-<tr class="memitem:a742e865aabb928a6da1e634a2a069a03"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1BufferView.html#a742e865aabb928a6da1e634a2a069a03">visit_contiguous_buffer_view</a> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args)</td></tr>
-<tr class="memdesc:a742e865aabb928a6da1e634a2a069a03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the process of calling a visitor with zero or more <a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">BufferView</a> objects.  <br /></td></tr>
-<tr class="separator:a742e865aabb928a6da1e634a2a069a03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5349bd4cd49c07650ca193c76acee2e" id="r_af5349bd4cd49c07650ca193c76acee2e"><td class="memTemplParams" colspan="2">template&lt;typename T , typename Policy  = fp::policies::Match, typename TupleType  = wtf::default_fp_types&gt; </td></tr>
+<tr class="memitem:af5349bd4cd49c07650ca193c76acee2e"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1BufferView.html#af5349bd4cd49c07650ca193c76acee2e">convert_to</a> (<a class="el" href="classwtf_1_1buffer_1_1BufferView.html">BufferView</a>&lt; const <a class="el" href="classwtf_1_1fp_1_1Float.html">fp::Float</a> &gt; buffer)</td></tr>
+<tr class="memdesc:af5349bd4cd49c07650ca193c76acee2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Policy-driven, always-by-value conversion of a buffer's elements to type <code>T</code>.  <br /></td></tr>
+<tr class="separator:af5349bd4cd49c07650ca193c76acee2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa279493ae5ccef22b3e3bcda69a1ef83" id="r_aa279493ae5ccef22b3e3bcda69a1ef83"><td class="memTemplParams" colspan="2">template&lt;typename TupleType , typename Visitor , typename... Args&gt; </td></tr>
+<tr class="memitem:aa279493ae5ccef22b3e3bcda69a1ef83"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1BufferView.html#aa279493ae5ccef22b3e3bcda69a1ef83">visit_contiguous_buffer_view</a> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args) -&gt; decltype(detail_::visit_contiguous_view_model&lt; TupleType &gt;(std::forward&lt; Visitor &gt;(visitor), args.holder_()...))</td></tr>
+<tr class="memdesc:aa279493ae5ccef22b3e3bcda69a1ef83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the process of calling a visitor with zero or more <a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">BufferView</a> objects.  <br /></td></tr>
+<tr class="separator:aa279493ae5ccef22b3e3bcda69a1ef83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcffb359dc1973d949b9f2ddecc4e438" id="r_adcffb359dc1973d949b9f2ddecc4e438"><td class="memTemplParams" colspan="2">template&lt;concepts::FloatingPoint T, concepts::WTFFloat FloatType&gt; </td></tr>
+<tr class="memitem:adcffb359dc1973d949b9f2ddecc4e438"><td class="memTemplItemLeft" align="right" valign="top">std::span&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1BufferView.html#adcffb359dc1973d949b9f2ddecc4e438">cast</a> (<a class="el" href="classwtf_1_1buffer_1_1BufferView.html">buffer::BufferView</a>&lt; FloatType &gt; &amp;buffer)</td></tr>
+<tr class="memdesc:adcffb359dc1973d949b9f2ddecc4e438"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un-type-erases a <code><a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">wtf::buffer::BufferView</a></code> to a span of its exact held type.  <br /></td></tr>
+<tr class="separator:adcffb359dc1973d949b9f2ddecc4e438"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa13ce968f855a7aecb3fbf1364d36fec" id="r_aa13ce968f855a7aecb3fbf1364d36fec"><td class="memTemplParams" colspan="2">template&lt;typename TupleType , typename Visitor , typename... Args&gt; </td></tr>
+<tr class="memitem:aa13ce968f855a7aecb3fbf1364d36fec"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1BufferView.html#aa13ce968f855a7aecb3fbf1364d36fec">visit</a> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args)</td></tr>
+<tr class="memdesc:aa13ce968f855a7aecb3fbf1364d36fec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Visits zero or more <code><a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">wtf::buffer::BufferView</a></code> objects with their type-restored aliased contiguous storage.  <br /></td></tr>
+<tr class="separator:aa13ce968f855a7aecb3fbf1364d36fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;concepts::WTFFloat FloatType&gt;<br />
@@ -1002,6 +1014,57 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Symbol Documentation</h2>
+<a id="adcffb359dc1973d949b9f2ddecc4e438" name="adcffb359dc1973d949b9f2ddecc4e438"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adcffb359dc1973d949b9f2ddecc4e438">&#9670;&#160;</a></span>cast()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;concepts::FloatingPoint T, concepts::WTFFloat FloatType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::span&lt; T &gt; cast </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classwtf_1_1buffer_1_1BufferView.html">buffer::BufferView</a>&lt; FloatType &gt; &amp;&#160;</td>
+          <td class="paramname"><em>buffer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Un-type-erases a <code><a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">wtf::buffer::BufferView</a></code> to a span of its exact held type. </p>
+<p>See <code>cast(<a class="el" href="classwtf_1_1fp_1_1Float.html" title="Type-erases a floating-point number.">fp::Float</a>&amp;)</code> above; this is the <code><a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">BufferView</a></code> overload of the same unified name, forwarding to <code>wtf::buffer::contiguous_buffer_cast</code>.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of floating-point value being extracted. Must satisfy the concepts::FloatingPoint concept. </td></tr>
+    <tr><td class="paramname">FloatType</td><td>The type of buffer the <a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">BufferView</a> is acting like. Will be inferred by the compiler.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">buffer</td><td>The <a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">BufferView</a> to extract the span from.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A span aliasing the contiguous memory held by <code>buffer</code>.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if <code>buffer</code> is not contiguous, or does not hold values of type <code>T</code>. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="aa14553f1bad7e07d73b6a1d1679e214d" name="aa14553f1bad7e07d73b6a1d1679e214d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa14553f1bad7e07d73b6a1d1679e214d">&#9670;&#160;</a></span>contiguous_buffer_cast()</h2>
 
@@ -1054,6 +1117,58 @@ template&lt;concepts::FloatingPoint T, concepts::WTFFloat FloatType&gt; </div>
 
 </div>
 </div>
+<a id="af5349bd4cd49c07650ca193c76acee2e" name="af5349bd4cd49c07650ca193c76acee2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5349bd4cd49c07650ca193c76acee2e">&#9670;&#160;</a></span>convert_to()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename Policy  = fp::policies::Match, typename TupleType  = wtf::default_fp_types&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; T &gt; convert_to </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classwtf_1_1buffer_1_1BufferView.html">BufferView</a>&lt; const <a class="el" href="classwtf_1_1fp_1_1Float.html">fp::Float</a> &gt;&#160;</td>
+          <td class="paramname"><em>buffer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Policy-driven, always-by-value conversion of a buffer's elements to type <code>T</code>. </p>
+<p>This is the <a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">BufferView</a> analog of wtf::fp::convert_to: it applies that function to each element and collects the results into a std::vector&lt;T&gt;, rather than a std::span&lt;T&gt;, since the converted elements are newly created values with no existing contiguous storage of type <code>T</code> to span over.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type to convert each element to. </td></tr>
+    <tr><td class="paramname">Policy</td><td>The conversion policy to use. Defaults to fp::policies::Match (only exact-type conversions). </td></tr>
+    <tr><td class="paramname">TupleType</td><td>A std::tuple of candidate floating-point types to try. Defaults to <a class="el" href="namespacewtf.html#a746023b756b44de96d0dd25e8af54c30" title="A tuple holding C++&#39;s default, real, floating-point types.">wtf::default_fp_types</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">buffer</td><td>The <a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">BufferView</a> to convert.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A std::vector&lt;T&gt; holding the converted elements, in order.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if any element does not hold one of the types in <code>TupleType</code>, or if <code>Policy</code> declines to convert an element to <code>T</code>. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a87e5721b8e495025eb550e850a4d1d1e" name="a87e5721b8e495025eb550e850a4d1d1e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a87e5721b8e495025eb550e850a4d1d1e">&#9670;&#160;</a></span>make_buffer_view()</h2>
 
@@ -1098,8 +1213,49 @@ template&lt;typename... Args&gt; </div>
 
 </div>
 </div>
-<a id="a742e865aabb928a6da1e634a2a069a03" name="a742e865aabb928a6da1e634a2a069a03"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a742e865aabb928a6da1e634a2a069a03">&#9670;&#160;</a></span>visit_contiguous_buffer_view()</h2>
+<a id="aa13ce968f855a7aecb3fbf1364d36fec" name="aa13ce968f855a7aecb3fbf1364d36fec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa13ce968f855a7aecb3fbf1364d36fec">&#9670;&#160;</a></span>visit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TupleType , typename Visitor , typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto visit </td>
+          <td>(</td>
+          <td class="paramtype">Visitor &amp;&amp;&#160;</td>
+          <td class="paramname"><em>visitor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Visits zero or more <code><a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">wtf::buffer::BufferView</a></code> objects with their type-restored aliased contiguous storage. </p>
+<p>See <code>visit(Visitor&amp;&amp;, Args&amp;&amp;...)</code> above; this is the <code><a class="el" href="classwtf_1_1buffer_1_1BufferView.html" title="A type-erased buffer of floating-point values.">BufferView</a></code> overload of the same unified name, forwarding to <code>wtf::buffer::visit_contiguous_buffer_view</code>. </p>
+
+</div>
+</div>
+<a id="aa279493ae5ccef22b3e3bcda69a1ef83" name="aa279493ae5ccef22b3e3bcda69a1ef83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa279493ae5ccef22b3e3bcda69a1ef83">&#9670;&#160;</a></span>visit_contiguous_buffer_view()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1124,7 +1280,8 @@ template&lt;typename TupleType , typename Visitor , typename... Args&gt; </div>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> -&gt; decltype(detail_::visit_contiguous_view_model&lt;TupleType&gt;(
+    std::forward&lt;Visitor&gt;(visitor), args.holder_()...)) </td>
         </tr>
       </table>
   </td>
@@ -1161,8 +1318,10 @@ template&lt;typename TupleType , typename Visitor , typename... Args&gt; </div>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>cxx/include/wtf/buffer/<a class="el" href="buffer__view_8hpp_source.html">buffer_view.hpp</a></li>
+<li>cxx/include/wtf/cast/<a class="el" href="cast_8hpp_source.html">cast.hpp</a></li>
+<li>cxx/include/wtf/cast/<a class="el" href="visit_8hpp_source.html">visit.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

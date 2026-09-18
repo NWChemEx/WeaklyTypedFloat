@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['name_0',['name',['../classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#ac95420ca9eca67fae28b644a9ad62c55',1,'wtf::rtti::detail_::TypeHolder::name()'],['../classwtf_1_1rtti_1_1TypeInfo.html#a91dcad70bde6233d02983a84e4ca7aaa',1,'wtf::rtti::TypeInfo::name()']]],
-  ['name_5fof_1',['name_of',['../classwtf_1_1enums_1_1detail___1_1FloatKindRegistry.html#a5f8a08ee0a2bc79ed6cd9234b9354bbf',1,'wtf::enums::detail_::FloatKindRegistry']]]
+  ['make_5fbuffer_5fview_0',['make_buffer_view',['../classwtf_1_1buffer_1_1BufferView.html#a87e5721b8e495025eb550e850a4d1d1e',1,'wtf::buffer::BufferView']]],
+  ['make_5fconst_1',['make_const',['../classwtf_1_1rtti_1_1detail___1_1TypeHolder.html#a39fbe3b350c2539927044556afa60be9',1,'wtf::rtti::detail_::TypeHolder']]],
+  ['make_5ffloat_2',['make_float',['../classwtf_1_1fp_1_1Float.html#a439b7e0b7f6125a032109a79d90c31e8',1,'wtf::fp::Float::make_float(T value)'],['../classwtf_1_1fp_1_1Float.html#ad832e6041f96dd4cf41c6269d5bf8ab1',1,'wtf::fp::Float::make_float(enums::FloatKind kind, Source value)']]],
+  ['make_5ffloat_5fbuffer_3',['make_float_buffer',['../classwtf_1_1buffer_1_1FloatBuffer.html#afebcbe94251a42b9941933aabf3294be',1,'wtf::buffer::FloatBuffer::make_float_buffer()'],['../namespacewtf_1_1buffer.html#aa69393a81a4a6602c2666425621e952b',1,'wtf::buffer::make_float_buffer(Args &amp;&amp;... args)'],['../namespacewtf_1_1buffer.html#a3a48293e8271bb4caf18e4bbd9400098',1,'wtf::buffer::make_float_buffer(std::vector&lt; FloatBuffer::value_type &gt; buffer)'],['../namespacewtf_1_1buffer.html#aa86d5a454d358a045b5b767d63d88ade',1,'wtf::buffer::make_float_buffer(std::initializer_list&lt; FloatBuffer::value_type &gt; buffer)']]],
+  ['make_5ffloat_5fview_4',['make_float_view',['../classwtf_1_1fp_1_1FloatView.html#a88fbb1c18aab385bedcf74c139d4875e',1,'wtf::fp::FloatView']]]
 ];

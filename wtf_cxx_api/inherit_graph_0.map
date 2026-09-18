@@ -1,3 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$structstd_1_1hash_3_01wtf_1_1enums_1_1FloatKind_01_4.html" title=" " alt="" coords="5,5,173,45"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,45,124,70"/>
+<area shape="rect" id="Node000001" href="$structwtf_1_1cast_1_1detail___1_1is__buffer__view.html" title="True if T (decayed) is some buffer::BufferView&lt;X&gt; specialization." alt="" coords="172,5,335,45"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="137,42,171,37,172,42,138,48"/>
+<area shape="rect" id="Node000002" href="$structwtf_1_1cast_1_1detail___1_1is__float__view.html" title="True if T (decayed) is some fp::FloatView&lt;X&gt; specialization." alt="" coords="177,69,330,109"/>
+<area shape="poly" id="edge2_Node000000_Node000002" title=" " alt="" coords="138,67,177,74,176,79,137,72"/>
 </map>

@@ -1,0 +1,5 @@
+<map id="wtf::cast::detail_::is_buffer_view&lt; T &gt;" name="wtf::cast::detail_::is_buffer_view&lt; T &gt;">
+<area shape="rect" id="Node000001" title="True if T (decayed) is some buffer::BufferView&lt;X&gt; specialization." alt="" coords="5,79,168,119"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="27,5,146,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,44,89,79,84,79,84,44"/>
+</map>

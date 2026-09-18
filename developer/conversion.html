@@ -1,0 +1,415 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conversion in WTF &mdash; WeaklyTypedFloats 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Performing Type-Safe Operations" href="operations.html" />
+    <link rel="prev" title="Extensible Runtime Enumerators" href="extensible_enums.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="statement_of_need.html">Why do we need WTF?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scope.html">What is the Scope of WTF?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type_erasure.html">Type-Erasure in WTF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extensible_enums.html">Extensible Runtime Enumerators</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Conversion in WTF</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#motivation">Motivation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#problem-statement">Problem Statement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-won-t-work">What won’t work?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#current-solution">Current Solution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-wtf-cast-component">The wtf::cast component</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#known-limitations">Known Limitations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#further-considerations">Further Considerations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Performing Type-Safe Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="float_buffer.html">FloatBuffer and BufferView Containers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Architecture of WTF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kokkos.html">Interoperating with Kokkos</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../adding_a_new_type.html">Registering a New Type with WTF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../writing_a_visitor.html">Writing a Visitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python_bindings.html">Python Bindings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/WeaklyTypedFloat/wtf_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">WeaklyTypedFloats</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Developer Documentation</a></li>
+      <li class="breadcrumb-item active">Conversion in WTF</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/developer/conversion.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="conversion-in-wtf">
+<h1>Conversion in WTF<a class="headerlink" href="#conversion-in-wtf" title="Link to this heading"></a></h1>
+<p>WTF’s type-erased values need to be un-erased before ordinary arithmetic can
+be done with them. This page discusses <code class="docutils literal notranslate"><span class="pre">wtf::fp::float_cast</span></code> and
+<code class="docutils literal notranslate"><span class="pre">wtf::buffer::contiguous_buffer_cast</span></code>, the exact-match tools WTF already has
+for that, the friction they cause for callers who want a converted value
+instead of an exact one, and <code class="docutils literal notranslate"><span class="pre">convert_to</span></code>, the policy-driven function that
+fills that gap. It also documents <code class="docutils literal notranslate"><span class="pre">wtf::cast</span></code>, the shared implementation
+component <code class="docutils literal notranslate"><span class="pre">float_cast</span></code>, <code class="docutils literal notranslate"><span class="pre">contiguous_buffer_cast</span></code>, <code class="docutils literal notranslate"><span class="pre">visit_float</span></code> and
+friends, and <code class="docutils literal notranslate"><span class="pre">convert_to</span></code> are all built on, plus the <code class="docutils literal notranslate"><span class="pre">wtf::cast::cast</span></code>/
+<code class="docutils literal notranslate"><span class="pre">visit</span></code>/<code class="docutils literal notranslate"><span class="pre">convert</span></code> unified names it offers on top.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Performance portable code should rely on
+<code class="docutils literal notranslate"><span class="pre">wtf::buffer::visit_contiguous_buffer</span></code>
+to do arithmetic on type-erased values. <code class="docutils literal notranslate"><span class="pre">convert_to</span></code> will require deep
+copies of the data and is largely intended for prototyping, testing, and
+other applications which are not performance critical.</p>
+</div>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading"></a></h2>
+<p><a class="reference internal" href="type_erasure.html"><span class="doc">Type-Erasure in WTF</span></a> describes how <code class="docutils literal notranslate"><span class="pre">wtf::Float</span></code> hides the type of the
+floating-point value it holds behind a Holder/Model pair, and how
+<code class="docutils literal notranslate"><span class="pre">float_cast&lt;T&gt;(Float&amp;)</span></code> un-erases it by <code class="docutils literal notranslate"><span class="pre">dynamic_cast</span></code>-ing the holder to
+<code class="docutils literal notranslate"><span class="pre">FloatModel&lt;std::decay_t&lt;T&gt;&gt;</span></code>. <code class="docutils literal notranslate"><span class="pre">wtf::buffer::contiguous_buffer_cast&lt;T&gt;</span></code>
+does the analogous thing for a <code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code>, handing back a
+<code class="docutils literal notranslate"><span class="pre">std::span&lt;T&gt;</span></code> that aliases the buffer’s contiguous storage.</p>
+<p>Both functions require the caller to name the <em>exact</em> type that is actually
+held; asking for anything else – even a harmless widening, like getting a
+<code class="docutils literal notranslate"><span class="pre">double</span></code> out of something holding a <code class="docutils literal notranslate"><span class="pre">float</span></code> – throws
+<code class="docutils literal notranslate"><span class="pre">std::runtime_error</span></code>. A caller that knows it wants “a <code class="docutils literal notranslate"><span class="pre">double</span></code>, converting
+if necessary” or “a <code class="docutils literal notranslate"><span class="pre">double</span></code>, but only if no precision would be lost” has no
+way to say so today. It would have to hand-roll a fallback chain of
+<code class="docutils literal notranslate"><span class="pre">float_cast&lt;float&gt;</span></code>/<code class="docutils literal notranslate"><span class="pre">float_cast&lt;double&gt;</span></code>/… calls itself, and that
+fallback chain could not be reused by, or extended for, anyone else.</p>
+</section>
+<section id="problem-statement">
+<h2>Problem Statement<a class="headerlink" href="#problem-statement" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">float_cast</span></code>’s and <code class="docutils literal notranslate"><span class="pre">contiguous_buffer_cast</span></code>’s existing exact-match,
+alias-capable behavior must be left alone. It is backward compatible and it
+is still the right tool for a caller that already knows the held type and
+wants to read or write through it.</p></li>
+<li><p>There must be an opt-in “convert if possible” mode, and an opt-in “convert
+only if no precision is lost” mode. Both always produce a new value, since
+neither can alias storage of a type other than the one actually held.</p></li>
+<li><p>The set of conversion behaviors must be open to user extension without
+requiring changes to WTF itself, the same way <code class="docutils literal notranslate"><span class="pre">WTF_REGISTER_FP_TYPE</span></code>
+already lets users add new held types without changing WTF.</p></li>
+<li><p>Whatever mechanism selects a behavior must compose with the existing
+<code class="docutils literal notranslate"><span class="pre">dynamic_cast</span></code>/<code class="docutils literal notranslate"><span class="pre">FloatModel</span></code> unwrap machinery, since that machinery is
+the only supported way to get from a holder back to a typed value.</p></li>
+<li><p>The mechanism must work the same way for a single <code class="docutils literal notranslate"><span class="pre">wtf::Float</span></code> and for a
+<code class="docutils literal notranslate"><span class="pre">wtf::buffer::FloatBuffer</span></code> of them.</p></li>
+</ul>
+</section>
+<section id="what-won-t-work">
+<h2>What won’t work?<a class="headerlink" href="#what-won-t-work" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>A named function per behavior</strong> (<code class="docutils literal notranslate"><span class="pre">float_cast_convertible</span></code>,
+<code class="docutils literal notranslate"><span class="pre">float_cast_precision</span></code>, …). This doesn’t scale past a couple of
+behaviors, and a user wanting their own behavior would have no function to
+call at all.</p></li>
+<li><p><strong>A runtime enum/flag parameter</strong> selecting among preset behaviors. This
+still needs the same per-candidate-type dispatch under the hood as any
+other approach, and it only ever lets a caller pick among presets WTF
+shipped – it cannot express a user’s own conversion logic.</p></li>
+<li><p><strong>Baking “try to convert” into ``float_cast`` unconditionally.</strong> This breaks
+<code class="docutils literal notranslate"><span class="pre">float_cast</span></code>’s current exact-match semantics and the tests that depend on
+it, and it would silently allow lossy narrowing conversions no caller asked
+for.</p></li>
+<li><p><strong>Adding a ``Policy`` template parameter directly to ``float_cast``.</strong> This
+was the first shape this design took. The problem: <code class="docutils literal notranslate"><span class="pre">float_cast&lt;T&amp;&gt;</span></code> supports
+returning a mutable reference into the held storage (e.g.
+<code class="docutils literal notranslate"><span class="pre">float_cast&lt;float&amp;&gt;(f)</span> <span class="pre">=</span> <span class="pre">1.23f</span></code>), but a converting policy necessarily
+produces a brand new value with no storage to alias. <code class="docutils literal notranslate"><span class="pre">float_cast</span></code> would
+end up with two incompatible result contracts depending on which policy was
+selected. Giving the always-by-value behavior its own function name and
+contract, instead of overloading <code class="docutils literal notranslate"><span class="pre">float_cast</span></code>’s, avoids that.</p></li>
+<li><p><strong>Runtime-polymorphic (virtual) policy objects.</strong> A policy is a
+compile-time strategy selected via a template parameter, not something
+chosen at runtime from a set of live objects; virtual dispatch would add an
+indirection with no corresponding benefit here.</p></li>
+<li><p><strong>A virtual ``accept``/visitor path on ``FloatHolder``</strong>, where a single
+non-templated virtual method takes a fixed visitor interface with one
+<code class="docutils literal notranslate"><span class="pre">visit(U&amp;)</span></code> overload per candidate type, so <code class="docutils literal notranslate"><span class="pre">FloatModel&lt;T&gt;::accept</span></code>
+calls straight into the matching overload with no <code class="docutils literal notranslate"><span class="pre">dynamic_cast</span></code> at all.
+This is genuinely faster – one virtual call instead of a dispatch walk –
+but the visitor interface’s overload set has to be closed at the point it
+is declared, since a virtual function cannot itself be templated. That
+reintroduces exactly the closed-set problem <a class="reference internal" href="extensible_enums.html"><span class="doc">Extensible Runtime Enumerators</span></a>
+rejected a plain <code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">class</span></code> for: a type registered downstream via
+<code class="docutils literal notranslate"><span class="pre">WTF_REGISTER_FP_TYPE</span></code> after <code class="docutils literal notranslate"><span class="pre">FloatHolder</span></code> and the visitor interface
+are already compiled would have no <code class="docutils literal notranslate"><span class="pre">visit()</span></code> slot to land in, breaking
+“extend WTF without recompiling it” for this code path.</p></li>
+</ul>
+</section>
+<section id="current-solution">
+<h2>Current Solution<a class="headerlink" href="#current-solution" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">convert_to</span></code> is a free function with two overloads:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">Policy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">policies</span><span class="o">::</span><span class="n">Match</span><span class="p">,</span>
+<span class="w">         </span><span class="k">typename</span><span class="w"> </span><span class="nc">TupleType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">default_fp_types</span><span class="o">&gt;</span>
+<span class="n">T</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">convert_to</span><span class="p">(</span><span class="n">FloatView</span><span class="o">&lt;</span><span class="k">const</span><span class="w"> </span><span class="n">Float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">f</span><span class="p">);</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">Policy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fp</span><span class="o">::</span><span class="n">policies</span><span class="o">::</span><span class="n">Match</span><span class="p">,</span>
+<span class="w">         </span><span class="k">typename</span><span class="w"> </span><span class="nc">TupleType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">default_fp_types</span><span class="o">&gt;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">buffer</span><span class="o">::</span><span class="n">convert_to</span><span class="p">(</span><span class="n">BufferView</span><span class="o">&lt;</span><span class="k">const</span><span class="w"> </span><span class="n">Float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">buffer</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">convert_to</span></code> finds the one candidate <code class="docutils literal notranslate"><span class="pre">U</span></code> in <code class="docutils literal notranslate"><span class="pre">TupleType</span></code> whose model the
+view’s <code class="docutils literal notranslate"><span class="pre">dynamic_cast</span></code>-based unwrap actually succeeds against – the same
+<code class="docutils literal notranslate"><span class="pre">wtf::detail_::dispatch</span></code> fold <code class="docutils literal notranslate"><span class="pre">wtf::fp::detail_::visit_float_model</span></code> and
+every other multi-candidate WTF dispatch already use (see
+<a class="reference internal" href="extensible_enums.html"><span class="doc">Extensible Runtime Enumerators</span></a> and <a class="reference internal" href="operations.html"><span class="doc">Performing Type-Safe Operations</span></a>) – then calls
+<code class="docutils literal notranslate"><span class="pre">Policy::convert&lt;T&gt;(value)</span></code> with the restored value. Only <code class="docutils literal notranslate"><span class="pre">T</span></code> needs to be
+spelled out at the call site – <code class="docutils literal notranslate"><span class="pre">U</span></code> is deduced from the argument. If that
+call returns an engaged <code class="docutils literal notranslate"><span class="pre">std::optional&lt;T&gt;</span></code>, that is the result; otherwise
+<code class="docutils literal notranslate"><span class="pre">convert_to</span></code> throws <code class="docutils literal notranslate"><span class="pre">std::runtime_error(&quot;wtf::convert_to:</span> <span class="pre">bad</span> <span class="pre">cast&quot;)</span></code>,
+mirroring <code class="docutils literal notranslate"><span class="pre">float_cast</span></code>’s error contract. Since <code class="docutils literal notranslate"><span class="pre">dynamic_cast</span></code> only ever
+matches the one type a holder actually holds, there is never more than one
+successful candidate to choose between – “first successful conversion, in
+candidate order, wins” falls directly out of the existing fold, with no
+second, convert-specific fold needed.</p>
+<p>Taking <code class="docutils literal notranslate"><span class="pre">FloatView&lt;const</span> <span class="pre">Float&gt;</span></code>/<code class="docutils literal notranslate"><span class="pre">BufferView&lt;const</span> <span class="pre">Float&gt;</span></code> by value,
+rather than <code class="docutils literal notranslate"><span class="pre">Float&amp;</span></code>/<code class="docutils literal notranslate"><span class="pre">FloatBuffer&amp;</span></code> the way <code class="docutils literal notranslate"><span class="pre">float_cast</span></code> and
+<code class="docutils literal notranslate"><span class="pre">contiguous_buffer_cast</span></code> do, does two things at once. First, it makes the
+“always a new value, never an alias” contract explicit at the signature level
+– a const view cannot be written through regardless of what a policy does.
+Second, it means a caller does not need two different overloads depending on
+whether they hold a <code class="docutils literal notranslate"><span class="pre">Float</span></code>/<code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code> or a view of one: <code class="docutils literal notranslate"><span class="pre">Float</span></code>
+already implicitly converts to <code class="docutils literal notranslate"><span class="pre">FloatView&lt;const</span> <span class="pre">Float&gt;</span></code> via
+<code class="docutils literal notranslate"><span class="pre">Float::as_view()</span> <span class="pre">const</span></code>, and <code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code> implicitly converts to
+<code class="docutils literal notranslate"><span class="pre">BufferView&lt;const</span> <span class="pre">Float&gt;</span></code> through <code class="docutils literal notranslate"><span class="pre">BufferView</span></code>’s converting constructor
+(note that, like <code class="docutils literal notranslate"><span class="pre">FloatView&lt;X&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">BufferView&lt;X&gt;</span></code> is templated on the
+<em>element</em> type, not on <code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code> itself). The <code class="docutils literal notranslate"><span class="pre">BufferView</span></code> overload
+applies the <code class="docutils literal notranslate"><span class="pre">FloatView</span></code> overload element-wise, via <code class="docutils literal notranslate"><span class="pre">BufferView::at</span></code>, and
+collects the results into a <code class="docutils literal notranslate"><span class="pre">std::vector&lt;T&gt;</span></code> – not a <code class="docutils literal notranslate"><span class="pre">std::span&lt;T&gt;</span></code>,
+since the converted elements are newly created values with no existing
+contiguous storage of type <code class="docutils literal notranslate"><span class="pre">T</span></code> to span over. This element-wise loop is the
+<em>only</em> code the <code class="docutils literal notranslate"><span class="pre">BufferView</span></code> overload needs: every bit of policy-dispatch
+logic lives in the <code class="docutils literal notranslate"><span class="pre">FloatView</span></code> overload, called once per element.</p>
+<p>A policy is any class exposing:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">U</span><span class="o">&gt;</span>
+<span class="k">static</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">convert</span><span class="p">(</span><span class="n">U</span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Returning <code class="docutils literal notranslate"><span class="pre">std::optional&lt;T&gt;</span></code> lets a policy say “not applicable to this
+<code class="docutils literal notranslate"><span class="pre">U</span></code>” without having to throw itself, so <code class="docutils literal notranslate"><span class="pre">convert_to</span></code> owns the single
+“bad cast” error message regardless of which policy is in use. Because
+<code class="docutils literal notranslate"><span class="pre">convert_to</span></code> never returns a reference, every policy’s <code class="docutils literal notranslate"><span class="pre">convert</span></code> returns
+a plain <code class="docutils literal notranslate"><span class="pre">T</span></code> by value – there is no reference-result case to special-case.</p>
+<p>WTF ships three built-in policies. They are defined once, in
+<code class="docutils literal notranslate"><span class="pre">wtf::cast::policies</span></code> (see <a class="reference internal" href="#the-wtf-cast-component">The wtf::cast component</a> below), and
+<code class="docutils literal notranslate"><span class="pre">wtf::fp::policies</span></code> is simply <code class="docutils literal notranslate"><span class="pre">namespace</span> <span class="pre">policies</span> <span class="pre">=</span> <span class="pre">wtf::cast::policies;</span></code>,
+so they can be spelled either way:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">make_float</span><span class="p">(</span><span class="mf">3.14f</span><span class="p">);</span><span class="w"> </span><span class="c1">// holds a float</span>
+
+<span class="c1">// Match: only succeeds when U and T are the same type.</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">convert_to</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="n">policies</span><span class="o">::</span><span class="n">Match</span><span class="o">&gt;</span><span class="p">(</span><span class="n">f</span><span class="p">);</span><span class="w">   </span><span class="c1">// 3.14f</span>
+<span class="c1">// wtf::fp::convert_to&lt;double, policies::Match&gt;(f) would throw.</span>
+
+<span class="c1">// Convertible: succeeds whenever U is convertible to T.</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">convert_to</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span><span class="w"> </span><span class="n">policies</span><span class="o">::</span><span class="n">Convertible</span><span class="o">&gt;</span><span class="p">(</span><span class="n">f</span><span class="p">);</span><span class="w"> </span><span class="c1">// widens</span>
+
+<span class="c1">// Widen: like Convertible, but only for conversions that cannot lose</span>
+<span class="c1">// precision.</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">convert_to</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span><span class="w"> </span><span class="n">policies</span><span class="o">::</span><span class="n">Widen</span><span class="o">&gt;</span><span class="p">(</span><span class="n">f</span><span class="p">);</span><span class="w">  </span><span class="c1">// OK, widens</span>
+<span class="c1">// wtf::fp::convert_to&lt;float, policies::Widen&gt;(make_float(3.14)) would</span>
+<span class="c1">// throw, since double -&gt; float can lose precision.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Match</span></code> is engaged only when
+<code class="docutils literal notranslate"><span class="pre">std::same_as&lt;std::decay_t&lt;U&gt;,</span> <span class="pre">std::decay_t&lt;T&gt;&gt;</span></code>. This is exactly what
+<code class="docutils literal notranslate"><span class="pre">float_cast&lt;T&gt;</span></code> already checks; <code class="docutils literal notranslate"><span class="pre">convert_to</span></code> with <code class="docutils literal notranslate"><span class="pre">Match</span></code> differs
+from <code class="docutils literal notranslate"><span class="pre">float_cast&lt;T&gt;</span></code> only in returning a copy instead of a possible
+reference.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Convertible</span></code> is engaged when <code class="docutils literal notranslate"><span class="pre">std::convertible_to&lt;U,</span> <span class="pre">T&gt;</span></code> (checked with
+<code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">constexpr</span></code>), and returns <code class="docutils literal notranslate"><span class="pre">static_cast&lt;T&gt;(value)</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Widen</span></code> is engaged only when <code class="docutils literal notranslate"><span class="pre">type_traits::precision_v&lt;T&gt;</span> <span class="pre">&gt;=</span>
+<span class="pre">type_traits::precision_v&lt;U&gt;</span></code>, reusing the existing
+<code class="docutils literal notranslate"><span class="pre">wtf::type_traits::Precision</span></code> trait
+(<code class="docutils literal notranslate"><span class="pre">cxx/include/wtf/type_traits/precision.hpp</span></code>) rather than inventing new
+precision-comparison machinery. This allows converting <code class="docutils literal notranslate"><span class="pre">float</span></code> to
+<code class="docutils literal notranslate"><span class="pre">double</span></code> but rejects converting <code class="docutils literal notranslate"><span class="pre">double</span></code> to <code class="docutils literal notranslate"><span class="pre">float</span></code>.</p></li>
+</ul>
+<section id="the-wtf-cast-component">
+<h3>The wtf::cast component<a class="headerlink" href="#the-wtf-cast-component" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">float_cast</span></code>, <code class="docutils literal notranslate"><span class="pre">contiguous_buffer_cast</span></code>, <code class="docutils literal notranslate"><span class="pre">visit_float</span></code>,
+<code class="docutils literal notranslate"><span class="pre">visit_float_view</span></code>, <code class="docutils literal notranslate"><span class="pre">visit_contiguous_buffer</span></code>,
+<code class="docutils literal notranslate"><span class="pre">visit_contiguous_buffer_view</span></code>, and <code class="docutils literal notranslate"><span class="pre">convert_to</span></code> used to each hand-roll
+their own single-type <code class="docutils literal notranslate"><span class="pre">dynamic_cast</span></code>-or-throw block, or their own thin
+wrapper around <code class="docutils literal notranslate"><span class="pre">wtf::detail_::dispatch</span></code> (the latter duplication already
+called out by <a class="reference internal" href="kokkos.html"><span class="doc">Interoperating with Kokkos</span></a>, which proposed – but never implemented –
+collapsing the two buffer-side wrappers into one <code class="docutils literal notranslate"><span class="pre">visit_buffer_as</span></code>). All of
+that is now factored into a new component, <code class="docutils literal notranslate"><span class="pre">wtf::cast</span></code>
+(<code class="docutils literal notranslate"><span class="pre">cxx/include/wtf/cast/</span></code>), alongside <code class="docutils literal notranslate"><span class="pre">fp</span></code>, <code class="docutils literal notranslate"><span class="pre">buffer</span></code>, <code class="docutils literal notranslate"><span class="pre">enums</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">rtti</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">wtf::cast::detail_::restore&lt;ModelType,</span> <span class="pre">T&gt;(holder,</span> <span class="pre">msg)</span></code> implements the
+single-type “downcast this holder to <code class="docutils literal notranslate"><span class="pre">ModelType&lt;T&gt;</span></code>, or throw” pattern.
+<code class="docutils literal notranslate"><span class="pre">float_cast</span></code>, <code class="docutils literal notranslate"><span class="pre">FloatView::value</span></code>, <code class="docutils literal notranslate"><span class="pre">FloatBuffer::value</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">BufferView::value</span></code> all call it now, instead of each hand-rolling their
+own <code class="docutils literal notranslate"><span class="pre">dynamic_cast</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">wtf::cast::detail_::visit_as&lt;ModelType,</span> <span class="pre">TupleType&gt;(visitor,</span> <span class="pre">args...)</span></code>
+generalizes <a class="reference internal" href="kokkos.html"><span class="doc">Interoperating with Kokkos</span></a>’s <code class="docutils literal notranslate"><span class="pre">visit_buffer_as</span></code> proposal beyond
+buffer-only: it wraps <code class="docutils literal notranslate"><span class="pre">wtf::detail_::dispatch</span></code> and calls the visitor with
+each restored model’s <code class="docutils literal notranslate"><span class="pre">handle()</span></code> – a reference to the scalar for the
+<code class="docutils literal notranslate"><span class="pre">fp</span></code>-side models, a <code class="docutils literal notranslate"><span class="pre">std::span</span></code> for the <code class="docutils literal notranslate"><span class="pre">buffer</span></code>-side ones.
+<code class="docutils literal notranslate"><span class="pre">visit_float_model</span></code>, <code class="docutils literal notranslate"><span class="pre">visit_float_view_model</span></code>, <code class="docutils literal notranslate"><span class="pre">visit_contiguous_model</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">visit_contiguous_view_model</span></code> are now one-line forwarders to it.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">wtf::cast::detail_::convert_one&lt;T,</span> <span class="pre">Policy,</span> <span class="pre">ModelType,</span> <span class="pre">TupleType&gt;(holder)</span></code>
+is what <code class="docutils literal notranslate"><span class="pre">wtf::fp::convert_to</span></code> calls: it is <code class="docutils literal notranslate"><span class="pre">visit_as</span></code> with a policy
+applied to the restored value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">wtf::cast::policies</span></code> holds <code class="docutils literal notranslate"><span class="pre">Match</span></code>, <code class="docutils literal notranslate"><span class="pre">Convertible</span></code>, and <code class="docutils literal notranslate"><span class="pre">Widen</span></code>.</p></li>
+</ul>
+<p>None of <code class="docutils literal notranslate"><span class="pre">float_cast</span></code>, <code class="docutils literal notranslate"><span class="pre">contiguous_buffer_cast</span></code>, <code class="docutils literal notranslate"><span class="pre">visit_float</span></code> and
+friends, or <code class="docutils literal notranslate"><span class="pre">convert_to</span></code> moved – they all keep their existing names and
+namespaces (<code class="docutils literal notranslate"><span class="pre">wtf::fp</span></code>/<code class="docutils literal notranslate"><span class="pre">wtf::buffer</span></code>), since relocating a
+friendship-requiring function into a different header would create a
+circular <code class="docutils literal notranslate"><span class="pre">#include</span></code> between that header and <code class="docutils literal notranslate"><span class="pre">Float</span></code>’s/<code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code>’s
+own. Only their bodies changed, to call into <code class="docutils literal notranslate"><span class="pre">wtf::cast::detail_</span></code>.</p>
+<p>On top of that shared implementation, <code class="docutils literal notranslate"><span class="pre">wtf::cast</span></code> also offers a <strong>unified
+dispatch facade</strong>: <code class="docutils literal notranslate"><span class="pre">wtf::cast::cast</span></code>, <code class="docutils literal notranslate"><span class="pre">wtf::cast::visit</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">wtf::cast::convert</span></code> are overload sets that call the appropriate
+<code class="docutils literal notranslate"><span class="pre">wtf::fp</span></code>/<code class="docutils literal notranslate"><span class="pre">wtf::buffer</span></code> function based on the argument’s type (a plain
+<code class="docutils literal notranslate"><span class="pre">Float</span></code>/<code class="docutils literal notranslate"><span class="pre">FloatView</span></code>, or a <code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code>/<code class="docutils literal notranslate"><span class="pre">BufferView</span></code>), so a caller
+who does not want to remember which domain-specific name to reach for can
+just write <code class="docutils literal notranslate"><span class="pre">wtf::cast::cast&lt;T&gt;(x)</span></code>/<code class="docutils literal notranslate"><span class="pre">wtf::cast::visit&lt;TupleType&gt;(v,</span> <span class="pre">x)</span></code>/
+<code class="docutils literal notranslate"><span class="pre">wtf::cast::convert&lt;T&gt;(x)</span></code> regardless of which kind of <code class="docutils literal notranslate"><span class="pre">x</span></code> they have.
+These overloads add no new logic of their own; they are one-line forwarders,
+same as the four <code class="docutils literal notranslate"><span class="pre">visit_*_model</span></code> wrappers above.</p>
+</section>
+</section>
+<section id="known-limitations">
+<h2>Known Limitations<a class="headerlink" href="#known-limitations" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">convert_to</span></code> always allocates a new <code class="docutils literal notranslate"><span class="pre">T</span></code> (or <code class="docutils literal notranslate"><span class="pre">std::vector&lt;T&gt;</span></code>), so it
+is not a viable option  when the caller specifically wants to alias or mutate
+the held storage.</p></li>
+<li><p>Policies must be stateless: <code class="docutils literal notranslate"><span class="pre">convert_to</span></code> never constructs a <code class="docutils literal notranslate"><span class="pre">Policy</span></code>
+instance, it only ever calls <code class="docutils literal notranslate"><span class="pre">Policy::convert</span></code> as a static member.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TupleType</span></code> must be supplied explicitly to reach a custom-registered
+type, the same caveat <code class="docutils literal notranslate"><span class="pre">make_float(FloatKind,</span> <span class="pre">...)</span></code> already has (see
+<a class="reference internal" href="extensible_enums.html"><span class="doc">Extensible Runtime Enumerators</span></a>).</p></li>
+</ul>
+</section>
+<section id="further-considerations">
+<h2>Further Considerations<a class="headerlink" href="#further-considerations" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Two questions raised during design turned out to already be answered by
+existing infrastructure, once the implementation was underway:</p>
+<ul>
+<li><p>The error-reporting contract when multiple candidates in <code class="docutils literal notranslate"><span class="pre">TupleType</span></code>
+could plausibly convert to <code class="docutils literal notranslate"><span class="pre">T</span></code>: this never actually arises, because
+<code class="docutils literal notranslate"><span class="pre">dynamic_cast</span></code> only ever matches the one type a holder truly holds –
+there is no “multiple candidates convertible-but-lossy” case to
+adjudicate between, only “the one true candidate, and whether <code class="docutils literal notranslate"><span class="pre">Policy</span></code>
+accepts it”.</p></li>
+<li><p>Where the shared policy-dispatch logic should live so the <code class="docutils literal notranslate"><span class="pre">FloatView</span></code>
+and <code class="docutils literal notranslate"><span class="pre">BufferView</span></code> overloads can share it without duplicating the fold
+expression: in <code class="docutils literal notranslate"><span class="pre">wtf::cast::detail_</span></code>, and in practice the <code class="docutils literal notranslate"><span class="pre">BufferView</span></code>
+overload does not even need its own copy of the dispatch fold – it
+reuses the <code class="docutils literal notranslate"><span class="pre">FloatView</span></code> overload element-wise instead (see
+<a class="reference internal" href="#the-wtf-cast-component">The wtf::cast component</a>).</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">handle()</span></code> (the accessor <code class="docutils literal notranslate"><span class="pre">visit_as</span></code> calls on every restored model) is
+not a uniform “the buffer” abstraction: it returns a scalar reference for
+the <code class="docutils literal notranslate"><span class="pre">fp</span></code>-side models and a <code class="docutils literal notranslate"><span class="pre">std::span</span></code> for the <code class="docutils literal notranslate"><span class="pre">buffer</span></code>-side ones.
+This matches each model’s own visitors (a <code class="docutils literal notranslate"><span class="pre">visit_float</span></code> visitor already
+expects scalars; a <code class="docutils literal notranslate"><span class="pre">visit_contiguous_buffer</span></code> visitor already expects
+spans), and mirrors the naming <a class="reference internal" href="kokkos.html"><span class="doc">Interoperating with Kokkos</span></a> already committed to for its
+own (not yet implemented) device-view model, but the name reads most
+naturally as “a handle to a buffer” – worth a second look if it causes
+confusion in practice.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="extensible_enums.html" class="btn btn-neutral float-left" title="Extensible Runtime Enumerators" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="operations.html" class="btn btn-neutral float-right" title="Performing Type-Safe Operations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, NWChemEx Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

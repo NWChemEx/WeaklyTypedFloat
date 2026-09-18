@@ -210,31 +210,47 @@ template&lt;concepts::FloatingPoint T&gt; </td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
-<tr class="memitem:a832907c4a98f11d4a6eab22667a0a6ed" id="r_a832907c4a98f11d4a6eab22667a0a6ed"><td class="memTemplParams" colspan="2"><a id="a832907c4a98f11d4a6eab22667a0a6ed" name="a832907c4a98f11d4a6eab22667a0a6ed"></a>
+<tr class="memitem:a88fbb1c18aab385bedcf74c139d4875e" id="r_a88fbb1c18aab385bedcf74c139d4875e"><td class="memTemplParams" colspan="2"><a id="a88fbb1c18aab385bedcf74c139d4875e" name="a88fbb1c18aab385bedcf74c139d4875e"></a>
 template&lt;concepts::FloatingPoint T&gt; </td></tr>
-<tr class="memitem:a832907c4a98f11d4a6eab22667a0a6ed"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>make_float_view</b> (T &amp;<a class="el" href="classwtf_1_1fp_1_1FloatView.html#a5e836fd67fe914733449a2543235ab75">value</a>)</td></tr>
-<tr class="separator:a832907c4a98f11d4a6eab22667a0a6ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94b52471a600daaff6c42df88f22ac40" id="r_a94b52471a600daaff6c42df88f22ac40"><td class="memTemplParams" colspan="2"><a id="a94b52471a600daaff6c42df88f22ac40" name="a94b52471a600daaff6c42df88f22ac40"></a>
+<tr class="memitem:a88fbb1c18aab385bedcf74c139d4875e"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>make_float_view</b> (T &amp;<a class="el" href="classwtf_1_1fp_1_1FloatView.html#a5e836fd67fe914733449a2543235ab75">value</a>) -&gt; <a class="el" href="classwtf_1_1fp_1_1FloatView.html">FloatView</a>&lt; std::conditional_t&lt; std::is_const_v&lt; T &gt;, const <a class="el" href="classwtf_1_1fp_1_1Float.html">Float</a>, <a class="el" href="classwtf_1_1fp_1_1Float.html">Float</a> &gt; &gt;</td></tr>
+<tr class="separator:a88fbb1c18aab385bedcf74c139d4875e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab791a76adc02332d13aee25f38ca9d5c" id="r_ab791a76adc02332d13aee25f38ca9d5c"><td class="memTemplParams" colspan="2"><a id="ab791a76adc02332d13aee25f38ca9d5c" name="ab791a76adc02332d13aee25f38ca9d5c"></a>
 template&lt;typename TupleType , typename Visitor , typename... Args&gt; </td></tr>
-<tr class="memitem:a94b52471a600daaff6c42df88f22ac40"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>visit_float_view</b> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args)</td></tr>
-<tr class="separator:a94b52471a600daaff6c42df88f22ac40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab791a76adc02332d13aee25f38ca9d5c"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>visit_float_view</b> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args) -&gt; decltype(detail_::visit_float_view_model&lt; TupleType &gt;(std::forward&lt; Visitor &gt;(visitor),(args.holder_())...))</td></tr>
+<tr class="separator:ab791a76adc02332d13aee25f38ca9d5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32d99846b8b59dcc1ac3d15c79d7f8ee" id="r_a32d99846b8b59dcc1ac3d15c79d7f8ee"><td class="memTemplParams" colspan="2"><a id="a32d99846b8b59dcc1ac3d15c79d7f8ee" name="a32d99846b8b59dcc1ac3d15c79d7f8ee"></a>
+template&lt;typename T , typename Policy , typename TupleType &gt; </td></tr>
+<tr class="memitem:a32d99846b8b59dcc1ac3d15c79d7f8ee"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><b>convert_to</b> (<a class="el" href="classwtf_1_1fp_1_1FloatView.html">FloatView</a>&lt; const <a class="el" href="classwtf_1_1fp_1_1Float.html">Float</a> &gt; f)</td></tr>
+<tr class="separator:a32d99846b8b59dcc1ac3d15c79d7f8ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="related" name="related"></a>
 Related Symbols</h2></td></tr>
 <tr><td class="ititle" colspan="2"><p>(Note that these are not member symbols.) </p>
 </td></tr>
+<tr class="memitem:adb8e382c193a8cc327b92d57d7934e1c" id="r_adb8e382c193a8cc327b92d57d7934e1c"><td class="memTemplParams" colspan="2">template&lt;typename T , concepts::WTFFloat FloatType&gt; </td></tr>
+<tr class="memitem:adb8e382c193a8cc327b92d57d7934e1c"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1FloatView.html#adb8e382c193a8cc327b92d57d7934e1c">cast</a> (<a class="el" href="classwtf_1_1fp_1_1FloatView.html">fp::FloatView</a>&lt; FloatType &gt; f)</td></tr>
+<tr class="memdesc:adb8e382c193a8cc327b92d57d7934e1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un-type-erases a <code>wtf::FloatView</code> to its exact held type.  <br /></td></tr>
+<tr class="separator:adb8e382c193a8cc327b92d57d7934e1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa13ce968f855a7aecb3fbf1364d36fec" id="r_aa13ce968f855a7aecb3fbf1364d36fec"><td class="memTemplParams" colspan="2">template&lt;typename TupleType , typename Visitor , typename... Args&gt; </td></tr>
+<tr class="memitem:aa13ce968f855a7aecb3fbf1364d36fec"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1FloatView.html#aa13ce968f855a7aecb3fbf1364d36fec">visit</a> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args)</td></tr>
+<tr class="memdesc:aa13ce968f855a7aecb3fbf1364d36fec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Visits zero or more <code>wtf::FloatView</code> objects with their type-restored aliased values.  <br /></td></tr>
+<tr class="separator:aa13ce968f855a7aecb3fbf1364d36fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaacb01b4b369b17475c4e7f6284555eb" id="r_aaacb01b4b369b17475c4e7f6284555eb"><td class="memTemplParams" colspan="2">template&lt;typename T , concepts::WTFFloat FloatType&gt; </td></tr>
 <tr class="memitem:aaacb01b4b369b17475c4e7f6284555eb"><td class="memTemplItemLeft" align="right" valign="top">IGNORE_DANGLING_REFERENCE T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1FloatView.html#aaacb01b4b369b17475c4e7f6284555eb">float_cast</a> (<a class="el" href="classwtf_1_1fp_1_1FloatView.html">FloatView</a>&lt; FloatType &gt; fview)</td></tr>
 <tr class="memdesc:aaacb01b4b369b17475c4e7f6284555eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function for unwrapping a <a class="el" href="classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating-point value.">FloatView</a> object.  <br /></td></tr>
 <tr class="separator:aaacb01b4b369b17475c4e7f6284555eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a832907c4a98f11d4a6eab22667a0a6ed" id="r_a832907c4a98f11d4a6eab22667a0a6ed"><td class="memTemplParams" colspan="2">template&lt;concepts::FloatingPoint T&gt; </td></tr>
-<tr class="memitem:a832907c4a98f11d4a6eab22667a0a6ed"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1FloatView.html#a832907c4a98f11d4a6eab22667a0a6ed">make_float_view</a> (T &amp;<a class="el" href="classwtf_1_1fp_1_1FloatView.html#a5e836fd67fe914733449a2543235ab75">value</a>)</td></tr>
-<tr class="memdesc:a832907c4a98f11d4a6eab22667a0a6ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function for creating a <a class="el" href="classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating-point value.">FloatView</a>.  <br /></td></tr>
-<tr class="separator:a832907c4a98f11d4a6eab22667a0a6ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94b52471a600daaff6c42df88f22ac40" id="r_a94b52471a600daaff6c42df88f22ac40"><td class="memTemplParams" colspan="2">template&lt;typename TupleType , typename Visitor , typename... Args&gt; </td></tr>
-<tr class="memitem:a94b52471a600daaff6c42df88f22ac40"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1FloatView.html#a94b52471a600daaff6c42df88f22ac40">visit_float_view</a> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args)</td></tr>
-<tr class="memdesc:a94b52471a600daaff6c42df88f22ac40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the process of visiting zero or more <a class="el" href="classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating-point value.">FloatView</a> objects.  <br /></td></tr>
-<tr class="separator:a94b52471a600daaff6c42df88f22ac40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32d99846b8b59dcc1ac3d15c79d7f8ee" id="r_a32d99846b8b59dcc1ac3d15c79d7f8ee"><td class="memTemplParams" colspan="2">template&lt;typename T , typename Policy  = policies::Match, typename TupleType  = wtf::default_fp_types&gt; </td></tr>
+<tr class="memitem:a32d99846b8b59dcc1ac3d15c79d7f8ee"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1FloatView.html#a32d99846b8b59dcc1ac3d15c79d7f8ee">convert_to</a> (<a class="el" href="classwtf_1_1fp_1_1FloatView.html">FloatView</a>&lt; const <a class="el" href="classwtf_1_1fp_1_1Float.html">Float</a> &gt; f)</td></tr>
+<tr class="memdesc:a32d99846b8b59dcc1ac3d15c79d7f8ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Policy-driven, always-by-value conversion of a held value to type <code>T</code>.  <br /></td></tr>
+<tr class="separator:a32d99846b8b59dcc1ac3d15c79d7f8ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88fbb1c18aab385bedcf74c139d4875e" id="r_a88fbb1c18aab385bedcf74c139d4875e"><td class="memTemplParams" colspan="2">template&lt;concepts::FloatingPoint T&gt; </td></tr>
+<tr class="memitem:a88fbb1c18aab385bedcf74c139d4875e"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1FloatView.html#a88fbb1c18aab385bedcf74c139d4875e">make_float_view</a> (T &amp;<a class="el" href="classwtf_1_1fp_1_1FloatView.html#a5e836fd67fe914733449a2543235ab75">value</a>) -&gt; <a class="el" href="classwtf_1_1fp_1_1FloatView.html">FloatView</a>&lt; std::conditional_t&lt; std::is_const_v&lt; T &gt;, const <a class="el" href="classwtf_1_1fp_1_1Float.html">Float</a>, <a class="el" href="classwtf_1_1fp_1_1Float.html">Float</a> &gt; &gt;</td></tr>
+<tr class="memdesc:a88fbb1c18aab385bedcf74c139d4875e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function for creating a <a class="el" href="classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating-point value.">FloatView</a>.  <br /></td></tr>
+<tr class="separator:a88fbb1c18aab385bedcf74c139d4875e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab791a76adc02332d13aee25f38ca9d5c" id="r_ab791a76adc02332d13aee25f38ca9d5c"><td class="memTemplParams" colspan="2">template&lt;typename TupleType , typename Visitor , typename... Args&gt; </td></tr>
+<tr class="memitem:ab791a76adc02332d13aee25f38ca9d5c"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1FloatView.html#ab791a76adc02332d13aee25f38ca9d5c">visit_float_view</a> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args) -&gt; decltype(detail_::visit_float_view_model&lt; TupleType &gt;(std::forward&lt; Visitor &gt;(visitor),(args.holder_())...))</td></tr>
+<tr class="memdesc:ab791a76adc02332d13aee25f38ca9d5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the process of visiting zero or more <a class="el" href="classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating-point value.">FloatView</a> objects.  <br /></td></tr>
+<tr class="separator:ab791a76adc02332d13aee25f38ca9d5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -267,6 +283,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~FloatBase</b> ()=
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;concepts::WTFFloat FloatType&gt;<br />
 class wtf::fp::FloatView&lt; FloatType &gt;</div><p>Aliases an existing floating-point value. </p>
+<p>The conversion policies wtf::fp::convert_to accepts. See wtf::cast::policies for the definitions of Match, Convertible, and Widen. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">FloatType</td><td>The type of wtf::Float this acts like. Must satisfy the concepts::WTFFloat concept.</td></tr>
@@ -998,6 +1015,109 @@ requires (concepts::FloatingPoint&lt;std::decay_t&lt;T&gt;&gt; &amp;&amp; (conce
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Symbol Documentation</h2>
+<a id="adb8e382c193a8cc327b92d57d7934e1c" name="adb8e382c193a8cc327b92d57d7934e1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb8e382c193a8cc327b92d57d7934e1c">&#9670;&#160;</a></span>cast()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , concepts::WTFFloat FloatType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T cast </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classwtf_1_1fp_1_1FloatView.html">fp::FloatView</a>&lt; FloatType &gt;&#160;</td>
+          <td class="paramname"><em>f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Un-type-erases a <code>wtf::FloatView</code> to its exact held type. </p>
+<p>See <code>cast(<a class="el" href="classwtf_1_1fp_1_1Float.html" title="Type-erases a floating-point number.">fp::Float</a>&amp;)</code> above; this is the <code><a class="el" href="classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating-point value.">FloatView</a></code> overload of the same unified name, forwarding to <code>wtf::fp::float_cast</code>.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of floating-point value being extracted. Up to type qualifiers must satisfy the concepts::FloatingPoint concept. </td></tr>
+    <tr><td class="paramname">FloatType</td><td>The type of wtf::Float being aliased by <code>f</code>. Will be inferred by the compiler.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">f</td><td>The <a class="el" href="classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating-point value.">FloatView</a> to extract the value from.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The floating-point value aliased by <code>f</code>.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if <code>f</code> does not alias a value of type <code>T</code>. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a32d99846b8b59dcc1ac3d15c79d7f8ee" name="a32d99846b8b59dcc1ac3d15c79d7f8ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32d99846b8b59dcc1ac3d15c79d7f8ee">&#9670;&#160;</a></span>convert_to()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename Policy  = policies::Match, typename TupleType  = wtf::default_fp_types&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T convert_to </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classwtf_1_1fp_1_1FloatView.html">FloatView</a>&lt; const <a class="el" href="classwtf_1_1fp_1_1Float.html">Float</a> &gt;&#160;</td>
+          <td class="paramname"><em>f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Policy-driven, always-by-value conversion of a held value to type <code>T</code>. </p>
+<p>Unlike float_cast, which requires <code>T</code> to exactly match the held type (up to cv-qualification) and may return a mutable alias into the held storage, convert_to always returns a newly-constructed value and lets <code>Policy</code> decide whether/how to convert the held value to <code>T</code>. See docs/source/developer/conversion.rst for the full design and the built-in policies (wtf::fp::policies::Match, Convertible, Widen).</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type to convert the held value to. </td></tr>
+    <tr><td class="paramname">Policy</td><td>The conversion policy to use. Must expose <code>static std::optional&lt;T&gt; convert&lt;T, U&gt;(U&amp;&amp; value)</code>. Defaults to policies::Match (only exact-type conversions, the same check float_cast performs). </td></tr>
+    <tr><td class="paramname">TupleType</td><td>A std::tuple of candidate floating-point types to try. Defaults to <a class="el" href="namespacewtf.html#a746023b756b44de96d0dd25e8af54c30" title="A tuple holding C++&#39;s default, real, floating-point types.">wtf::default_fp_types</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">f</td><td>The <a class="el" href="classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating-point value.">FloatView</a> to convert. Taking a <code><a class="el" href="classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating-point value.">FloatView</a>&lt;const <a class="el" href="classwtf_1_1fp_1_1Float.html" title="Type-erases a floating-point number.">Float</a>&gt;</code> by value lets this same function accept a <code><a class="el" href="classwtf_1_1fp_1_1Float.html" title="Type-erases a floating-point number.">Float</a></code> directly too, via <a class="el" href="classwtf_1_1fp_1_1Float.html" title="Type-erases a floating-point number.">Float</a>'s existing implicit conversion to <code><a class="el" href="classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating-point value.">FloatView</a>&lt;const <a class="el" href="classwtf_1_1fp_1_1Float.html" title="Type-erases a floating-point number.">Float</a>&gt;</code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The converted value.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if <code>f</code> does not hold one of the types in <code>TupleType</code>, or if <code>Policy</code> declines to convert the held value to <code>T</code>. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="aaacb01b4b369b17475c4e7f6284555eb" name="aaacb01b4b369b17475c4e7f6284555eb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaacb01b4b369b17475c4e7f6284555eb">&#9670;&#160;</a></span>float_cast()</h2>
 
@@ -1049,8 +1169,8 @@ template&lt;typename T , concepts::WTFFloat FloatType&gt; </div>
 
 </div>
 </div>
-<a id="a832907c4a98f11d4a6eab22667a0a6ed" name="a832907c4a98f11d4a6eab22667a0a6ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a832907c4a98f11d4a6eab22667a0a6ed">&#9670;&#160;</a></span>make_float_view()</h2>
+<a id="a88fbb1c18aab385bedcf74c139d4875e" name="a88fbb1c18aab385bedcf74c139d4875e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88fbb1c18aab385bedcf74c139d4875e">&#9670;&#160;</a></span>make_float_view()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1065,7 +1185,7 @@ template&lt;concepts::FloatingPoint T&gt; </div>
           <td>(</td>
           <td class="paramtype">T &amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; <a class="el" href="classwtf_1_1fp_1_1FloatView.html">FloatView</a>&lt;std::conditional_t&lt;std::is_const_v&lt;T&gt;, const <a class="el" href="classwtf_1_1fp_1_1Float.html">Float</a>, <a class="el" href="classwtf_1_1fp_1_1Float.html">Float</a>&gt;&gt; </td>
         </tr>
       </table>
   </td>
@@ -1099,8 +1219,49 @@ template&lt;concepts::FloatingPoint T&gt; </div>
 
 </div>
 </div>
-<a id="a94b52471a600daaff6c42df88f22ac40" name="a94b52471a600daaff6c42df88f22ac40"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a94b52471a600daaff6c42df88f22ac40">&#9670;&#160;</a></span>visit_float_view()</h2>
+<a id="aa13ce968f855a7aecb3fbf1364d36fec" name="aa13ce968f855a7aecb3fbf1364d36fec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa13ce968f855a7aecb3fbf1364d36fec">&#9670;&#160;</a></span>visit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TupleType , typename Visitor , typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto visit </td>
+          <td>(</td>
+          <td class="paramtype">Visitor &amp;&amp;&#160;</td>
+          <td class="paramname"><em>visitor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Visits zero or more <code>wtf::FloatView</code> objects with their type-restored aliased values. </p>
+<p>See <code>visit(Visitor&amp;&amp;, Args&amp;&amp;...)</code> above; this is the <code><a class="el" href="classwtf_1_1fp_1_1FloatView.html" title="Aliases an existing floating-point value.">FloatView</a></code> overload of the same unified name, forwarding to <code>wtf::fp::visit_float_view</code>. </p>
+
+</div>
+</div>
+<a id="ab791a76adc02332d13aee25f38ca9d5c" name="ab791a76adc02332d13aee25f38ca9d5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab791a76adc02332d13aee25f38ca9d5c">&#9670;&#160;</a></span>visit_float_view()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1125,7 +1286,8 @@ template&lt;typename TupleType , typename Visitor , typename... Args&gt; </div>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> -&gt; decltype(detail_::visit_float_view_model&lt;TupleType&gt;(
+    std::forward&lt;Visitor&gt;(visitor), (args.holder_())...)) </td>
         </tr>
       </table>
   </td>
@@ -1155,8 +1317,10 @@ template&lt;typename TupleType , typename Visitor , typename... Args&gt; </div>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>cxx/include/wtf/fp/<a class="el" href="float__view_8hpp_source.html">float_view.hpp</a></li>
+<li>cxx/include/wtf/cast/<a class="el" href="cast_8hpp_source.html">cast.hpp</a></li>
+<li>cxx/include/wtf/cast/<a class="el" href="visit_8hpp_source.html">visit.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

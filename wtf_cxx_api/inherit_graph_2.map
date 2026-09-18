@@ -1,5 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$classwtf_1_1buffer_1_1detail___1_1BufferHolder.html" title="Defines the interface between the type&#45;erased and typed buffer." alt="" coords="5,13,139,53"/>
-<area shape="rect" id="Node000001" href="$classwtf_1_1buffer_1_1detail___1_1ContiguousModel.html" title="Type&#45;erases a contiguous buffer of type FloatType*." alt="" coords="187,5,348,60"/>
-<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="153,30,187,30,187,35,153,35"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,60,117,85"/>
+<area shape="rect" id="Node000001" href="$structwtf_1_1cast_1_1detail___1_1is__buffer__view_3_01buffer_1_1BufferView_3_01X_01_4_01_4.html" title=" " alt="" coords="165,5,343,60"/>
+<area shape="poly" id="edge3_Node000000_Node000001" title=" " alt="" coords="130,56,165,48,166,54,131,61"/>
+<area shape="rect" id="Node000002" href="$structwtf_1_1cast_1_1detail___1_1is__float__view_3_01fp_1_1FloatView_3_01X_01_4_01_4.html" title=" " alt="" coords="179,84,329,139"/>
+<area shape="poly" id="edge4_Node000000_Node000002" title=" " alt="" coords="132,84,180,94,179,99,130,89"/>
 </map>

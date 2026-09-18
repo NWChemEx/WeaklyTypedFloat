@@ -209,6 +209,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abc991c935efc91c2c0af5ec244bfa516" id="r_abc991c935efc91c2c0af5ec244bfa516"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#abc991c935efc91c2c0af5ec244bfa516">span</a> () const</td></tr>
 <tr class="memdesc:abc991c935efc91c2c0af5ec244bfa516"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the wrapped data as a std::span.  <br /></td></tr>
 <tr class="separator:abc991c935efc91c2c0af5ec244bfa516"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af61ad82519ffbf1c6377ef7fc098099e" id="r_af61ad82519ffbf1c6377ef7fc098099e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#a292e89e3636f1247738c361bc1d684b7">auto</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#af61ad82519ffbf1c6377ef7fc098099e">handle</a> ()</td></tr>
+<tr class="memdesc:af61ad82519ffbf1c6377ef7fc098099e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for <a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#a292e89e3636f1247738c361bc1d684b7" title="Returns the wrapped data as a std::span.">span()</a>, for use by wtf::cast::detail_::visit_as.  <br /></td></tr>
+<tr class="separator:af61ad82519ffbf1c6377ef7fc098099e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a05b994894ffe13f797966b6b6191f9" id="r_a9a05b994894ffe13f797966b6b6191f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#a292e89e3636f1247738c361bc1d684b7">auto</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#a9a05b994894ffe13f797966b6b6191f9">handle</a> () <a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#a292e89e3636f1247738c361bc1d684b7">const</a></td></tr>
+<tr class="memdesc:a9a05b994894ffe13f797966b6b6191f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for <a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#abc991c935efc91c2c0af5ec244bfa516" title="Returns the wrapped data as a std::span.">span() const</a>, for use by wtf::cast::detail_::visit_as.  <br /></td></tr>
+<tr class="separator:a9a05b994894ffe13f797966b6b6191f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12273b13c763bcc20e58cecf8e41a2ee" id="r_a12273b13c763bcc20e58cecf8e41a2ee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#a292e89e3636f1247738c361bc1d684b7">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#a12273b13c763bcc20e58cecf8e41a2ee">operator==</a> (<a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#a292e89e3636f1247738c361bc1d684b7">const</a> <a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html">ContiguousViewModel</a> &amp;<a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#a292e89e3636f1247738c361bc1d684b7">other</a>) <a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#a292e89e3636f1247738c361bc1d684b7">const</a></td></tr>
 <tr class="memdesc:a12273b13c763bcc20e58cecf8e41a2ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares the elements in the buffer for exact equality.  <br /></td></tr>
 <tr class="separator:a12273b13c763bcc20e58cecf8e41a2ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -564,6 +570,78 @@ template&lt;concepts::FloatingPoint FloatType&gt; </div>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::out_of_range</td><td>if <code>idx</code> is out of range. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af61ad82519ffbf1c6377ef7fc098099e" name="af61ad82519ffbf1c6377ef7fc098099e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af61ad82519ffbf1c6377ef7fc098099e">&#9670;&#160;</a></span>handle() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;concepts::FloatingPoint FloatType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#a292e89e3636f1247738c361bc1d684b7">auto</a> <a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html">wtf::buffer::detail_::ContiguousViewModel</a>&lt; <a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#a292e89e3636f1247738c361bc1d684b7">FloatType</a> &gt;::handle </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Alias for <a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#a292e89e3636f1247738c361bc1d684b7" title="Returns the wrapped data as a std::span.">span()</a>, for use by wtf::cast::detail_::visit_as. </p>
+<dl class="section return"><dt>Returns</dt><dd>A std::span wrapping the underlying buffer.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No-throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9a05b994894ffe13f797966b6b6191f9" name="a9a05b994894ffe13f797966b6b6191f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a05b994894ffe13f797966b6b6191f9">&#9670;&#160;</a></span>handle() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;concepts::FloatingPoint FloatType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#a292e89e3636f1247738c361bc1d684b7">auto</a> <a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html">wtf::buffer::detail_::ContiguousViewModel</a>&lt; <a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#a292e89e3636f1247738c361bc1d684b7">FloatType</a> &gt;::handle </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Alias for <a class="el" href="classwtf_1_1buffer_1_1detail___1_1ContiguousViewModel.html#abc991c935efc91c2c0af5ec244bfa516" title="Returns the wrapped data as a std::span.">span() const</a>, for use by wtf::cast::detail_::visit_as. </p>
+<dl class="section return"><dt>Returns</dt><dd>A std::span wrapping the underlying buffer.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No-throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>

@@ -120,6 +120,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>float_traits</b> = <
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
 <tr class="memitem:a44f0732f072ca909c76f5e6af1606ddb" id="r_a44f0732f072ca909c76f5e6af1606ddb"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatModel.html#a44f0732f072ca909c76f5e6af1606ddb">value_type</a> = typename <a class="el" href="structwtf_1_1type__traits_1_1float__traits.html#af75bef8dc79d5db7e3143c87329a822b">float_traits::value_type</a></td></tr>
 <tr class="separator:a44f0732f072ca909c76f5e6af1606ddb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6e16a063570f17546e9bec16505b912" id="r_aa6e16a063570f17546e9bec16505b912"><td class="memItemLeft" align="right" valign="top"><a id="aa6e16a063570f17546e9bec16505b912" name="aa6e16a063570f17546e9bec16505b912"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>reference</b> = typename <a class="el" href="structwtf_1_1type__traits_1_1float__traits.html#a92cc1900701d059c59febe296c02d96b">float_traits::reference</a></td></tr>
+<tr class="separator:aa6e16a063570f17546e9bec16505b912"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76aae1de332b0dce475fa5d4a2baa2c8" id="r_a76aae1de332b0dce475fa5d4a2baa2c8"><td class="memItemLeft" align="right" valign="top"><a id="a76aae1de332b0dce475fa5d4a2baa2c8" name="a76aae1de332b0dce475fa5d4a2baa2c8"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>const_reference</b> = typename <a class="el" href="structwtf_1_1type__traits_1_1float__traits.html#a3313cb03b18db4dd2606b118ea23ebc7">float_traits::const_reference</a></td></tr>
 <tr class="separator:a76aae1de332b0dce475fa5d4a2baa2c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -184,6 +187,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1415eda59d7aeb0850923c3e3235e9e8" id="r_a1415eda59d7aeb0850923c3e3235e9e8"><td class="memItemLeft" align="right" valign="top">const_pointer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatModel.html#a1415eda59d7aeb0850923c3e3235e9e8">data</a> () const</td></tr>
 <tr class="memdesc:a1415eda59d7aeb0850923c3e3235e9e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides read-only access directly to the held value.  <br /></td></tr>
 <tr class="separator:a1415eda59d7aeb0850923c3e3235e9e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a793f5a595e55faa8a5f9a87cb989747b" id="r_a793f5a595e55faa8a5f9a87cb989747b"><td class="memItemLeft" align="right" valign="top">reference&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatModel.html#a793f5a595e55faa8a5f9a87cb989747b">handle</a> ()</td></tr>
+<tr class="memdesc:a793f5a595e55faa8a5f9a87cb989747b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides mutable access to the held value, for use by wtf::cast::detail_::visit_as.  <br /></td></tr>
+<tr class="separator:a793f5a595e55faa8a5f9a87cb989747b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1d0071216d93c544d7828521b8c689b" id="r_af1d0071216d93c544d7828521b8c689b"><td class="memItemLeft" align="right" valign="top">const_reference&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatModel.html#af1d0071216d93c544d7828521b8c689b">handle</a> () const</td></tr>
+<tr class="memdesc:af1d0071216d93c544d7828521b8c689b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides read-only access to the held value, for use by wtf::cast::detail_::visit_as.  <br /></td></tr>
+<tr class="separator:af1d0071216d93c544d7828521b8c689b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7408b553fa6ad41371ed284e8fe4dc1e" id="r_a7408b553fa6ad41371ed284e8fe4dc1e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatModel.html#a7408b553fa6ad41371ed284e8fe4dc1e">swap</a> (<a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatModel.html">FloatModel</a> &amp;other) noexcept</td></tr>
 <tr class="memdesc:a7408b553fa6ad41371ed284e8fe4dc1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exchanges the state of *this with that of <code>other</code>.  <br /></td></tr>
 <tr class="separator:a7408b553fa6ad41371ed284e8fe4dc1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -419,6 +428,78 @@ template&lt;concepts::FloatingPoint FloatType&gt; </div>
 <p>Provides read-only access to the held value. </p>
 <p>This function provides read-only access to the held value.</p>
 <dl class="section return"><dt>Returns</dt><dd>A const reference to the held value.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a793f5a595e55faa8a5f9a87cb989747b" name="a793f5a595e55faa8a5f9a87cb989747b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a793f5a595e55faa8a5f9a87cb989747b">&#9670;&#160;</a></span>handle() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;concepts::FloatingPoint FloatType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">reference <a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatModel.html">wtf::fp::detail_::FloatModel</a>&lt; FloatType &gt;::handle </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Provides mutable access to the held value, for use by wtf::cast::detail_::visit_as. </p>
+<dl class="section return"><dt>Returns</dt><dd>A reference to the held value.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af1d0071216d93c544d7828521b8c689b" name="af1d0071216d93c544d7828521b8c689b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1d0071216d93c544d7828521b8c689b">&#9670;&#160;</a></span>handle() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;concepts::FloatingPoint FloatType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const_reference <a class="el" href="classwtf_1_1fp_1_1detail___1_1FloatModel.html">wtf::fp::detail_::FloatModel</a>&lt; FloatType &gt;::handle </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Provides read-only access to the held value, for use by wtf::cast::detail_::visit_as. </p>
+<dl class="section return"><dt>Returns</dt><dd>A read-only reference to the held value.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>

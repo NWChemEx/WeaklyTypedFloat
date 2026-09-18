@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['precision_0',['Precision',['../structwtf_1_1type__traits_1_1Precision.html',1,'wtf::type_traits']]]
+  ['match_0',['Match',['../structwtf_1_1cast_1_1policies_1_1Match.html',1,'wtf::cast::policies']]]
 ];
