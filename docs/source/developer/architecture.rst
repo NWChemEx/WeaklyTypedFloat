@@ -16,6 +16,10 @@
 Architecture of WTF
 ###################
 
+.. image:: assets/class_structure.excalidraw.png
+   :alt: Diagram illustrating the basic classes in wtf
+   :width: 600px
+
 ****
 FAQs
 ****

@@ -54,3 +54,6 @@ toolchain.cmake
 
 # In developer mode CMake will automatically generate
 .pre-commit-config.yaml
+
+# Mac files 
+.DS_Store
