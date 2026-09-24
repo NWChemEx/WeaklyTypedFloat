@@ -12,9 +12,13 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-################
-WeaklyTypedFloat
-################
+######################
+WeaklyTypedFloat (WTF)
+######################
+
+.. image:: assets/wtf_banner.svg
+   :alt: WTF Banner
+   :width: 600px
 
 The WeaklyTypedFloat (WTF) library provides a small domain-specific language
 which can be used to express operations and interfaces in terms of "weakly 

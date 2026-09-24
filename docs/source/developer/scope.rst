@@ -23,6 +23,10 @@ are often used in numerical algorithms where they are often subjected to
 linear algebra operations. WTF does NOT want to implement linear algebra! It is
 thus crucial that we decide where the line between linear algebra and WTF is.
 
+.. image:: assets/overview.excalidraw.png
+   :alt: Basic idea of WTF, i.e., give all floats the same API.
+   :width: 600px
+
 ****************************
 Needed Concepts/Abstractions
 ****************************

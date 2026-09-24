@@ -16,8 +16,7 @@
 
 # WeaklyTypedFloat (WTF)
 
-This repo is still under heavy development! I am hoping for an alpha release
-this week.
+![WeaklyTypedFloat](docs/source/assets/wtf_banner.svg)
 
 The goal of WTF is to provide a small domain-specific language (DSL) that can
 be used to unify interfaces involving floating-point types. Using WTF the user
