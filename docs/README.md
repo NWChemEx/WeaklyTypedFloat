@@ -40,4 +40,3 @@ xdg-open docs/build/html/index.html   # Linux
 
 Start at `index.rst` (rendered as the home page) if you're new to WTF; it
 links to installation, quickstart, and API guides.
-
