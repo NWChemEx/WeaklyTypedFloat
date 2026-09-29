@@ -14,6 +14,29 @@
   ~ limitations under the License.
 -->
 
-General instructions for building documentation found throughout the NWChemEx
-project are available at:
-https://github.com/NWChemEx/NWChemEx/blob/master/docs/README.md
+## Building and viewing the documentation
+
+The docs are built with Sphinx. With your virtual environment active, install
+the doc-specific dependencies and build the HTML:
+
+```bash
+#Using a virtual environment is optional, but highly recomended
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Install dependencies
+pip install -r docs/requirements.txt
+
+# Buildc
+cd docs; make html
+```
+
+Then open `docs/build/html/index.html` in your browser, e.g.:
+
+```bash
+open docs/build/html/index.html       # macOS
+xdg-open docs/build/html/index.html   # Linux
+```
+
+Start at `index.rst` (rendered as the home page) if you're new to WTF; it
+links to installation, quickstart, and API guides.
