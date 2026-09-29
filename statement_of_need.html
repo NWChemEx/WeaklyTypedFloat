@@ -1,0 +1,217 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why Do We Need WTF? &mdash; WeaklyTypedFloats 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="WeaklyTypedFloat (WTF)" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Why Do We Need WTF?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#motivation">Motivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#problem-statement">Problem Statement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#goals">Goals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_apis.html">Writing APIs That Accept WTF Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="restoring_the_type.html">Restoring the Type</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adding_a_new_type.html">Registering a New Type with WTF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_a_visitor.html">Writing a Visitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_bindings.html">Python Bindings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html">Developer Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/WeaklyTypedFloat/wtf_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">WeaklyTypedFloats</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Why Do We Need WTF?</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/statement_of_need.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="why-do-we-need-wtf">
+<h1>Why Do We Need WTF?<a class="headerlink" href="#why-do-we-need-wtf" title="Link to this heading"></a></h1>
+<p>Executive summary:</p>
+<ol class="arabic simple">
+<li><p>Lots of floating-point (FP) types.</p></li>
+<li><p>Some algorithms need to dispatch based on FP type.</p></li>
+<li><p>Many (most?) algorithms don’t need to know the type.</p></li>
+<li><p>Want a way to “hide” the type from the interface of algorithms that don’t
+need to know the type.</p></li>
+</ol>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading"></a></h2>
+<p>The standard C++ library already includes a host of floating-point (FP) types
+including:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">double</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">double</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::complex&lt;float&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::complex&lt;double&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::complex&lt;long</span> <span class="pre">double&gt;</span></code></p></li>
+</ul>
+<p>…and that’s before we discuss the types introduced by C++23. The number of
+FP types ultimately becomes unbounded when we additionally consider user-
+defined FP types, e.g., automatic differentiation, error tracking. At a high-
+level these types are all representations of the same thing real/complex numbers
+(or more generally elements of a scalar field). However, the seemingy plethora
+of types is not without reason as algorithms may look quite different for each
+FP type:</p>
+<ol class="arabic simple">
+<li><p>Different needs for preserving precision. Example, accumulating
+intermediates in a higher precision type.</p></li>
+<li><p>Iterative algorithms may require different stopping points for different
+types.</p></li>
+<li><p>Underflows/overflows require different guarding.</p></li>
+<li><p>Operation cost varies by type e.g., native vs. emulated instructions.</p></li>
+<li><p>Type’s size may change whether algorithm is memory or compute bound.</p></li>
+<li><p>Can be extra steps, e.g., complex-conjugation.</p></li>
+</ol>
+<p>In practice, the distinctions among most of these types is either low-level
+(e.g., the number of bytes they leverage) or independent of the primary
+abstraction (i.e., that they are real/complex numbers). This means that higher-
+level algorithms usually are written the same way, regardless of the floating-
+point type. Put another way, for many algorithms the floating-point type is
+an implementation detail that should not be part of the public interface.</p>
+<p>In C++, we usually use templated code in order to support arbitrary floating
+point types. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">template</span><span class="o">&lt;</span><span class="n">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="n">auto</span> <span class="n">add</span><span class="p">(</span><span class="n">T</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">T</span> <span class="n">rhs</span><span class="p">){</span>
+    <span class="k">return</span> <span class="n">lhs</span> <span class="o">+</span> <span class="n">rhs</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>allows us to add two FP objects of type <code class="docutils literal notranslate"><span class="pre">T</span></code>, so long as <code class="docutils literal notranslate"><span class="pre">operator+(T,</span> <span class="pre">T)</span></code> is
+defined. This example can be extended to mixes of FP types by allowing <code class="docutils literal notranslate"><span class="pre">lhs</span></code>
+and <code class="docutils literal notranslate"><span class="pre">rhs</span></code> to have different types and then requiring either
+<code class="docutils literal notranslate"><span class="pre">operator+(T,</span> <span class="pre">U)</span></code> to be defined, or that implicit conversions are defined.</p>
+<p>Taken to its logical conclusion, the above suggests that in order for a C++
+library to support arbitrary FP types, all functions involving FP types must be
+templated. While templated libraries are popular options to bypass build system
+issues (e.g., binary compatability) they have a number of drawbacks:</p>
+<ol class="arabic simple">
+<li><p>Longer compilation times.</p></li>
+<li><p>Larger binary sizes.</p></li>
+<li><p>Type must be known at compile time.</p></li>
+<li><p>No application binary interface (ABI).</p></li>
+<li><p>Verbose compiler errors.</p></li>
+<li><p>Intimidating for C++ novices.</p></li>
+</ol>
+<p>The lack of ABIs is a blocker if we want to leverage the library from other
+languages (notably Python which relies on the C ABI). The real problem is that
+templates do not actually solve the problem of avoiding FP types in the
+interface, they instead automate the creation of interfaces with different FP
+types.</p>
+</section>
+<section id="problem-statement">
+<h2>Problem Statement<a class="headerlink" href="#problem-statement" title="Link to this heading"></a></h2>
+<p>We want a mechanism for decoupling high-level algorithms from the floating-point
+type used to represent real/complex numbers. The mechanism must allow libraries
+to provide stable ABIs, while also allowing performance critical algorithms to
+dispatch on the FP type.</p>
+</section>
+<section id="goals">
+<h2>Goals<a class="headerlink" href="#goals" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Provide a series of abstractions that are capable of holding arbitrary FP
+types.</p></li>
+<li><p>Make it easy for users of WTF to compose algorithms with these abstractions.</p></li>
+<li><p>Ensure that the user can extend WTF to support their own custom FP types
+without needing to modify the WTF source.</p></li>
+<li><p>Ensure that the abstractions can be used in a performant manner.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="WeaklyTypedFloat (WTF)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, NWChemEx Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

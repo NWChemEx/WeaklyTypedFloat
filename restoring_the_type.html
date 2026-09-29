@@ -1,0 +1,280 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Restoring the Type &mdash; WeaklyTypedFloats 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/tabs.js?v=3030b3cb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Registering a New Type with WTF" href="adding_a_new_type.html" />
+    <link rel="prev" title="Writing APIs That Accept WTF Objects" href="writing_apis.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="statement_of_need.html">Why Do We Need WTF?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_apis.html">Writing APIs That Accept WTF Objects</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Restoring the Type</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#exact-cast">Exact cast</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#convert">Convert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#visit">Visit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#see-also">See also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="adding_a_new_type.html">Registering a New Type with WTF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_a_visitor.html">Writing a Visitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_bindings.html">Python Bindings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html">Developer Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/WeaklyTypedFloat/wtf_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">WeaklyTypedFloats</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Restoring the Type</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/restoring_the_type.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="restoring-the-type">
+<h1>Restoring the Type<a class="headerlink" href="#restoring-the-type" title="Link to this heading"></a></h1>
+<p>WTF provides limited options for manipulating type-erased FP values. This is by
+design. In particular, many applications of FP types are for linear
+algebra and WTF does not want to assume a linear algebra backend. Thus,
+functions taking WTF objects will need to be able to restore the type.</p>
+<section id="exact-cast">
+<h2>Exact cast<a class="headerlink" href="#exact-cast" title="Link to this heading"></a></h2>
+<p>Conceptually the simplest, <code class="docutils literal notranslate"><span class="pre">wtf::cast::cast&lt;T&gt;</span></code>, will cast a type-erased
+value to type <code class="docutils literal notranslate"><span class="pre">T</span></code>, if <code class="docutils literal notranslate"><span class="pre">T</span></code> is the <em>exact</em> type held. If <code class="docutils literal notranslate"><span class="pre">T</span></code> doesn’t match,
+<code class="docutils literal notranslate"><span class="pre">wtf::cast::cast&lt;T&gt;</span></code> throws <code class="docutils literal notranslate"><span class="pre">std::runtime_error</span></code>.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">make_float</span><span class="p">(</span><span class="mf">3.14f</span><span class="p">);</span><span class="w"> </span><span class="c1">// holds a float</span>
+
+<span class="kt">float</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">cast</span><span class="o">::</span><span class="n">cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">f</span><span class="p">);</span><span class="w"> </span><span class="c1">// exact match</span>
+<span class="n">REQUIRE</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">3.14f</span><span class="p">);</span>
+
+<span class="c1">// wtf::cast::cast&lt;double&gt;(f) would throw std::runtime_error: f holds a</span>
+<span class="c1">// float, not a double.</span>
+
+<span class="c1">// Can get the value by reference</span>
+<span class="kt">float</span><span class="o">&amp;</span><span class="w"> </span><span class="n">pvalue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">cast</span><span class="o">::</span><span class="n">cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&amp;&gt;</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">wtf</span><span class="o">.</span><span class="n">fp</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="mf">3.14</span><span class="p">)</span>
+
+<span class="n">value</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>  <span class="c1"># or float(f); Python only ever holds a double</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mf">3.14</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<p>Of note, <code class="docutils literal notranslate"><span class="pre">wtf::cast::cast&lt;T&gt;</span></code> can be used to get a reference to the actual
+FP value, allowing the user to mutate the data in-place and/or avoid a copy.</p>
+</section>
+<section id="convert">
+<h2>Convert<a class="headerlink" href="#convert" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">wtf::cast::cast&lt;T&gt;</span></code> is somewhat limited in that the user needs to know the
+type of the held object. A weaker condition is that the user wants the wrapped
+FP object back as a specific type <code class="docutils literal notranslate"><span class="pre">T</span></code> somewhat independently of what type it
+is actually stored as. This can be accomplished by
+<code class="docutils literal notranslate"><span class="pre">wtf::cast::convert&lt;T,</span> <span class="pre">Policy&gt;</span></code>. Here <code class="docutils literal notranslate"><span class="pre">T</span></code> is the type the user wants and
+<code class="docutils literal notranslate"><span class="pre">Policy</span></code> defines the rules under which the conversion should occur.</p>
+<p>At present, WTF defines the following <code class="docutils literal notranslate"><span class="pre">Policy</span></code>:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 35.0%" />
+<col style="width: 65.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Policy</p></th>
+<th class="head"><p>Behavior</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">wtf::fp::policies::Match</span></code></p></td>
+<td><p>Only the exact type (same as <code class="docutils literal notranslate"><span class="pre">cast</span></code>, but a copy).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">wtf::fp::policies::Convertible</span></code></p></td>
+<td><p>Any <code class="docutils literal notranslate"><span class="pre">std::convertible_to</span></code>, including narrowing.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">wtf::fp::policies::Widen</span></code></p></td>
+<td><p>Only conversions that cannot lose precision.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">make_float</span><span class="p">(</span><span class="mf">3.14f</span><span class="p">);</span><span class="w"> </span><span class="c1">// holds a float</span>
+
+<span class="c1">// Match: only succeeds when the held and requested types are identical.</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">cast</span><span class="o">::</span><span class="n">convert</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">policies</span><span class="o">::</span><span class="n">Match</span><span class="o">&gt;</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+<span class="n">REQUIRE</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">3.14f</span><span class="p">);</span>
+
+<span class="c1">// Convertible: succeeds whenever the held type converts to the</span>
+<span class="c1">// requested one, even if precision could be lost.</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">cast</span><span class="o">::</span><span class="n">convert</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">policies</span><span class="o">::</span><span class="n">Convertible</span><span class="o">&gt;</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+<span class="n">REQUIRE</span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Catch</span><span class="o">::</span><span class="n">Approx</span><span class="p">(</span><span class="mf">3.14</span><span class="p">));</span>
+
+<span class="c1">// Widen: like Convertible, but only for conversions that cannot lose</span>
+<span class="c1">// precision (float -&gt; double is fine; double -&gt; float would throw).</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">cast</span><span class="o">::</span><span class="n">convert</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">policies</span><span class="o">::</span><span class="n">Widen</span><span class="o">&gt;</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+<span class="n">REQUIRE</span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Catch</span><span class="o">::</span><span class="n">Approx</span><span class="p">(</span><span class="mf">3.14</span><span class="p">));</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since the conversions under <code class="docutils literal notranslate"><span class="pre">wtf::cast::convert&lt;T,Policy&gt;</span></code> will in general
+involve more than reinterpreting the already allocated memory,
+<code class="docutils literal notranslate"><span class="pre">wtf::cast::convert</span></code> will return a copy of the data.</p>
+</div>
+</section>
+<section id="visit">
+<h2>Visit<a class="headerlink" href="#visit" title="Link to this heading"></a></h2>
+<p>The third option inverts the paradigm. Instead of trying to get the FP objects
+out of the type-erased objects, <code class="docutils literal notranslate"><span class="pre">wtf::cast::visit</span></code> brings the computation to
+the wrapped object. As the name implies, <code class="docutils literal notranslate"><span class="pre">wtf::cast::visit</span></code> works via the
+visitor pattern, i.e., the user provides a function/functor which can be called
+with arbitrary FP values. Though this may sound complicated, it is easily
+accomplished with a lambda, e.g.:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">make_float</span><span class="p">(</span><span class="mf">3.14f</span><span class="p">);</span>
+
+<span class="n">wtf</span><span class="o">::</span><span class="n">cast</span><span class="o">::</span><span class="n">visit</span><span class="o">&lt;</span><span class="n">default_fp_types</span><span class="o">&gt;</span><span class="p">([](</span><span class="k">auto</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">REQUIRE</span><span class="p">(</span><span class="n">v</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">3.14f</span><span class="p">);</span><span class="w"> </span><span class="p">},</span>
+<span class="w">                                   </span><span class="n">f</span><span class="p">);</span><span class="w"> </span><span class="c1">// dispatches to the held type</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Both <code class="docutils literal notranslate"><span class="pre">wtf::cast::convert</span></code> and <code class="docutils literal notranslate"><span class="pre">wtf::cast::visit</span></code> take a tuple of types
+to try. This argument defaults to a <code class="docutils literal notranslate"><span class="pre">std::tuple</span></code> built-in real FP types of
+C++. Users wanting to use additional FP types will need to ensure this
+template parameter includes the additional FP types.</p>
+</div>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 12.0%" />
+<col style="width: 25.0%" />
+<col style="width: 20.0%" />
+<col style="width: 43.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Mechanism</p></th>
+<th class="head"><p>Throws on mismatch?</p></th>
+<th class="head"><p>Copies or aliases?</p></th>
+<th class="head"><p>Typical use</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cast</span></code></p></td>
+<td><p>Yes</p></td>
+<td><p>Aliases (can mutate)</p></td>
+<td><p>You know the exact type and want to read or write through it.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">visit</span></code></p></td>
+<td><p>Yes (no candidate found)</p></td>
+<td><p>Neither (visitor call)</p></td>
+<td><p>Generic code that doesn’t know the type ahead of time.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">convert</span></code></p></td>
+<td><p>Yes (policy rejects it)</p></td>
+<td><p>Always copies</p></td>
+<td><p>You want a converted value, e.g. widened to <code class="docutils literal notranslate"><span class="pre">double</span></code> for a
+computation.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="see-also">
+<h2>See also<a class="headerlink" href="#see-also" title="Link to this heading"></a></h2>
+<p>For the design rationale behind these three mechanisms, see
+<a class="reference internal" href="developer/conversion.html"><span class="doc">Conversion in WTF</span></a> and <a class="reference internal" href="developer/type_erasure.html"><span class="doc">Type-Erasure in WTF</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="writing_apis.html" class="btn btn-neutral float-left" title="Writing APIs That Accept WTF Objects" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="adding_a_new_type.html" class="btn btn-neutral float-right" title="Registering a New Type with WTF" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, NWChemEx Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

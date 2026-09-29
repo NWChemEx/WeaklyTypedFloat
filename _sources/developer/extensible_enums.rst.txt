@@ -34,7 +34,7 @@ spell out explicitly. Historically, this kind of runtime type selection has
 been done with a plain ``enum class``.
 
 The problem is that a plain ``enum class`` is a closed set: its enumerators
-are fixed the moment WTF itself is compiled. :doc:`statement_of_need`
+are fixed the moment WTF itself is compiled. :doc:`../statement_of_need`
 lists, as one of WTF's goals, that "the user can extend WTF to support their
 own custom FP types without needing to modify the WTF source" -- and indeed,
 :doc:`/adding_a_new_type` and ``WTF_REGISTER_FP_TYPE`` already let a

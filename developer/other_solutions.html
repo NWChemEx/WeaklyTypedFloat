@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Why do we need WTF? &mdash; WeaklyTypedFloats 1.0.0 documentation</title>
+  <title>Potential Solutions &mdash; WeaklyTypedFloats 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
@@ -44,13 +44,16 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../statement_of_need.html">Why Do We Need WTF?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../writing_apis.html">Writing APIs That Accept WTF Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../restoring_the_type.html">Restoring the Type</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../adding_a_new_type.html">Registering a New Type with WTF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../writing_a_visitor.html">Writing a Visitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python_bindings.html">Python Bindings</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Documentation</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Why do we need WTF?</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#motivation">Motivation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#problem-statement">Problem Statement</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#goals">Goals</a></li>
-</ul>
-</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Potential Solutions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scope.html">What is the Scope of WTF?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="type_erasure.html">Type-Erasure in WTF</a></li>
 <li class="toctree-l2"><a class="reference internal" href="extensible_enums.html">Extensible Runtime Enumerators</a></li>
@@ -61,9 +64,6 @@
 <li class="toctree-l2"><a class="reference internal" href="kokkos.html">Interoperating with Kokkos</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../adding_a_new_type.html">Registering a New Type with WTF</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../writing_a_visitor.html">Writing a Visitor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../python_bindings.html">Python Bindings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">APIs:</span></p>
 <ul>
@@ -85,9 +85,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Developer Documentation</a></li>
-      <li class="breadcrumb-item active">Why do we need WTF?</li>
+      <li class="breadcrumb-item active">Potential Solutions</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/developer/statement_of_need.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/developer/other_solutions.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -95,31 +95,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="why-do-we-need-wtf">
-<h1>Why do we need WTF?<a class="headerlink" href="#why-do-we-need-wtf" title="Link to this heading"></a></h1>
-<section id="motivation">
-<h2>Motivation<a class="headerlink" href="#motivation" title="Link to this heading"></a></h2>
-<p>The standard C++ library already includes a host of FP types including:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">double</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">double</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">std::complex&lt;float&gt;</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">std::complex&lt;double&gt;</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">std::complex&lt;long</span> <span class="pre">double&gt;</span></code></p></li>
-</ul>
-<p>…and that’s before we discuss the types introduced by C++23. Conceptually,
-these types are all used to do the same thing: represent real (or more
-generally complex) numbers. In practice, the difference among these FP types
-is that they represent the number with different amounts of bits. Consequently,
-the range and precision of numbers that can be represented differs by FP type.
-Unfortunately, the performance of numerics is intimately tied to the FP type
-used.</p>
+  <section id="potential-solutions">
+<h1>Potential Solutions<a class="headerlink" href="#potential-solutions" title="Link to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>For brevity we will focus on the real FP types. Everything we say here
-readily generalizes to complex FP types as well. WTF fully supports complex
-values, we just don’t want to keep bringing it up.</p>
+<p>This is meant to be a page detailing other solutions aside from WTF and
+needs to be fleshed out more.</p>
 </div>
 <p>A fundamental problem in the software engineering of scientific libraries is
 dealing with FP types. Historically, for simplicity many scientific libraries
@@ -135,25 +116,6 @@ this solution works well. However, it is becoming increasingly important to
 be able to interface scientific software to other languages (e.g., Python). In
 most cases, interfacing is done through a C-like interface, precluding the use
 of templates.</p>
-</section>
-<section id="problem-statement">
-<h2>Problem Statement<a class="headerlink" href="#problem-statement" title="Link to this heading"></a></h2>
-<p>Scientific software developers increasingly need to support multiple FP types.
-At the same time, they want their software to be callable from multiple
-languages. Unfortunately, this precludes the use of templates at user-facing
-interfaces.</p>
-</section>
-<section id="goals">
-<h2>Goals<a class="headerlink" href="#goals" title="Link to this heading"></a></h2>
-<ul class="simple">
-<li><p>Provide a series of abstractions that are capable of holding
-arbitrary FP types.</p></li>
-<li><p>Make it easy for users of WTF to compose algorithms with these abstractions.</p></li>
-<li><p>Ensure that the user can extend WTF to support their own custom FP types
-without needing to modify the WTF source.</p></li>
-<li><p>Ensure that the abstractions can be used in a performant manner.</p></li>
-</ul>
-</section>
 </section>
 
 

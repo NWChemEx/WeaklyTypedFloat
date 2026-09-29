@@ -17,10 +17,10 @@ Developer Documentation
 #######################
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Design and Technical Documents
 
-   statement_of_need
+   other_solutions
    scope
    type_erasure
    extensible_enums

@@ -12,24 +12,39 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 
-################
-WeaklyTypedFloat
-################
+######################
+WeaklyTypedFloat (WTF)
+######################
 
-The WeaklyTypedFloat (WTF) library provides a domain-specific language for
-working with floating-point (FP) numbers in a type-erased manner.
+.. image:: assets/wtf_banner.svg
+   :alt: WTF Banner
+   :width: 600px
+
+The WeaklyTypedFloat (WTF) library provides a small domain-specific language
+which can be used to express operations and interfaces in terms of "weakly
+typed" floating-point objects -- ``Float`` and ``FloatBuffer``. This enables
+users of WTF to wirte one set of functions and defer selecting floating-point
+types until runtime, without needing to rely on heavy C++ meta-programming.
+
+To learn more about why WTF is needed see :doc:`statement_of_need`, otherwise
+we recommend starting with :doc:`installation` and :doc:`quickstart`.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents
 
-   developer/index
+   statement_of_need
+   installation
+   quickstart
+   writing_apis
+   restoring_the_type
    adding_a_new_type
    writing_a_visitor
    python_bindings
+   developer/index
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: APIs:
 
    C++ API <https://nwchemex.github.io/WeaklyTypedFloat/wtf_cxx_api/index.html>

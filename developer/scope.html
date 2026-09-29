@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Type-Erasure in WTF" href="type_erasure.html" />
-    <link rel="prev" title="Why do we need WTF?" href="statement_of_need.html" /> 
+    <link rel="prev" title="Potential Solutions" href="other_solutions.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,8 +44,16 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../statement_of_need.html">Why Do We Need WTF?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../writing_apis.html">Writing APIs That Accept WTF Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../restoring_the_type.html">Restoring the Type</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../adding_a_new_type.html">Registering a New Type with WTF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../writing_a_visitor.html">Writing a Visitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python_bindings.html">Python Bindings</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Documentation</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="statement_of_need.html">Why do we need WTF?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="other_solutions.html">Potential Solutions</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">What is the Scope of WTF?</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#needed-concepts-abstractions">Needed Concepts/Abstractions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fundamental-operations">Fundamental Operations</a></li>
@@ -62,9 +70,6 @@
 <li class="toctree-l2"><a class="reference internal" href="kokkos.html">Interoperating with Kokkos</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../adding_a_new_type.html">Registering a New Type with WTF</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../writing_a_visitor.html">Writing a Visitor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../python_bindings.html">Python Bindings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">APIs:</span></p>
 <ul>
@@ -104,6 +109,8 @@ rely on templates. At the same time, we also realize that floating-point types
 are often used in numerical algorithms where they are often subjected to
 linear algebra operations. WTF does NOT want to implement linear algebra! It is
 thus crucial that we decide where the line between linear algebra and WTF is.</p>
+<a class="reference internal image-reference" href="../_images/overview.excalidraw.png"><img alt="Basic idea of WTF, i.e., give all floats the same API." src="../_images/overview.excalidraw.png" style="width: 600px;" />
+</a>
 <section id="needed-concepts-abstractions">
 <h2>Needed Concepts/Abstractions<a class="headerlink" href="#needed-concepts-abstractions" title="Link to this heading"></a></h2>
 <p>WTF will need to minimally provide the user with a class representing a type-
@@ -184,7 +191,7 @@ algebra.</p></li>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="statement_of_need.html" class="btn btn-neutral float-left" title="Why do we need WTF?" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="other_solutions.html" class="btn btn-neutral float-left" title="Potential Solutions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="type_erasure.html" class="btn btn-neutral float-right" title="Type-Erasure in WTF" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

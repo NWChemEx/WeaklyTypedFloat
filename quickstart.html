@@ -1,0 +1,198 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quickstart &mdash; WeaklyTypedFloats 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/tabs.js?v=3030b3cb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Writing APIs That Accept WTF Objects" href="writing_apis.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="statement_of_need.html">Why Do We Need WTF?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#a-float-un-erased">A Float, un-erased</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-floatbuffer-un-erased">A FloatBuffer, un-erased</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="writing_apis.html">Writing APIs That Accept WTF Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="restoring_the_type.html">Restoring the Type</a></li>
+<li class="toctree-l1"><a class="reference internal" href="adding_a_new_type.html">Registering a New Type with WTF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_a_visitor.html">Writing a Visitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_bindings.html">Python Bindings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html">Developer Documentation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://nwchemex.github.io/WeaklyTypedFloat/wtf_cxx_api/index.html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">WeaklyTypedFloats</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quickstart</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/quickstart.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quickstart">
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h1>
+<p>This page demonstrates some of the basic functionality of WTF. Subsequent pages
+explore more specialized (and performant) mechanisms for similar operations.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>C++ code is found in
+<code class="docutils literal notranslate"><span class="pre">tests/cxx/unit_tests/wtf/doc_examples/doc_examples.cpp</span></code> and the Python
+code is found in
+<code class="docutils literal notranslate"><span class="pre">tests/python/unit_tests/doc_examples/test_doc_examples.py</span></code>.</p>
+</div>
+<section id="a-float-un-erased">
+<h2>A Float, un-erased<a class="headerlink" href="#a-float-un-erased" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">wtf::fp::Float</span></code> (<code class="docutils literal notranslate"><span class="pre">wtf.fp.Float</span></code> in Python) wraps a single floating-point
+value and hides its concrete type:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">make_float</span><span class="p">(</span><span class="mf">3.14f</span><span class="p">);</span><span class="w"> </span><span class="c1">// type-erased, holds a float</span>
+
+<span class="n">REQUIRE</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">to_string</span><span class="p">().</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;3.14&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">::</span><span class="n">npos</span><span class="p">);</span>
+<span class="n">REQUIRE</span><span class="p">(</span><span class="n">f</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">fp</span><span class="o">::</span><span class="n">make_float</span><span class="p">(</span><span class="mf">3.14f</span><span class="p">));</span><span class="w"> </span><span class="c1">// same type and value</span>
+
+<span class="kt">float</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">cast</span><span class="o">::</span><span class="n">cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">f</span><span class="p">);</span><span class="w"> </span><span class="c1">// un-erase back to float</span>
+<span class="n">REQUIRE</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">3.14f</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">wtf</span><span class="o">.</span><span class="n">fp</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="mf">3.14</span><span class="p">)</span>  <span class="c1"># Python floats are always wrapped as double</span>
+
+<span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;3.14&quot;</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">wtf</span><span class="o">.</span><span class="n">fp</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="mf">3.14</span><span class="p">))</span>
+
+<span class="n">value</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>  <span class="c1"># un-erase back to a Python float</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mf">3.14</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<p>It is worth noting that the float is always stored as the FP type provided to
+WTF, i.e., <code class="docutils literal notranslate"><span class="pre">to_string</span></code> is a convient way for us to show the value and not
+indicative of how WTF stores the float.</p>
+</section>
+<section id="a-floatbuffer-un-erased">
+<h2>A FloatBuffer, un-erased<a class="headerlink" href="#a-floatbuffer-un-erased" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">wtf::buffer::FloatBuffer</span></code> (<code class="docutils literal notranslate"><span class="pre">wtf.buffer.FloatBuffer</span></code> in Python) does the
+same thing for a contiguous buffer of values:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">wtf</span><span class="o">::</span><span class="n">buffer</span><span class="o">::</span><span class="n">FloatBuffer</span><span class="w"> </span><span class="nf">buffer</span><span class="p">({</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0f</span><span class="p">});</span>
+
+<span class="n">REQUIRE</span><span class="p">(</span><span class="n">buffer</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">span</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wtf</span><span class="o">::</span><span class="n">cast</span><span class="o">::</span><span class="n">cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span><span class="w"> </span><span class="c1">// un-erase to std::span&lt;float&gt;</span>
+<span class="n">REQUIRE</span><span class="p">(</span><span class="n">span</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">3.0f</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">buffer</span> <span class="o">=</span> <span class="n">wtf</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">FloatBuffer</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+
+<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">buffer</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">value</span><span class="p">(),</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div></div>
+<p><code class="docutils literal notranslate"><span class="pre">wtf::cast::cast&lt;T&gt;</span></code> (<code class="docutils literal notranslate"><span class="pre">.value()</span></code> in Python) is only one of several ways
+to get a concrete type back out – see <a class="reference internal" href="restoring_the_type.html"><span class="doc">Restoring the Type</span></a> for the
+others.</p>
+</section>
+<section id="next-steps">
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="writing_apis.html"><span class="doc">Writing APIs That Accept WTF Objects</span></a> – how to design a function signature around WTF’s
+type-erased objects.</p></li>
+<li><p><a class="reference internal" href="restoring_the_type.html"><span class="doc">Restoring the Type</span></a> – the different ways to get a concrete type
+back out of one, and when to use each.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="writing_apis.html" class="btn btn-neutral float-right" title="Writing APIs That Accept WTF Objects" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, NWChemEx Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

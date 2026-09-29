@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WeaklyTypedFloat &mdash; WeaklyTypedFloats 1.0.0 documentation</title>
+  <title>WeaklyTypedFloat (WTF) &mdash; WeaklyTypedFloats 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Developer Documentation" href="developer/index.html" /> 
+    <link rel="next" title="Why Do We Need WTF?" href="statement_of_need.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,10 +43,15 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="developer/index.html">Developer Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="statement_of_need.html">Why Do We Need WTF?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_apis.html">Writing APIs That Accept WTF Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="restoring_the_type.html">Restoring the Type</a></li>
 <li class="toctree-l1"><a class="reference internal" href="adding_a_new_type.html">Registering a New Type with WTF</a></li>
 <li class="toctree-l1"><a class="reference internal" href="writing_a_visitor.html">Writing a Visitor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python_bindings.html">Python Bindings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html">Developer Documentation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">APIs:</span></p>
 <ul>
@@ -67,7 +72,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">WeaklyTypedFloat</li>
+      <li class="breadcrumb-item active">WeaklyTypedFloat (WTF)</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -77,33 +82,29 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="weaklytypedfloat">
-<h1>WeaklyTypedFloat<a class="headerlink" href="#weaklytypedfloat" title="Link to this heading"></a></h1>
-<p>The WeaklyTypedFloat (WTF) library provides a domain-specific language for
-working with floating-point (FP) numbers in a type-erased manner.</p>
+  <section id="weaklytypedfloat-wtf">
+<h1>WeaklyTypedFloat (WTF)<a class="headerlink" href="#weaklytypedfloat-wtf" title="Link to this heading"></a></h1>
+<a class="reference internal image-reference" href="_images/wtf_banner.svg"><img alt="WTF Banner" src="_images/wtf_banner.svg" style="width: 600px;" />
+</a>
+<p>The WeaklyTypedFloat (WTF) library provides a small domain-specific language
+which can be used to express operations and interfaces in terms of “weakly
+typed” floating-point objects – <code class="docutils literal notranslate"><span class="pre">Float</span></code> and <code class="docutils literal notranslate"><span class="pre">FloatBuffer</span></code>. This enables
+users of WTF to wirte one set of functions and defer selecting floating-point
+types until runtime, without needing to rely on heavy C++ meta-programming.</p>
+<p>To learn more about why WTF is needed see <a class="reference internal" href="statement_of_need.html"><span class="doc">Why Do We Need WTF?</span></a>, otherwise
+we recommend starting with <a class="reference internal" href="installation.html"><span class="doc">Installation</span></a> and <a class="reference internal" href="quickstart.html"><span class="doc">Quickstart</span></a>.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="developer/index.html">Developer Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="developer/statement_of_need.html">Why do we need WTF?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developer/scope.html">What is the Scope of WTF?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developer/type_erasure.html">Type-Erasure in WTF</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developer/extensible_enums.html">Extensible Runtime Enumerators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developer/conversion.html">Conversion in WTF</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developer/operations.html">Performing Type-Safe Operations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developer/float_buffer.html">FloatBuffer and BufferView Containers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developer/architecture.html">Architecture of WTF</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developer/kokkos.html">Interoperating with Kokkos</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="statement_of_need.html">Why Do We Need WTF?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_apis.html">Writing APIs That Accept WTF Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="restoring_the_type.html">Restoring the Type</a></li>
 <li class="toctree-l1"><a class="reference internal" href="adding_a_new_type.html">Registering a New Type with WTF</a></li>
 <li class="toctree-l1"><a class="reference internal" href="writing_a_visitor.html">Writing a Visitor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="python_bindings.html">Python Bindings</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="python_bindings.html#python-only-speaks-double">Python only speaks double</a></li>
-<li class="toctree-l2"><a class="reference internal" href="python_bindings.html#floats">Floats</a></li>
-<li class="toctree-l2"><a class="reference internal" href="python_bindings.html#buffers">Buffers</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="python_bindings.html">Python Bindings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html">Developer Documentation</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
@@ -118,7 +119,7 @@ working with floating-point (FP) numbers in a type-erased manner.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="developer/index.html" class="btn btn-neutral float-right" title="Developer Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="statement_of_need.html" class="btn btn-neutral float-right" title="Why Do We Need WTF?" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

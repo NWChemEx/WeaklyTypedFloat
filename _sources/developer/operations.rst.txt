@@ -134,6 +134,10 @@ assume a list of types: it's called the "expression  problem".
 Solving the Expression Problem
 ==============================
 
+.. image:: assets/expression_problem.excalidraw.png
+   :alt: Diagram illustrating the expression problem
+   :width: 600px
+
 At present, solving the expression problem requires a mix of storing RTTI
 (runtime type information) and brute force looping over class hierarchies.
 Making sure that all the edge cases are handled correctly is tricky and tedious.
