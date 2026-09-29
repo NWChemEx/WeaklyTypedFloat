@@ -45,10 +45,10 @@ Additionally, WTF can own or alias the memory. This gives rise to four types:
    * - ``wtf::buffer::BufferView<T>``
      - You want to read or read/write an erased buffer without owning it
 
-Additionally, ``FloatView<T>`` and ``BufferView<T>`` come in wanting 
-"read only" and "read/write" flavors. Whether a view is read-only or not is 
+Additionally, ``FloatView<T>`` and ``BufferView<T>`` come in wanting
+"read only" and "read/write" flavors. Whether a view is read-only or not is
 indicated by the "const"-ness of ``T``, i.e.,  ``FloatView<Float>`` will be
-read/write whereas ``FloatView<const Float>`` will be read-only. 
+read/write whereas ``FloatView<const Float>`` will be read-only.
 
 ******************
 API considerations
@@ -60,18 +60,18 @@ General C++ advice for designing an API is to avoid allocating memory inside the
 function. If a function will need to own the memory being provided (a common
 example would be in the constructor of an object), the function should take the
 object by value. This gives users the ability to move the memory into the
-function, or, if the user does not want to relinquish the memory, for a copy to 
-automatically occur. 
+function, or, if the user does not want to relinquish the memory, for a copy to
+automatically occur.
 
 Most functions will only read the memory they were provided. Such functions
-should take their inputs as read-only views, i.e., ``FloatView<const Float>`` 
-and ``BufferView<const Float>``. Because of implicit conversion rules, both 
-``Float`` and ``FloatView<Float>`` can be passed as ``FloatView<const Float>`` 
+should take their inputs as read-only views, i.e., ``FloatView<const Float>``
+and ``BufferView<const Float>``. Because of implicit conversion rules, both
+``Float`` and ``FloatView<Float>`` can be passed as ``FloatView<const Float>``
 objects. Similar implicit conversions exist for ``Buffer`` and ``BufferView``.
 
 Finally, taking a ``FloatView<Float>`` or ``BufferView<Float>`` should be
 reserved for when the function will mutate the data in place, i.e., when the
-parameters is both an input and the result. 
+parameters is both an input and the result.
 
 Return types work similarly. Member functions should prefer to return views
 of their object's internal state, rather than copies, i.e., return
@@ -86,7 +86,7 @@ Example APIs:
   public:
       // Point owns its coordinates' memory, so take by value
       Point(Float x, Float y, Float z);
-          
+
       // Allows the user to modify the x value
       FloatView<Float> x_data();
 
@@ -109,5 +109,3 @@ Example APIs:
     FloatView<Float> m_y;
     FloatView<Float> m_z;
   };
-
-
