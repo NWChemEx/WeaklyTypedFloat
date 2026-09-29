@@ -19,15 +19,15 @@ Restoring the Type
 WTF provides limited options for manipulating type-erased FP values. This is by
 design. In particular, many applications of FP types are for linear
 algebra and WTF does not want to assume a linear algebra backend. Thus,
-functions taking WTF objects will need to be able to restore the type. 
+functions taking WTF objects will need to be able to restore the type.
 
 **********
 Exact cast
 **********
 
 Conceptually the simplest, ``wtf::cast::cast<T>``, will cast a type-erased
-value to type ``T``, if ``T`` is the *exact* type held. If ``T`` doesn't match, 
-``wtf::cast::cast<T>`` throws ``std::runtime_error``. 
+value to type ``T``, if ``T`` is the *exact* type held. If ``T`` doesn't match,
+``wtf::cast::cast<T>`` throws ``std::runtime_error``.
 
 .. tabs::
 
@@ -54,10 +54,10 @@ FP value, allowing the user to mutate the data in-place and/or avoid a copy.
 Convert
 *******
 
-``wtf::cast::cast<T>`` is somewhat limited in that the user needs to know the 
+``wtf::cast::cast<T>`` is somewhat limited in that the user needs to know the
 type of the held object. A weaker condition is that the user wants the wrapped
-FP object back as a specific type ``T`` somewhat independently of what type it 
-is actually stored as. This can be accomplished by 
+FP object back as a specific type ``T`` somewhat independently of what type it
+is actually stored as. This can be accomplished by
 ``wtf::cast::convert<T, Policy>``. Here ``T`` is the type the user wants and
 ``Policy`` defines the rules under which the conversion should occur.
 
@@ -110,7 +110,7 @@ accomplished with a lambda, e.g.:
    Both ``wtf::cast::convert`` and ``wtf::cast::visit`` take a tuple of types
    to try. This argument defaults to a ``std::tuple`` built-in real FP types of
    C++. Users wanting to use additional FP types will need to ensure this
-   template parameter includes the additional FP types. 
+   template parameter includes the additional FP types.
 
 *******
 Summary

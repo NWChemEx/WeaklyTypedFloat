@@ -21,9 +21,9 @@ WeaklyTypedFloat (WTF)
    :width: 600px
 
 The WeaklyTypedFloat (WTF) library provides a small domain-specific language
-which can be used to express operations and interfaces in terms of "weakly 
+which can be used to express operations and interfaces in terms of "weakly
 typed" floating-point objects -- ``Float`` and ``FloatBuffer``. This enables
-users of WTF to wirte one set of functions and defer selecting floating-point 
+users of WTF to wirte one set of functions and defer selecting floating-point
 types until runtime, without needing to rely on heavy C++ meta-programming.
 
 To learn more about why WTF is needed see :doc:`statement_of_need`, otherwise

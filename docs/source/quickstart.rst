@@ -20,9 +20,9 @@ This page demonstrates some of the basic functionality of WTF. Subsequent pages
 explore more specialized (and performant) mechanisms for similar operations.
 
 .. note::
-   
+
    C++ code is found in
-   ``tests/cxx/unit_tests/wtf/doc_examples/doc_examples.cpp`` and the Python 
+   ``tests/cxx/unit_tests/wtf/doc_examples/doc_examples.cpp`` and the Python
    code is found in
    ``tests/python/unit_tests/doc_examples/test_doc_examples.py``.
 

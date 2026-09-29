@@ -70,8 +70,8 @@ TEST_CASE("doc_examples: restoring the type, visit", "[doc_examples]") {
     // [restoring-visit]
     auto f = wtf::fp::make_float(3.14f);
 
-    wtf::cast::visit<default_fp_types>(
-      [](auto v) { REQUIRE(v == 3.14f); }, f); // dispatches to the held type
+    wtf::cast::visit<default_fp_types>([](auto v) { REQUIRE(v == 3.14f); },
+                                       f); // dispatches to the held type
     // [/restoring-visit]
 }
 
