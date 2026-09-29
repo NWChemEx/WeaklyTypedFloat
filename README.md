@@ -62,7 +62,7 @@ pytest tests/python/
 
 ## Problem Description
 
-Full description (TODO: Add link to the documentation)
+Full description: (TODO: Add link to the documentation)
 
 Depending on the standard, C++ already natively has a lot of floating-point
 types, e.g., `float`, `double`, `long double`, `std::complex<float>`, and
