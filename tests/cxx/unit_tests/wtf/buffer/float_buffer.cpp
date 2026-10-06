@@ -559,3 +559,48 @@ TEST_CASE("visit_contiguous_buffer") {
         REQUIRE(visitor2.m_called_float_double);
     }
 }
+
+TEMPLATE_LIST_TEST_CASE("concatenate", "[wtf]", default_fp_types) {
+    constexpr bool is_float = std::is_same_v<TestType, float>;
+    using other_t           = std::conditional_t<is_float, double, float>;
+    using vector_type       = std::vector<TestType>;
+
+    FloatBuffer defaulted;
+    FloatBuffer empty(vector_type{});
+    FloatBuffer buffer0(vector_type{1.0, 2.0});
+    FloatBuffer buffer1(vector_type{3.0});
+    FloatBuffer buffer2(vector_type{4.0, 5.0, 6.0});
+
+    SECTION("No buffers") {
+        std::vector<FloatBuffer> buffers;
+        REQUIRE(concatenate(buffers) == defaulted);
+    }
+
+    SECTION("Only empty buffers") {
+        std::vector<FloatBuffer> buffers{defaulted, empty};
+        REQUIRE(concatenate(buffers) == defaulted);
+    }
+
+    SECTION("One buffer") {
+        std::vector<FloatBuffer> buffers{buffer0};
+        REQUIRE(concatenate(buffers) == buffer0);
+    }
+
+    SECTION("Several buffers") {
+        std::vector<FloatBuffer> buffers{buffer0, buffer1, buffer2};
+        FloatBuffer corr(vector_type{1.0, 2.0, 3.0, 4.0, 5.0, 6.0});
+        REQUIRE(concatenate(buffers) == corr);
+    }
+
+    SECTION("Empty buffers are skipped") {
+        std::vector<FloatBuffer> buffers{defaulted, buffer0, empty, buffer1};
+        FloatBuffer corr(vector_type{1.0, 2.0, 3.0});
+        REQUIRE(concatenate(buffers) == corr);
+    }
+
+    SECTION("Throws if the types differ") {
+        FloatBuffer other(std::vector<other_t>{7.0});
+        std::vector<FloatBuffer> buffers{buffer0, other};
+        REQUIRE_THROWS_AS(concatenate(buffers), std::runtime_error);
+    }
+}

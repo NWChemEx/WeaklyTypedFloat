@@ -17,6 +17,9 @@
 #pragma once
 #include <concepts>
 #include <span>
+#include <stdexcept>
+#include <type_traits>
+#include <vector>
 #include <wtf/buffer/buffer_view.hpp>
 #include <wtf/buffer/detail_/contiguous_model.hpp>
 #include <wtf/cast/detail_/restore.hpp>
@@ -684,6 +687,64 @@ template<typename TupleType, typename Visitor, typename... Args>
 auto visit_contiguous_buffer(Visitor&& visitor, Args&&... args) {
     return detail_::visit_contiguous_model<TupleType>(
       std::forward<Visitor>(visitor), args.holder_()...);
+}
+
+/** @brief Concatenates a series of FloatBuffer objects into a single buffer.
+ *
+ *  @relates FloatBuffer
+ *
+ *  The elements of the result are the elements of @p buffers[0], followed by
+ *  those of @p buffers[1], and so on. Empty buffers (including defaulted
+ *  ones, which hold no type) contribute nothing and so may be freely mixed
+ *  with the others. The non-empty buffers must all hold the same type, which
+ *  is also the type of the result.
+ *
+ *  @tparam TupleType A std::tuple of floating-point types to try. Defaults to
+ *                    wtf::default_fp_types.
+ *
+ *  @param[in] buffers The buffers to concatenate, in order.
+ *
+ *  @return A FloatBuffer holding the elements of @p buffers. If every buffer
+ *          in @p buffers is empty the result is a defaulted FloatBuffer.
+ *
+ *  @throw std::runtime_error if the non-empty buffers do not all hold the
+ *                            same type, or if any of them is not a
+ *                            contiguous buffer holding a type in
+ *                            @p TupleType. Strong throw guarantee.
+ *  @throw std::bad_alloc if there is a problem allocating the result. Strong
+ *                        throw guarantee.
+ */
+template<typename TupleType = wtf::default_fp_types>
+FloatBuffer concatenate(std::span<const FloatBuffer> buffers) {
+    FloatBuffer::size_type n = 0;
+    const FloatBuffer* first = nullptr;
+    for(const auto& buffer : buffers) {
+        n += buffer.size();
+        if(first == nullptr && buffer.size() > 0) first = &buffer;
+    }
+    if(first == nullptr) return FloatBuffer{};
+
+    // The first non-empty buffer fixes the type of the result
+    auto concatenator = [&]<typename T>(std::span<T>) {
+        using clean_type = std::remove_const_t<T>;
+        std::vector<clean_type> rv;
+        rv.reserve(n);
+        auto appender = [&rv]<typename U>(std::span<U> values) {
+            if constexpr(std::is_same_v<std::remove_const_t<U>, clean_type>) {
+                rv.insert(rv.end(), values.begin(), values.end());
+            } else {
+                throw std::runtime_error(
+                  "wtf::buffer::concatenate: buffers must all hold the same "
+                  "type.");
+            }
+        };
+        for(const auto& buffer : buffers) {
+            if(buffer.size() == 0) continue;
+            visit_contiguous_buffer<TupleType>(appender, buffer);
+        }
+        return FloatBuffer(std::move(rv));
+    };
+    return visit_contiguous_buffer<TupleType>(concatenator, *first);
 }
 
 // -----------------------------------------------------------------------------
