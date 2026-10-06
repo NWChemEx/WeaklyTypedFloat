@@ -217,6 +217,10 @@ Related Symbols</h2></td></tr>
 <tr class="memitem:a1a61270d41b7b3c12b74fa06c27a131a"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#a1a61270d41b7b3c12b74fa06c27a131a">visit_contiguous_buffer</a> (Visitor &amp;&amp;visitor, Args &amp;&amp;... args)</td></tr>
 <tr class="memdesc:a1a61270d41b7b3c12b74fa06c27a131a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps the process of calling a visitor with zero or more <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> objects.  <br /></td></tr>
 <tr class="separator:a1a61270d41b7b3c12b74fa06c27a131a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b0b9e4d365633861f11c712f3bc4c45" id="r_a4b0b9e4d365633861f11c712f3bc4c45"><td class="memTemplParams" colspan="2">template&lt;typename TupleType  = wtf::default_fp_types&gt; </td></tr>
+<tr class="memitem:a4b0b9e4d365633861f11c712f3bc4c45"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#a4b0b9e4d365633861f11c712f3bc4c45">concatenate</a> (std::span&lt; const <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a> &gt; buffers)</td></tr>
+<tr class="memdesc:a4b0b9e4d365633861f11c712f3bc4c45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatenates a series of <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> objects into a single buffer.  <br /></td></tr>
+<tr class="separator:a4b0b9e4d365633861f11c712f3bc4c45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d64b28237af60852bab15df63ec3758" id="r_a0d64b28237af60852bab15df63ec3758"><td class="memTemplParams" colspan="2">template&lt;concepts::FloatingPoint T&gt; </td></tr>
 <tr class="memitem:a0d64b28237af60852bab15df63ec3758"><td class="memTemplItemLeft" align="right" valign="top">std::span&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html#a0d64b28237af60852bab15df63ec3758">cast</a> (<a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html">buffer::FloatBuffer</a> &amp;buffer)</td></tr>
 <tr class="memdesc:a0d64b28237af60852bab15df63ec3758"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un-type-erases a <code><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">wtf::buffer::FloatBuffer</a></code> to a span of its exact held type.  <br /></td></tr>
@@ -1205,6 +1209,57 @@ template&lt;concepts::FloatingPoint T&gt; </div>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::runtime_error</td><td>if <code>buffer</code> is not contiguous, or does not hold values of type <code>T</code>. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4b0b9e4d365633861f11c712f3bc4c45" name="a4b0b9e4d365633861f11c712f3bc4c45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b0b9e4d365633861f11c712f3bc4c45">&#9670;&#160;</a></span>concatenate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TupleType  = wtf::default_fp_types&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a> concatenate </td>
+          <td>(</td>
+          <td class="paramtype">std::span&lt; const <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a> &gt;&#160;</td>
+          <td class="paramname"><em>buffers</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Concatenates a series of <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> objects into a single buffer. </p>
+<p>The elements of the result are the elements of <code>buffers</code>[0], followed by those of <code>buffers</code>[1], and so on. Empty buffers (including defaulted ones, which hold no type) contribute nothing and so may be freely mixed with the others. The non-empty buffers must all hold the same type, which is also the type of the result.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TupleType</td><td>A std::tuple of floating-point types to try. Defaults to <a class="el" href="namespacewtf.html#a746023b756b44de96d0dd25e8af54c30" title="A tuple holding C++&#39;s default, real, floating-point types.">wtf::default_fp_types</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">buffers</td><td>The buffers to concatenate, in order.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a> holding the elements of <code>buffers</code>. If every buffer in <code>buffers</code> is empty the result is a defaulted <a class="el" href="classwtf_1_1buffer_1_1FloatBuffer.html" title="A type-erased buffer of floating-point values.">FloatBuffer</a>.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if the non-empty buffers do not all hold the same type, or if any of them is not a contiguous buffer holding a type in <code>TupleType</code>. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the result. Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>

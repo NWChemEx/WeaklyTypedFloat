@@ -100,344 +100,383 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &lt;concepts&gt;</span></div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &lt;span&gt;</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &lt;wtf/buffer/buffer_view.hpp&gt;</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#include &lt;wtf/buffer/detail_/contiguous_model.hpp&gt;</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#include &lt;wtf/cast/detail_/restore.hpp&gt;</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &lt;wtf/concepts/iterator.hpp&gt;</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &lt;wtf/enums/enums.hpp&gt;</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#include &lt;wtf/fp/float.hpp&gt;</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacewtf_1_1buffer.html">wtf::buffer</a> {</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="foldopen" id="foldopen00037" data-start="{" data-end="};">
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html">   37</a></span><span class="keyword">class </span><a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a> {</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a80ed37c2637d98388e48a0736eb1695b">   40</a></span>    <span class="keyword">using </span><a class="code hl_class" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html">holder_type</a> = <a class="code hl_class" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html">detail_::BufferHolder</a>;</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a33ae684e80d7ae56007efd7066f7a087">   44</a></span>    <span class="keyword">using </span><a class="code hl_typedef" href="classwtf_1_1buffer_1_1FloatBuffer.html#a33ae684e80d7ae56007efd7066f7a087">holder_pointer</a>  = <span class="keyword">typename</span> <a class="code hl_typedef" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#af6da0f90639b3ff4462098c267c5ec6f">holder_type::holder_pointer</a>;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keyword">using </span>value_type      = <span class="keyword">typename</span> <a class="code hl_typedef" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#aba7be624500c75abd99bf5c25a6b22b7">holder_type::value_type</a>;</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keyword">using </span>size_type       = <span class="keyword">typename</span> <a class="code hl_typedef" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#a049b31cff676c3cf6d23f2f8f3df2395">holder_type::size_type</a>;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keyword">using </span>view_type       = <span class="keyword">typename</span> <a class="code hl_typedef" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#ad0a34dddb20c5ccb77b05daea204463d">holder_type::view_type</a>;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keyword">using </span>const_view_type = <span class="keyword">typename</span> <a class="code hl_typedef" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#a4c7c8f0d1d017a3f0911025f6cbfaf2d">holder_type::const_view_type</a>;</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keyword">using </span><a class="code hl_class" href="classwtf_1_1buffer_1_1BufferView.html">buffer_view</a>       = <a class="code hl_class" href="classwtf_1_1buffer_1_1BufferView.html">BufferView&lt;value_type&gt;</a>;</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keyword">using </span><a class="code hl_class" href="classwtf_1_1buffer_1_1BufferView.html">const_buffer_view</a> = <a class="code hl_class" href="classwtf_1_1buffer_1_1BufferView.html">BufferView&lt;const value_type&gt;</a>;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &lt;wtf/buffer/buffer_view.hpp&gt;</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &lt;wtf/buffer/detail_/contiguous_model.hpp&gt;</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#include &lt;wtf/cast/detail_/restore.hpp&gt;</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#include &lt;wtf/concepts/iterator.hpp&gt;</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#include &lt;wtf/enums/enums.hpp&gt;</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#include &lt;wtf/fp/float.hpp&gt;</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacewtf_1_1buffer.html">wtf::buffer</a> {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="foldopen" id="foldopen00040" data-start="{" data-end="};">
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html">   40</a></span><span class="keyword">class </span><a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a> {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a80ed37c2637d98388e48a0736eb1695b">   43</a></span>    <span class="keyword">using </span><a class="code hl_class" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html">holder_type</a> = <a class="code hl_class" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html">detail_::BufferHolder</a>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a33ae684e80d7ae56007efd7066f7a087">   47</a></span>    <span class="keyword">using </span><a class="code hl_typedef" href="classwtf_1_1buffer_1_1FloatBuffer.html#a33ae684e80d7ae56007efd7066f7a087">holder_pointer</a>  = <span class="keyword">typename</span> <a class="code hl_typedef" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#af6da0f90639b3ff4462098c267c5ec6f">holder_type::holder_pointer</a>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keyword">using </span>value_type      = <span class="keyword">typename</span> <a class="code hl_typedef" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#aba7be624500c75abd99bf5c25a6b22b7">holder_type::value_type</a>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keyword">using </span>size_type       = <span class="keyword">typename</span> <a class="code hl_typedef" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#a049b31cff676c3cf6d23f2f8f3df2395">holder_type::size_type</a>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keyword">using </span>view_type       = <span class="keyword">typename</span> <a class="code hl_typedef" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#ad0a34dddb20c5ccb77b05daea204463d">holder_type::view_type</a>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keyword">using </span>const_view_type = <span class="keyword">typename</span> <a class="code hl_typedef" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#a4c7c8f0d1d017a3f0911025f6cbfaf2d">holder_type::const_view_type</a>;</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="comment">// -------------------------------------------------------------------------</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="comment">// Ctors and assignment operators</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="comment">// -------------------------------------------------------------------------</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">   65</a></span>    <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">FloatBuffer</a>() noexcept = default;</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    template&lt;concepts::FloatingPoint T&gt;</div>
-<div class="foldopen" id="foldopen00082" data-start="{" data-end="}">
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#ad13902e3c35e78c18c35dbcc01e606c3">   82</a></span>    explicit <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>(std::initializer_list&lt;T&gt; buffer) :</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>      <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>(std::vector&lt;T&gt;(buffer)) {}</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keyword">using </span><a class="code hl_class" href="classwtf_1_1buffer_1_1BufferView.html">buffer_view</a>       = <a class="code hl_class" href="classwtf_1_1buffer_1_1BufferView.html">BufferView&lt;value_type&gt;</a>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keyword">using </span><a class="code hl_class" href="classwtf_1_1buffer_1_1BufferView.html">const_buffer_view</a> = <a class="code hl_class" href="classwtf_1_1buffer_1_1BufferView.html">BufferView&lt;const value_type&gt;</a>;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="comment">// -------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="comment">// Ctors and assignment operators</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="comment">// -------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">   68</a></span>    <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">FloatBuffer</a>() noexcept = default;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    template&lt;concepts::FloatingPoint T&gt;</div>
+<div class="foldopen" id="foldopen00085" data-start="{" data-end="}">
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#ad13902e3c35e78c18c35dbcc01e606c3">   85</a></span>    explicit <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>(std::initializer_list&lt;T&gt; buffer) :</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>      <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>(std::vector&lt;T&gt;(buffer)) {}</div>
 </div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keyword">template</span>&lt;concepts::FloatingPo<span class="keywordtype">int</span> T&gt;</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keyword">explicit</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">FloatBuffer</a>(std::vector&lt;T&gt; buffer);</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="keyword">template</span>&lt;concepts::FPIterator BeginItr, concepts::FPIterator EndItr&gt;</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">FloatBuffer</a>(BeginItr&amp;&amp; begin, EndItr&amp;&amp; end);</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
-<div class="foldopen" id="foldopen00134" data-start="{" data-end="}">
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a12aa995db0ed62b437bf81bfae980263">  134</a></span>    <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a12aa995db0ed62b437bf81bfae980263">FloatBuffer</a>(<span class="keyword">const</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp; other) :</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>      m_pholder_(other.is_holding_() ? other.m_pholder_-&gt;clone() : nullptr) {}</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keyword">template</span>&lt;concepts::FloatingPo<span class="keywordtype">int</span> T&gt;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keyword">explicit</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">FloatBuffer</a>(std::vector&lt;T&gt; buffer);</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <span class="keyword">template</span>&lt;concepts::FPIterator BeginItr, concepts::FPIterator EndItr&gt;</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">FloatBuffer</a>(BeginItr&amp;&amp; begin, EndItr&amp;&amp; end);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="foldopen" id="foldopen00137" data-start="{" data-end="}">
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a12aa995db0ed62b437bf81bfae980263">  137</a></span>    <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a12aa995db0ed62b437bf81bfae980263">FloatBuffer</a>(<span class="keyword">const</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp; other) :</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>      m_pholder_(other.is_holding_() ? other.m_pholder_-&gt;clone() : nullptr) {}</div>
 </div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp; <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a8830755b14fdcea4d0b742be31953569">operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp; other);</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a0c763c97ca7ae1bae432255d6436462f">  158</a></span>    <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a0c763c97ca7ae1bae432255d6436462f">FloatBuffer</a>(<a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp;&amp; other) <span class="keyword">noexcept</span> = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#ade6375aa4f57ea7404ffcb6c8bbe430c">  172</a></span>    <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp; <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ade6375aa4f57ea7404ffcb6c8bbe430c">operator=</a>(<a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp;&amp; other) <span class="keyword">noexcept</span> = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
-<div class="foldopen" id="foldopen00187" data-start="{" data-end="}">
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a164cb24d3bcc20a80761edde8ea90e6e">  187</a></span>    <span class="keyword">auto</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a164cb24d3bcc20a80761edde8ea90e6e">as_view</a>() {</div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        <span class="keywordflow">return</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1BufferView.html">buffer_view</a>(is_holding_() ? m_pholder_-&gt;as_view() : <span class="keyword">nullptr</span>);</div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    }</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp; <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a8830755b14fdcea4d0b742be31953569">operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp; other);</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a0c763c97ca7ae1bae432255d6436462f">  161</a></span>    <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a0c763c97ca7ae1bae432255d6436462f">FloatBuffer</a>(<a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp;&amp; other) <span class="keyword">noexcept</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#ade6375aa4f57ea7404ffcb6c8bbe430c">  175</a></span>    <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp; <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ade6375aa4f57ea7404ffcb6c8bbe430c">operator=</a>(<a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp;&amp; other) <span class="keyword">noexcept</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
+<div class="foldopen" id="foldopen00190" data-start="{" data-end="}">
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a164cb24d3bcc20a80761edde8ea90e6e">  190</a></span>    <span class="keyword">auto</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a164cb24d3bcc20a80761edde8ea90e6e">as_view</a>() {</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        <span class="keywordflow">return</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1BufferView.html">buffer_view</a>(is_holding_() ? m_pholder_-&gt;as_view() : <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    }</div>
 </div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
-<div class="foldopen" id="foldopen00202" data-start="{" data-end="}">
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a002c06fc30fca256a1b280f9e9a0f0ea">  202</a></span>    <span class="keyword">auto</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a002c06fc30fca256a1b280f9e9a0f0ea">as_view</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>        <span class="keywordflow">return</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1BufferView.html">const_buffer_view</a>(</div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>          is_holding_() ? std::as_const(*m_pholder_).as_view() : <span class="keyword">nullptr</span>);</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    }</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span> </div>
+<div class="foldopen" id="foldopen00205" data-start="{" data-end="}">
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a002c06fc30fca256a1b280f9e9a0f0ea">  205</a></span>    <span class="keyword">auto</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a002c06fc30fca256a1b280f9e9a0f0ea">as_view</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>        <span class="keywordflow">return</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1BufferView.html">const_buffer_view</a>(</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>          is_holding_() ? std::as_const(*m_pholder_).as_view() : <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    }</div>
 </div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span> </div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    <span class="comment">// -------------------------------------------------------------------------</span></div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    <span class="comment">// State accessors</span></div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    <span class="comment">// -------------------------------------------------------------------------</span></div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span> </div>
-<div class="foldopen" id="foldopen00227" data-start="{" data-end="}">
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a79439d94db5eea1d58d16c5f54669929">  227</a></span>    view_type <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a79439d94db5eea1d58d16c5f54669929">at</a>(size_type index) {</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>        in_range_(index);</div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>        <span class="keywordflow">return</span> m_pholder_-&gt;at(index);</div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    }</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span> </div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    <span class="comment">// -------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    <span class="comment">// State accessors</span></div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    <span class="comment">// -------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span> </div>
+<div class="foldopen" id="foldopen00230" data-start="{" data-end="}">
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a79439d94db5eea1d58d16c5f54669929">  230</a></span>    view_type <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a79439d94db5eea1d58d16c5f54669929">at</a>(size_type index) {</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>        in_range_(index);</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>        <span class="keywordflow">return</span> m_pholder_-&gt;at(index);</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    }</div>
 </div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span> </div>
-<div class="foldopen" id="foldopen00244" data-start="{" data-end="}">
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a407663baaba19635328c674d5eea104b">  244</a></span>    const_view_type <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a407663baaba19635328c674d5eea104b">at</a>(size_type index)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>        in_range_(index);</div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>        <span class="keywordflow">return</span> std::as_const(*m_pholder_).at(index);</div>
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    }</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span> </div>
+<div class="foldopen" id="foldopen00247" data-start="{" data-end="}">
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a407663baaba19635328c674d5eea104b">  247</a></span>    const_view_type <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a407663baaba19635328c674d5eea104b">at</a>(size_type index)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>        in_range_(index);</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>        <span class="keywordflow">return</span> std::as_const(*m_pholder_).at(index);</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    }</div>
 </div>
-<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span> </div>
-<div class="foldopen" id="foldopen00259" data-start="{" data-end="}">
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#af4d452340ab895507bc0d315bafdaeb1">  259</a></span>    size_type <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#af4d452340ab895507bc0d315bafdaeb1">size</a>() const noexcept {</div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>        <span class="keywordflow">return</span> is_holding_() ? m_pholder_-&gt;size() : 0;</div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>    }</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span> </div>
+<div class="foldopen" id="foldopen00262" data-start="{" data-end="}">
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#af4d452340ab895507bc0d315bafdaeb1">  262</a></span>    size_type <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#af4d452340ab895507bc0d315bafdaeb1">size</a>() const noexcept {</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>        <span class="keywordflow">return</span> is_holding_() ? m_pholder_-&gt;size() : 0;</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>    }</div>
 </div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span> </div>
-<div class="foldopen" id="foldopen00275" data-start="{" data-end="}">
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#ac7282e501eb469c92e94864586fa7262">  275</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ac7282e501eb469c92e94864586fa7262">is_contiguous</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>        <span class="keywordflow">return</span> is_holding_() ? m_pholder_-&gt;is_contiguous() : <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    }</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span> </div>
+<div class="foldopen" id="foldopen00278" data-start="{" data-end="}">
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#ac7282e501eb469c92e94864586fa7262">  278</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ac7282e501eb469c92e94864586fa7262">is_contiguous</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>        <span class="keywordflow">return</span> is_holding_() ? m_pholder_-&gt;is_contiguous() : <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    }</div>
 </div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span> </div>
-<div class="foldopen" id="foldopen00291" data-start="{" data-end="}">
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a695f2bdcbdcd5772ba203c4e1a56686c">  291</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a695f2bdcbdcd5772ba203c4e1a56686c">operator==</a>(<span class="keyword">const</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp; other)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>        <span class="keywordflow">if</span>(is_holding_() &amp;&amp; other.is_holding_())</div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>            <span class="keywordflow">return</span> m_pholder_-&gt;are_equal(*other.m_pholder_);</div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span>(!is_holding_() &amp;&amp; !other.is_holding_())</div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>        <span class="keywordflow">else</span> <span class="comment">// One is holding and the other is not, but may both be size 0</span></div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#af4d452340ab895507bc0d315bafdaeb1">size</a>() == other.<a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#af4d452340ab895507bc0d315bafdaeb1">size</a>();</div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>    }</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span> </div>
+<div class="foldopen" id="foldopen00294" data-start="{" data-end="}">
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a695f2bdcbdcd5772ba203c4e1a56686c">  294</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a695f2bdcbdcd5772ba203c4e1a56686c">operator==</a>(<span class="keyword">const</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp; other)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>        <span class="keywordflow">if</span>(is_holding_() &amp;&amp; other.is_holding_())</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>            <span class="keywordflow">return</span> m_pholder_-&gt;are_equal(*other.m_pholder_);</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span>(!is_holding_() &amp;&amp; !other.is_holding_())</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>        <span class="keywordflow">else</span> <span class="comment">// One is holding and the other is not, but may both be size 0</span></div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#af4d452340ab895507bc0d315bafdaeb1">size</a>() == other.<a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#af4d452340ab895507bc0d315bafdaeb1">size</a>();</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>    }</div>
 </div>
-<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span> </div>
-<div class="foldopen" id="foldopen00312" data-start="{" data-end="}">
-<div class="line"><a id="l00312" name="l00312"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#ae1dc02940581e3fe8e02bbdbcc91f504">  312</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ae1dc02940581e3fe8e02bbdbcc91f504">operator!=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp; other)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>        <span class="keywordflow">return</span> !(*<span class="keyword">this</span> == other);</div>
-<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>    }</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span> </div>
+<div class="foldopen" id="foldopen00315" data-start="{" data-end="}">
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#ae1dc02940581e3fe8e02bbdbcc91f504">  315</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ae1dc02940581e3fe8e02bbdbcc91f504">operator!=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp; other)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>        <span class="keywordflow">return</span> !(*<span class="keyword">this</span> == other);</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>    }</div>
 </div>
-<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span> </div>
-<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>    std::span&lt;T&gt; value() {</div>
-<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>        <span class="keywordflow">if</span>(!is_holding_()) <span class="keywordflow">return</span> {};</div>
-<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>        <span class="keywordflow">return</span> wtf::cast::detail_::restore&lt;detail_::ContiguousModel, T&gt;(</div>
-<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>                 holder_(),</div>
-<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>                 <span class="stringliteral">&quot;FloatBuffer does not hold the requested floating-point &quot;</span></div>
-<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>                 <span class="stringliteral">&quot;type&quot;</span>)</div>
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>          .span();</div>
-<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>    }</div>
-<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span> </div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    std::span&lt;const T&gt; value()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>        <span class="keywordflow">if</span>(!is_holding_()) <span class="keywordflow">return</span> {};</div>
-<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>        <span class="comment">// The underlying holder is never actually const (only the</span></div>
-<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>        <span class="comment">// unique_ptr member is, and only because *this is const); casting</span></div>
-<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>        <span class="comment">// away *this&#39;s constness lets us reuse the same restore() call the</span></div>
-<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>        <span class="comment">// non-const overload uses.</span></div>
-<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>        <span class="keywordflow">return</span> wtf::cast::detail_::restore&lt;detail_::ContiguousModel, T&gt;(</div>
-<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>                 <span class="keyword">const_cast&lt;</span><a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">FloatBuffer</a>*<span class="keyword">&gt;</span>(<span class="keyword">this</span>)-&gt;holder_(),</div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>                 <span class="stringliteral">&quot;FloatBuffer does not hold the requested floating-point &quot;</span></div>
-<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>                 <span class="stringliteral">&quot;type&quot;</span>)</div>
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>          .span();</div>
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>    }</div>
-<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span> </div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>    <span class="comment">// -------------------------------------------------------------------------</span></div>
-<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>    <span class="comment">// Growth</span></div>
-<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>    <span class="comment">// -------------------------------------------------------------------------</span></div>
-<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span> </div>
-<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>    <span class="keyword">template</span>&lt;concepts::FloatingPo<span class="keywordtype">int</span> T&gt;</div>
-<div class="foldopen" id="foldopen00364" data-start="{" data-end="}">
-<div class="line"><a id="l00364" name="l00364"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#ab7b47ad64dd179aedd90ddc6bc26dde8">  364</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ab7b47ad64dd179aedd90ddc6bc26dde8">push_back</a>(T value) {</div>
-<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>        <span class="keyword">using </span>clean_t = std::decay_t&lt;T&gt;;</div>
-<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>        <span class="keywordflow">if</span>(!is_holding_()) { *<span class="keyword">this</span> = <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">FloatBuffer</a>(std::vector&lt;clean_t&gt;{}); }</div>
-<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>        <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ab7b47ad64dd179aedd90ddc6bc26dde8">push_back</a>(fp::make_float&lt;clean_t&gt;(std::move(value)));</div>
-<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>    }</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span> </div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>    std::span&lt;T&gt; value() {</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>        <span class="keywordflow">if</span>(!is_holding_()) <span class="keywordflow">return</span> {};</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>        <span class="keywordflow">return</span> wtf::cast::detail_::restore&lt;detail_::ContiguousModel, T&gt;(</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>                 holder_(),</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>                 <span class="stringliteral">&quot;FloatBuffer does not hold the requested floating-point &quot;</span></div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>                 <span class="stringliteral">&quot;type&quot;</span>)</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>          .span();</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    }</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span> </div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>    std::span&lt;const T&gt; value()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>        <span class="keywordflow">if</span>(!is_holding_()) <span class="keywordflow">return</span> {};</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>        <span class="comment">// The underlying holder is never actually const (only the</span></div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>        <span class="comment">// unique_ptr member is, and only because *this is const); casting</span></div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>        <span class="comment">// away *this&#39;s constness lets us reuse the same restore() call the</span></div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>        <span class="comment">// non-const overload uses.</span></div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>        <span class="keywordflow">return</span> wtf::cast::detail_::restore&lt;detail_::ContiguousModel, T&gt;(</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>                 <span class="keyword">const_cast&lt;</span><a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">FloatBuffer</a>*<span class="keyword">&gt;</span>(<span class="keyword">this</span>)-&gt;holder_(),</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>                 <span class="stringliteral">&quot;FloatBuffer does not hold the requested floating-point &quot;</span></div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>                 <span class="stringliteral">&quot;type&quot;</span>)</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>          .span();</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>    }</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span> </div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>    <span class="comment">// -------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>    <span class="comment">// Growth</span></div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>    <span class="comment">// -------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span> </div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>    <span class="keyword">template</span>&lt;concepts::FloatingPo<span class="keywordtype">int</span> T&gt;</div>
+<div class="foldopen" id="foldopen00367" data-start="{" data-end="}">
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#ab7b47ad64dd179aedd90ddc6bc26dde8">  367</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ab7b47ad64dd179aedd90ddc6bc26dde8">push_back</a>(T value) {</div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>        <span class="keyword">using </span>clean_t = std::decay_t&lt;T&gt;;</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>        <span class="keywordflow">if</span>(!is_holding_()) { *<span class="keyword">this</span> = <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">FloatBuffer</a>(std::vector&lt;clean_t&gt;{}); }</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>        <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ab7b47ad64dd179aedd90ddc6bc26dde8">push_back</a>(fp::make_float&lt;clean_t&gt;(std::move(value)));</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>    }</div>
 </div>
-<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span> </div>
-<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> TupleType = wtf::default_fp_types&gt;</div>
-<div class="foldopen" id="foldopen00397" data-start="{" data-end="}">
-<div class="line"><a id="l00397" name="l00397"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a612bb7307b6b37f8770aadfb69676e47">  397</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a612bb7307b6b37f8770aadfb69676e47">push_back</a>(value_type&amp; value) {</div>
-<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>        <span class="keywordflow">if</span>(!is_holding_()) {</div>
-<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>            fp::visit_float&lt;TupleType&gt;(</div>
-<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>              [<span class="keyword">this</span>](<span class="keyword">auto</span> v) { <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ab7b47ad64dd179aedd90ddc6bc26dde8">push_back</a>(std::move(v)); }, value);</div>
-<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>            holder_().<a class="code hl_function" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#aa2ac371b06f6020248e5dc90e7d0636c">push_back</a>(value.as_view());</div>
-<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>        }</div>
-<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>    }</div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span> </div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> TupleType = wtf::default_fp_types&gt;</div>
+<div class="foldopen" id="foldopen00400" data-start="{" data-end="}">
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a612bb7307b6b37f8770aadfb69676e47">  400</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a612bb7307b6b37f8770aadfb69676e47">push_back</a>(value_type&amp; value) {</div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>        <span class="keywordflow">if</span>(!is_holding_()) {</div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>            fp::visit_float&lt;TupleType&gt;(</div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>              [<span class="keyword">this</span>](<span class="keyword">auto</span> v) { <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ab7b47ad64dd179aedd90ddc6bc26dde8">push_back</a>(std::move(v)); }, value);</div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>            holder_().<a class="code hl_function" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#aa2ac371b06f6020248e5dc90e7d0636c">push_back</a>(value.as_view());</div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>        }</div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>    }</div>
 </div>
-<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span> </div>
-<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> TupleType = wtf::default_fp_types&gt;</div>
-<div class="foldopen" id="foldopen00425" data-start="{" data-end="}">
-<div class="line"><a id="l00425" name="l00425"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#ae9e9cedcc837402ad572898642c19bca">  425</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ae9e9cedcc837402ad572898642c19bca">push_back</a>(<span class="keyword">const</span> value_type&amp; value) {</div>
-<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>        <span class="keywordflow">if</span>(!is_holding_()) {</div>
-<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>            fp::visit_float&lt;TupleType&gt;(</div>
-<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>              [<span class="keyword">this</span>](<span class="keyword">auto</span> v) { <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ab7b47ad64dd179aedd90ddc6bc26dde8">push_back</a>(std::move(v)); }, value);</div>
-<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>            holder_().<a class="code hl_function" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#aa2ac371b06f6020248e5dc90e7d0636c">push_back</a>(value.as_view());</div>
-<div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>        }</div>
-<div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>    }</div>
+<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span> </div>
+<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> TupleType = wtf::default_fp_types&gt;</div>
+<div class="foldopen" id="foldopen00428" data-start="{" data-end="}">
+<div class="line"><a id="l00428" name="l00428"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#ae9e9cedcc837402ad572898642c19bca">  428</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ae9e9cedcc837402ad572898642c19bca">push_back</a>(<span class="keyword">const</span> value_type&amp; value) {</div>
+<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>        <span class="keywordflow">if</span>(!is_holding_()) {</div>
+<div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>            fp::visit_float&lt;TupleType&gt;(</div>
+<div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>              [<span class="keyword">this</span>](<span class="keyword">auto</span> v) { <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ab7b47ad64dd179aedd90ddc6bc26dde8">push_back</a>(std::move(v)); }, value);</div>
+<div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span>            holder_().<a class="code hl_function" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#aa2ac371b06f6020248e5dc90e7d0636c">push_back</a>(value.as_view());</div>
+<div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span>        }</div>
+<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>    }</div>
 </div>
-<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span> </div>
-<div class="line"><a id="l00457" name="l00457"></a><span class="lineno">  457</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> TupleType = <a class="code hl_typedef" href="namespacewtf.html#a746023b756b44de96d0dd25e8af54c30">wtf::default_fp_types</a>,</div>
-<div class="line"><a id="l00458" name="l00458"></a><span class="lineno">  458</span>             <a class="code hl_concept" href="conceptwtf_1_1concepts_1_1WTFFloat.html">concepts::WTFFloat</a> FloatType&gt;</div>
-<div class="foldopen" id="foldopen00459" data-start="{" data-end="}">
-<div class="line"><a id="l00459" name="l00459"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#ad49a068877bda94f7b2e337f1766188c">  459</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ad49a068877bda94f7b2e337f1766188c">push_back</a>(<a class="code hl_class" href="classwtf_1_1fp_1_1FloatView.html">fp::FloatView&lt;FloatType&gt;</a> value) {</div>
-<div class="line"><a id="l00460" name="l00460"></a><span class="lineno">  460</span>        <span class="keywordflow">if</span>(!is_holding_()) {</div>
-<div class="line"><a id="l00461" name="l00461"></a><span class="lineno">  461</span>            fp::visit_float_view&lt;TupleType&gt;(</div>
-<div class="line"><a id="l00462" name="l00462"></a><span class="lineno">  462</span>              [<span class="keyword">this</span>](<span class="keyword">auto</span> v) { <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ab7b47ad64dd179aedd90ddc6bc26dde8">push_back</a>(std::move(v)); }, value);</div>
-<div class="line"><a id="l00463" name="l00463"></a><span class="lineno">  463</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>            holder_().<a class="code hl_function" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#aa2ac371b06f6020248e5dc90e7d0636c">push_back</a>(value);</div>
-<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span>        }</div>
-<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span>    }</div>
+<div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span> </div>
+<div class="line"><a id="l00460" name="l00460"></a><span class="lineno">  460</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> TupleType = <a class="code hl_typedef" href="namespacewtf.html#a746023b756b44de96d0dd25e8af54c30">wtf::default_fp_types</a>,</div>
+<div class="line"><a id="l00461" name="l00461"></a><span class="lineno">  461</span>             <a class="code hl_concept" href="conceptwtf_1_1concepts_1_1WTFFloat.html">concepts::WTFFloat</a> FloatType&gt;</div>
+<div class="foldopen" id="foldopen00462" data-start="{" data-end="}">
+<div class="line"><a id="l00462" name="l00462"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#ad49a068877bda94f7b2e337f1766188c">  462</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ad49a068877bda94f7b2e337f1766188c">push_back</a>(<a class="code hl_class" href="classwtf_1_1fp_1_1FloatView.html">fp::FloatView&lt;FloatType&gt;</a> value) {</div>
+<div class="line"><a id="l00463" name="l00463"></a><span class="lineno">  463</span>        <span class="keywordflow">if</span>(!is_holding_()) {</div>
+<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>            fp::visit_float_view&lt;TupleType&gt;(</div>
+<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span>              [<span class="keyword">this</span>](<span class="keyword">auto</span> v) { <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#ab7b47ad64dd179aedd90ddc6bc26dde8">push_back</a>(std::move(v)); }, value);</div>
+<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span>            holder_().<a class="code hl_function" href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#aa2ac371b06f6020248e5dc90e7d0636c">push_back</a>(value);</div>
+<div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span>        }</div>
+<div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span>    }</div>
 </div>
-<div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span> </div>
-<div class="line"><a id="l00486" name="l00486"></a><span class="lineno">  486</span>    <span class="keyword">template</span>&lt;concepts::FloatingPo<span class="keywordtype">int</span> T&gt;</div>
-<div class="foldopen" id="foldopen00487" data-start="{" data-end="}">
-<div class="line"><a id="l00487" name="l00487"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a61554678936dd30fd11f35a5f880c70f">  487</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a61554678936dd30fd11f35a5f880c70f">reserve</a>(size_type n) {</div>
-<div class="line"><a id="l00488" name="l00488"></a><span class="lineno">  488</span>        <span class="keyword">using </span>clean_t = std::decay_t&lt;T&gt;;</div>
-<div class="line"><a id="l00489" name="l00489"></a><span class="lineno">  489</span>        <span class="keywordflow">if</span>(!is_holding_()) { *<span class="keyword">this</span> = <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">FloatBuffer</a>(std::vector&lt;clean_t&gt;{}); }</div>
-<div class="line"><a id="l00490" name="l00490"></a><span class="lineno">  490</span>        <span class="comment">// Here to ensure we get a throw if clean_t doesn&#39;t match the held type</span></div>
-<div class="line"><a id="l00491" name="l00491"></a><span class="lineno">  491</span>        wtf::cast::detail_::restore&lt;detail_::ContiguousModel, clean_t&gt;(</div>
-<div class="line"><a id="l00492" name="l00492"></a><span class="lineno">  492</span>          holder_(),</div>
-<div class="line"><a id="l00493" name="l00493"></a><span class="lineno">  493</span>          <span class="stringliteral">&quot;FloatBuffer does not hold the requested floating-point type&quot;</span>)</div>
-<div class="line"><a id="l00494" name="l00494"></a><span class="lineno">  494</span>          .reserve(n);</div>
-<div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span>    }</div>
+<div class="line"><a id="l00470" name="l00470"></a><span class="lineno">  470</span> </div>
+<div class="line"><a id="l00489" name="l00489"></a><span class="lineno">  489</span>    <span class="keyword">template</span>&lt;concepts::FloatingPo<span class="keywordtype">int</span> T&gt;</div>
+<div class="foldopen" id="foldopen00490" data-start="{" data-end="}">
+<div class="line"><a id="l00490" name="l00490"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a61554678936dd30fd11f35a5f880c70f">  490</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a61554678936dd30fd11f35a5f880c70f">reserve</a>(size_type n) {</div>
+<div class="line"><a id="l00491" name="l00491"></a><span class="lineno">  491</span>        <span class="keyword">using </span>clean_t = std::decay_t&lt;T&gt;;</div>
+<div class="line"><a id="l00492" name="l00492"></a><span class="lineno">  492</span>        <span class="keywordflow">if</span>(!is_holding_()) { *<span class="keyword">this</span> = <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">FloatBuffer</a>(std::vector&lt;clean_t&gt;{}); }</div>
+<div class="line"><a id="l00493" name="l00493"></a><span class="lineno">  493</span>        <span class="comment">// Here to ensure we get a throw if clean_t doesn&#39;t match the held type</span></div>
+<div class="line"><a id="l00494" name="l00494"></a><span class="lineno">  494</span>        wtf::cast::detail_::restore&lt;detail_::ContiguousModel, clean_t&gt;(</div>
+<div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span>          holder_(),</div>
+<div class="line"><a id="l00496" name="l00496"></a><span class="lineno">  496</span>          <span class="stringliteral">&quot;FloatBuffer does not hold the requested floating-point type&quot;</span>)</div>
+<div class="line"><a id="l00497" name="l00497"></a><span class="lineno">  497</span>          .reserve(n);</div>
+<div class="line"><a id="l00498" name="l00498"></a><span class="lineno">  498</span>    }</div>
 </div>
-<div class="line"><a id="l00496" name="l00496"></a><span class="lineno">  496</span> </div>
-<div class="line"><a id="l00497" name="l00497"></a><span class="lineno">  497</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00498" name="l00498"></a><span class="lineno">  498</span>    <span class="keywordtype">void</span> in_range_(size_type index)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00499" name="l00499"></a><span class="lineno">  499</span>        <span class="keywordflow">if</span>(index &gt;= <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#af4d452340ab895507bc0d315bafdaeb1">size</a>()) {</div>
-<div class="line"><a id="l00500" name="l00500"></a><span class="lineno">  500</span>            <span class="keywordflow">throw</span> std::out_of_range(<span class="stringliteral">&quot;Index out of range in FloatBuffer::at()&quot;</span>);</div>
-<div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span>        }</div>
-<div class="line"><a id="l00502" name="l00502"></a><span class="lineno">  502</span>    }</div>
-<div class="line"><a id="l00503" name="l00503"></a><span class="lineno">  503</span> </div>
-<div class="line"><a id="l00504" name="l00504"></a><span class="lineno">  504</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> TupleType, <span class="keyword">typename</span> Visitor, <span class="keyword">typename</span>... Args&gt;</div>
-<div class="line"><a id="l00505" name="l00505"></a><span class="lineno">  505</span>    <span class="keyword">friend</span> <span class="keyword">auto</span> visit_contiguous_buffer(Visitor&amp;&amp; visitor, Args&amp;&amp;... args);</div>
+<div class="line"><a id="l00499" name="l00499"></a><span class="lineno">  499</span> </div>
+<div class="line"><a id="l00500" name="l00500"></a><span class="lineno">  500</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span>    <span class="keywordtype">void</span> in_range_(size_type index)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00502" name="l00502"></a><span class="lineno">  502</span>        <span class="keywordflow">if</span>(index &gt;= <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#af4d452340ab895507bc0d315bafdaeb1">size</a>()) {</div>
+<div class="line"><a id="l00503" name="l00503"></a><span class="lineno">  503</span>            <span class="keywordflow">throw</span> std::out_of_range(<span class="stringliteral">&quot;Index out of range in FloatBuffer::at()&quot;</span>);</div>
+<div class="line"><a id="l00504" name="l00504"></a><span class="lineno">  504</span>        }</div>
+<div class="line"><a id="l00505" name="l00505"></a><span class="lineno">  505</span>    }</div>
 <div class="line"><a id="l00506" name="l00506"></a><span class="lineno">  506</span> </div>
-<div class="line"><a id="l00507" name="l00507"></a><span class="lineno">  507</span>    <a class="code hl_typedef" href="classwtf_1_1buffer_1_1FloatBuffer.html#a80ed37c2637d98388e48a0736eb1695b">holder_type</a>&amp; holder_() { <span class="keywordflow">return</span> *m_pholder_; }</div>
-<div class="line"><a id="l00508" name="l00508"></a><span class="lineno">  508</span> </div>
-<div class="line"><a id="l00509" name="l00509"></a><span class="lineno">  509</span>    <span class="keyword">const</span> <a class="code hl_typedef" href="classwtf_1_1buffer_1_1FloatBuffer.html#a80ed37c2637d98388e48a0736eb1695b">holder_type</a>&amp; holder_()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> *m_pholder_; }</div>
-<div class="line"><a id="l00510" name="l00510"></a><span class="lineno">  510</span> </div>
-<div class="line"><a id="l00512" name="l00512"></a><span class="lineno">  512</span>    <span class="keywordtype">bool</span> is_holding_() const noexcept { <span class="keywordflow">return</span> m_pholder_ != <span class="keyword">nullptr</span>; }</div>
+<div class="line"><a id="l00507" name="l00507"></a><span class="lineno">  507</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> TupleType, <span class="keyword">typename</span> Visitor, <span class="keyword">typename</span>... Args&gt;</div>
+<div class="line"><a id="l00508" name="l00508"></a><span class="lineno">  508</span>    <span class="keyword">friend</span> <span class="keyword">auto</span> visit_contiguous_buffer(Visitor&amp;&amp; visitor, Args&amp;&amp;... args);</div>
+<div class="line"><a id="l00509" name="l00509"></a><span class="lineno">  509</span> </div>
+<div class="line"><a id="l00510" name="l00510"></a><span class="lineno">  510</span>    <a class="code hl_typedef" href="classwtf_1_1buffer_1_1FloatBuffer.html#a80ed37c2637d98388e48a0736eb1695b">holder_type</a>&amp; holder_() { <span class="keywordflow">return</span> *m_pholder_; }</div>
+<div class="line"><a id="l00511" name="l00511"></a><span class="lineno">  511</span> </div>
+<div class="line"><a id="l00512" name="l00512"></a><span class="lineno">  512</span>    <span class="keyword">const</span> <a class="code hl_typedef" href="classwtf_1_1buffer_1_1FloatBuffer.html#a80ed37c2637d98388e48a0736eb1695b">holder_type</a>&amp; holder_()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> *m_pholder_; }</div>
 <div class="line"><a id="l00513" name="l00513"></a><span class="lineno">  513</span> </div>
-<div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span>    <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">FloatBuffer</a>(<a class="code hl_typedef" href="classwtf_1_1buffer_1_1FloatBuffer.html#a33ae684e80d7ae56007efd7066f7a087">holder_pointer</a> pholder) : m_pholder_(std::move(pholder)) {}</div>
+<div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span>    <span class="keywordtype">bool</span> is_holding_() const noexcept { <span class="keywordflow">return</span> m_pholder_ != <span class="keyword">nullptr</span>; }</div>
 <div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span> </div>
-<div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span>    <a class="code hl_typedef" href="classwtf_1_1buffer_1_1FloatBuffer.html#a33ae684e80d7ae56007efd7066f7a087">holder_pointer</a> m_pholder_;</div>
-<div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span>};</div>
+<div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span>    <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">FloatBuffer</a>(<a class="code hl_typedef" href="classwtf_1_1buffer_1_1FloatBuffer.html#a33ae684e80d7ae56007efd7066f7a087">holder_pointer</a> pholder) : m_pholder_(std::move(pholder)) {}</div>
+<div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span> </div>
+<div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span>    <a class="code hl_typedef" href="classwtf_1_1buffer_1_1FloatBuffer.html#a33ae684e80d7ae56007efd7066f7a087">holder_pointer</a> m_pholder_;</div>
+<div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span>};</div>
 </div>
-<div class="line"><a id="l00520" name="l00520"></a><span class="lineno">  520</span> </div>
-<div class="line"><a id="l00532" name="l00532"></a><span class="lineno">  532</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span>... Args&gt;</div>
-<div class="foldopen" id="foldopen00533" data-start="{" data-end="}">
-<div class="line"><a id="l00533" name="l00533"></a><span class="lineno"><a class="line" href="namespacewtf_1_1buffer.html#aa69393a81a4a6602c2666425621e952b">  533</a></span><span class="keyword">auto</span> <a class="code hl_function" href="namespacewtf_1_1buffer.html#aa69393a81a4a6602c2666425621e952b">make_float_buffer</a>(Args&amp;&amp;... args) {</div>
-<div class="line"><a id="l00534" name="l00534"></a><span class="lineno">  534</span>    <span class="keywordflow">return</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>(std::forward&lt;Args&gt;(args)...);</div>
-<div class="line"><a id="l00535" name="l00535"></a><span class="lineno">  535</span>}</div>
+<div class="line"><a id="l00523" name="l00523"></a><span class="lineno">  523</span> </div>
+<div class="line"><a id="l00535" name="l00535"></a><span class="lineno">  535</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span>... Args&gt;</div>
+<div class="foldopen" id="foldopen00536" data-start="{" data-end="}">
+<div class="line"><a id="l00536" name="l00536"></a><span class="lineno"><a class="line" href="namespacewtf_1_1buffer.html#aa69393a81a4a6602c2666425621e952b">  536</a></span><span class="keyword">auto</span> <a class="code hl_function" href="namespacewtf_1_1buffer.html#aa69393a81a4a6602c2666425621e952b">make_float_buffer</a>(Args&amp;&amp;... args) {</div>
+<div class="line"><a id="l00537" name="l00537"></a><span class="lineno">  537</span>    <span class="keywordflow">return</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>(std::forward&lt;Args&gt;(args)...);</div>
+<div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span>}</div>
 </div>
-<div class="line"><a id="l00536" name="l00536"></a><span class="lineno">  536</span> </div>
-<div class="line"><a id="l00573" name="l00573"></a><span class="lineno">  573</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> TupleType     = <a class="code hl_typedef" href="namespacewtf.html#a746023b756b44de96d0dd25e8af54c30">wtf::default_fp_types</a>,</div>
-<div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span>         std::integral SizeType = FloatBuffer::size_type&gt;</div>
-<div class="foldopen" id="foldopen00575" data-start="{" data-end="}">
-<div class="line"><a id="l00575" name="l00575"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#afebcbe94251a42b9941933aabf3294be">  575</a></span><a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afebcbe94251a42b9941933aabf3294be">make_float_buffer</a>(<a class="code hl_class" href="classwtf_1_1enums_1_1FloatKind.html">enums::FloatKind</a> kind, SizeType n = 0) {</div>
-<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>    <span class="keyword">auto</span> size = <span class="keyword">static_cast&lt;</span>FloatBuffer::size_type<span class="keyword">&gt;</span>(n);</div>
-<div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>    <span class="keywordflow">return</span> enums::detail_::dispatch_by_kind&lt;TupleType&gt;(</div>
-<div class="line"><a id="l00578" name="l00578"></a><span class="lineno">  578</span>      kind, [&amp;]&lt;<span class="keyword">typename</span> T&gt;() { <span class="keywordflow">return</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>(std::vector&lt;T&gt;(size)); });</div>
-<div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span>}</div>
+<div class="line"><a id="l00539" name="l00539"></a><span class="lineno">  539</span> </div>
+<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> TupleType     = <a class="code hl_typedef" href="namespacewtf.html#a746023b756b44de96d0dd25e8af54c30">wtf::default_fp_types</a>,</div>
+<div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>         std::integral SizeType = FloatBuffer::size_type&gt;</div>
+<div class="foldopen" id="foldopen00578" data-start="{" data-end="}">
+<div class="line"><a id="l00578" name="l00578"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#afebcbe94251a42b9941933aabf3294be">  578</a></span><a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afebcbe94251a42b9941933aabf3294be">make_float_buffer</a>(<a class="code hl_class" href="classwtf_1_1enums_1_1FloatKind.html">enums::FloatKind</a> kind, SizeType n = 0) {</div>
+<div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span>    <span class="keyword">auto</span> size = <span class="keyword">static_cast&lt;</span>FloatBuffer::size_type<span class="keyword">&gt;</span>(n);</div>
+<div class="line"><a id="l00580" name="l00580"></a><span class="lineno">  580</span>    <span class="keywordflow">return</span> enums::detail_::dispatch_by_kind&lt;TupleType&gt;(</div>
+<div class="line"><a id="l00581" name="l00581"></a><span class="lineno">  581</span>      kind, [&amp;]&lt;<span class="keyword">typename</span> T&gt;() { <span class="keywordflow">return</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>(std::vector&lt;T&gt;(size)); });</div>
+<div class="line"><a id="l00582" name="l00582"></a><span class="lineno">  582</span>}</div>
 </div>
-<div class="line"><a id="l00580" name="l00580"></a><span class="lineno">  580</span> </div>
-<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> TupleType&gt;</div>
-<div class="foldopen" id="foldopen00603" data-start="{" data-end="}">
-<div class="line"><a id="l00603" name="l00603"></a><span class="lineno"><a class="line" href="namespacewtf_1_1buffer.html#a3a48293e8271bb4caf18e4bbd9400098">  603</a></span><span class="keyword">auto</span> <a class="code hl_function" href="namespacewtf_1_1buffer.html#aa69393a81a4a6602c2666425621e952b">make_float_buffer</a>(std::vector&lt;FloatBuffer::value_type&gt; buffer) {</div>
-<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span>    <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a> rv;</div>
-<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>    <span class="keywordflow">if</span>(buffer.size() == 0) <span class="keywordflow">return</span> rv;</div>
-<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>    <span class="keyword">auto</span> initializer = [&amp;](<span class="keyword">auto</span> value0) {</div>
-<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>        <span class="keyword">using </span>T = std::decay_t&lt;<span class="keyword">decltype</span>(value0)&gt;;</div>
-<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>        std::vector&lt;T&gt; temp_buffer(buffer.size());</div>
-<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span>        rv       = <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>(std::move(temp_buffer));</div>
-<div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span>        rv.<a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a79439d94db5eea1d58d16c5f54669929">at</a>(0) = value0;</div>
-<div class="line"><a id="l00611" name="l00611"></a><span class="lineno">  611</span>    };</div>
-<div class="line"><a id="l00612" name="l00612"></a><span class="lineno">  612</span>    fp::visit_float&lt;TupleType&gt;(initializer, buffer[0]);</div>
-<div class="line"><a id="l00613" name="l00613"></a><span class="lineno">  613</span>    <span class="keywordflow">for</span>(std::size_t i = 1; i &lt; buffer.size(); ++i) {</div>
-<div class="line"><a id="l00614" name="l00614"></a><span class="lineno">  614</span>        <span class="keyword">auto</span> appender = [&amp;](<span class="keyword">auto</span> value) { rv.<a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a79439d94db5eea1d58d16c5f54669929">at</a>(i) = value; };</div>
-<div class="line"><a id="l00615" name="l00615"></a><span class="lineno">  615</span>        fp::visit_float&lt;TupleType&gt;(appender, buffer[i]);</div>
-<div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span>    }</div>
-<div class="line"><a id="l00617" name="l00617"></a><span class="lineno">  617</span>    <span class="keywordflow">return</span> rv;</div>
-<div class="line"><a id="l00618" name="l00618"></a><span class="lineno">  618</span>}</div>
+<div class="line"><a id="l00583" name="l00583"></a><span class="lineno">  583</span> </div>
+<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> TupleType&gt;</div>
+<div class="foldopen" id="foldopen00606" data-start="{" data-end="}">
+<div class="line"><a id="l00606" name="l00606"></a><span class="lineno"><a class="line" href="namespacewtf_1_1buffer.html#a3a48293e8271bb4caf18e4bbd9400098">  606</a></span><span class="keyword">auto</span> <a class="code hl_function" href="namespacewtf_1_1buffer.html#aa69393a81a4a6602c2666425621e952b">make_float_buffer</a>(std::vector&lt;FloatBuffer::value_type&gt; buffer) {</div>
+<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>    <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a> rv;</div>
+<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>    <span class="keywordflow">if</span>(buffer.size() == 0) <span class="keywordflow">return</span> rv;</div>
+<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span>    <span class="keyword">auto</span> initializer = [&amp;](<span class="keyword">auto</span> value0) {</div>
+<div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span>        <span class="keyword">using </span>T = std::decay_t&lt;<span class="keyword">decltype</span>(value0)&gt;;</div>
+<div class="line"><a id="l00611" name="l00611"></a><span class="lineno">  611</span>        std::vector&lt;T&gt; temp_buffer(buffer.size());</div>
+<div class="line"><a id="l00612" name="l00612"></a><span class="lineno">  612</span>        rv       = <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>(std::move(temp_buffer));</div>
+<div class="line"><a id="l00613" name="l00613"></a><span class="lineno">  613</span>        rv.<a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a79439d94db5eea1d58d16c5f54669929">at</a>(0) = value0;</div>
+<div class="line"><a id="l00614" name="l00614"></a><span class="lineno">  614</span>    };</div>
+<div class="line"><a id="l00615" name="l00615"></a><span class="lineno">  615</span>    fp::visit_float&lt;TupleType&gt;(initializer, buffer[0]);</div>
+<div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span>    <span class="keywordflow">for</span>(std::size_t i = 1; i &lt; buffer.size(); ++i) {</div>
+<div class="line"><a id="l00617" name="l00617"></a><span class="lineno">  617</span>        <span class="keyword">auto</span> appender = [&amp;](<span class="keyword">auto</span> value) { rv.<a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a79439d94db5eea1d58d16c5f54669929">at</a>(i) = value; };</div>
+<div class="line"><a id="l00618" name="l00618"></a><span class="lineno">  618</span>        fp::visit_float&lt;TupleType&gt;(appender, buffer[i]);</div>
+<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>    }</div>
+<div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span>    <span class="keywordflow">return</span> rv;</div>
+<div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span>}</div>
 </div>
-<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span> </div>
-<div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> TupleType&gt;</div>
-<div class="foldopen" id="foldopen00640" data-start="{" data-end="}">
-<div class="line"><a id="l00640" name="l00640"></a><span class="lineno"><a class="line" href="namespacewtf_1_1buffer.html#aa86d5a454d358a045b5b767d63d88ade">  640</a></span><span class="keyword">auto</span> <a class="code hl_function" href="namespacewtf_1_1buffer.html#aa69393a81a4a6602c2666425621e952b">make_float_buffer</a>(std::initializer_list&lt;FloatBuffer::value_type&gt; buffer) {</div>
-<div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span>    <span class="keywordflow">return</span> make_float_buffer&lt;TupleType&gt;(</div>
-<div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span>      std::vector&lt;FloatBuffer::value_type&gt;(buffer));</div>
-<div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>}</div>
+<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span> </div>
+<div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> TupleType&gt;</div>
+<div class="foldopen" id="foldopen00643" data-start="{" data-end="}">
+<div class="line"><a id="l00643" name="l00643"></a><span class="lineno"><a class="line" href="namespacewtf_1_1buffer.html#aa86d5a454d358a045b5b767d63d88ade">  643</a></span><span class="keyword">auto</span> <a class="code hl_function" href="namespacewtf_1_1buffer.html#aa69393a81a4a6602c2666425621e952b">make_float_buffer</a>(std::initializer_list&lt;FloatBuffer::value_type&gt; buffer) {</div>
+<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>    <span class="keywordflow">return</span> make_float_buffer&lt;TupleType&gt;(</div>
+<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>      std::vector&lt;FloatBuffer::value_type&gt;(buffer));</div>
+<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>}</div>
 </div>
-<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span> </div>
-<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span><span class="keyword">template</span>&lt;concepts::FloatingPo<span class="keywordtype">int</span> T&gt;</div>
-<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>std::span&lt;T&gt; contiguous_buffer_cast(FloatBuffer&amp; buffer) {</div>
-<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span>    <span class="keywordflow">if</span>(!buffer.is_contiguous()) {</div>
-<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>        <span class="keywordflow">throw</span> std::runtime_error(</div>
-<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>          <span class="stringliteral">&quot;Cannot cast non-contiguous FloatBuffer to span&quot;</span>);</div>
-<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>    }</div>
-<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>    <span class="keywordflow">return</span> buffer.template value&lt;T&gt;();</div>
-<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>}</div>
-<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span> </div>
-<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> TupleType, <span class="keyword">typename</span> Visitor, <span class="keyword">typename</span>... Args&gt;</div>
-<div class="foldopen" id="foldopen00684" data-start="{" data-end="}">
-<div class="line"><a id="l00684" name="l00684"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a1a61270d41b7b3c12b74fa06c27a131a">  684</a></span><span class="keyword">auto</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a1a61270d41b7b3c12b74fa06c27a131a">visit_contiguous_buffer</a>(Visitor&amp;&amp; visitor, Args&amp;&amp;... args) {</div>
-<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>    <span class="keywordflow">return</span> detail_::visit_contiguous_model&lt;TupleType&gt;(</div>
-<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>      std::forward&lt;Visitor&gt;(visitor), args.holder_()...);</div>
-<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>}</div>
+<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span> </div>
+<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span><span class="keyword">template</span>&lt;concepts::FloatingPo<span class="keywordtype">int</span> T&gt;</div>
+<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>std::span&lt;T&gt; contiguous_buffer_cast(FloatBuffer&amp; buffer) {</div>
+<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>    <span class="keywordflow">if</span>(!buffer.is_contiguous()) {</div>
+<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>        <span class="keywordflow">throw</span> std::runtime_error(</div>
+<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>          <span class="stringliteral">&quot;Cannot cast non-contiguous FloatBuffer to span&quot;</span>);</div>
+<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>    }</div>
+<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>    <span class="keywordflow">return</span> buffer.template value&lt;T&gt;();</div>
+<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>}</div>
+<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span> </div>
+<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> TupleType, <span class="keyword">typename</span> Visitor, <span class="keyword">typename</span>... Args&gt;</div>
+<div class="foldopen" id="foldopen00687" data-start="{" data-end="}">
+<div class="line"><a id="l00687" name="l00687"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a1a61270d41b7b3c12b74fa06c27a131a">  687</a></span><span class="keyword">auto</span> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a1a61270d41b7b3c12b74fa06c27a131a">visit_contiguous_buffer</a>(Visitor&amp;&amp; visitor, Args&amp;&amp;... args) {</div>
+<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>    <span class="keywordflow">return</span> detail_::visit_contiguous_model&lt;TupleType&gt;(</div>
+<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>      std::forward&lt;Visitor&gt;(visitor), args.holder_()...);</div>
+<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>}</div>
 </div>
-<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span> </div>
-<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span><span class="comment">// -----------------------------------------------------------------------------</span></div>
-<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span><span class="comment">// Out of line inline implementations</span></div>
-<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span><span class="comment">// -----------------------------------------------------------------------------</span></div>
-<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span> </div>
-<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span><span class="keyword">template</span>&lt;concepts::FloatingPo<span class="keywordtype">int</span> T&gt;</div>
-<div class="foldopen" id="foldopen00694" data-start="{" data-end="}">
-<div class="line"><a id="l00694" name="l00694"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a59eb74acdf2db8afe431a5bf0481f509">  694</a></span><a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">FloatBuffer::FloatBuffer</a>(std::vector&lt;T&gt; buffer) :</div>
-<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>  m_pholder_(std::make_unique&lt;detail_::ContiguousModel&lt;T&gt;&gt;(std::move(buffer))) {</div>
-<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span>}</div>
+<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span> </div>
+<div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> TupleType = wtf::default_fp_types&gt;</div>
+<div class="foldopen" id="foldopen00718" data-start="{" data-end="}">
+<div class="line"><a id="l00718" name="l00718"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a4b0b9e4d365633861f11c712f3bc4c45">  718</a></span><a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a> <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a4b0b9e4d365633861f11c712f3bc4c45">concatenate</a>(std::span&lt;const FloatBuffer&gt; buffers) {</div>
+<div class="line"><a id="l00719" name="l00719"></a><span class="lineno">  719</span>    FloatBuffer::size_type n = 0;</div>
+<div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span>    <span class="keyword">const</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>* first = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span>    <span class="keywordflow">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; buffer : buffers) {</div>
+<div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>        n += buffer.<a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#af4d452340ab895507bc0d315bafdaeb1">size</a>();</div>
+<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>        <span class="keywordflow">if</span>(first == <span class="keyword">nullptr</span> &amp;&amp; buffer.<a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#af4d452340ab895507bc0d315bafdaeb1">size</a>() &gt; 0) first = &amp;buffer;</div>
+<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>    }</div>
+<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>    <span class="keywordflow">if</span>(first == <span class="keyword">nullptr</span>) <span class="keywordflow">return</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>{};</div>
+<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span> </div>
+<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>    <span class="comment">// The first non-empty buffer fixes the type of the result</span></div>
+<div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>    <span class="keyword">auto</span> concatenator = [&amp;]&lt;<span class="keyword">typename</span> T&gt;(std::span&lt;T&gt;) {</div>
+<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>        <span class="keyword">using </span>clean_type = std::remove_const_t&lt;T&gt;;</div>
+<div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span>        std::vector&lt;clean_type&gt; rv;</div>
+<div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span>        rv.<a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a61554678936dd30fd11f35a5f880c70f">reserve</a>(n);</div>
+<div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span>        <span class="keyword">auto</span> appender = [&amp;rv]&lt;<span class="keyword">typename</span> U&gt;(std::span&lt;U&gt; values) {</div>
+<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>            <span class="keywordflow">if</span> <span class="keyword">constexpr</span>(std::is_same_v&lt;std::remove_const_t&lt;U&gt;, clean_type&gt;) {</div>
+<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span>                rv.insert(rv.end(), values.begin(), values.end());</div>
+<div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span>                <span class="keywordflow">throw</span> std::runtime_error(</div>
+<div class="line"><a id="l00737" name="l00737"></a><span class="lineno">  737</span>                  <span class="stringliteral">&quot;wtf::buffer::concatenate: buffers must all hold the same &quot;</span></div>
+<div class="line"><a id="l00738" name="l00738"></a><span class="lineno">  738</span>                  <span class="stringliteral">&quot;type.&quot;</span>);</div>
+<div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span>            }</div>
+<div class="line"><a id="l00740" name="l00740"></a><span class="lineno">  740</span>        };</div>
+<div class="line"><a id="l00741" name="l00741"></a><span class="lineno">  741</span>        <span class="keywordflow">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; buffer : buffers) {</div>
+<div class="line"><a id="l00742" name="l00742"></a><span class="lineno">  742</span>            <span class="keywordflow">if</span>(buffer.size() == 0) <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00743" name="l00743"></a><span class="lineno">  743</span>            visit_contiguous_buffer&lt;TupleType&gt;(appender, buffer);</div>
+<div class="line"><a id="l00744" name="l00744"></a><span class="lineno">  744</span>        }</div>
+<div class="line"><a id="l00745" name="l00745"></a><span class="lineno">  745</span>        <span class="keywordflow">return</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>(std::move(rv));</div>
+<div class="line"><a id="l00746" name="l00746"></a><span class="lineno">  746</span>    };</div>
+<div class="line"><a id="l00747" name="l00747"></a><span class="lineno">  747</span>    <span class="keywordflow">return</span> visit_contiguous_buffer&lt;TupleType&gt;(concatenator, *first);</div>
+<div class="line"><a id="l00748" name="l00748"></a><span class="lineno">  748</span>}</div>
 </div>
-<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span> </div>
-<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span><span class="keyword">template</span>&lt;concepts::FPIterator BeginItr, concepts::FPIterator EndItr&gt;</div>
-<div class="foldopen" id="foldopen00699" data-start="{" data-end="}">
-<div class="line"><a id="l00699" name="l00699"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a7cfc18b2a1d3ff20aca110b8b448e6d8">  699</a></span><a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">FloatBuffer::FloatBuffer</a>(BeginItr&amp;&amp; begin, EndItr&amp;&amp; end) :</div>
-<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>  <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>(</div>
-<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>    std::vector(std::forward&lt;BeginItr&gt;(begin), std::forward&lt;EndItr&gt;(end))) {}</div>
+<div class="line"><a id="l00749" name="l00749"></a><span class="lineno">  749</span> </div>
+<div class="line"><a id="l00750" name="l00750"></a><span class="lineno">  750</span><span class="comment">// -----------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00751" name="l00751"></a><span class="lineno">  751</span><span class="comment">// Out of line inline implementations</span></div>
+<div class="line"><a id="l00752" name="l00752"></a><span class="lineno">  752</span><span class="comment">// -----------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00753" name="l00753"></a><span class="lineno">  753</span> </div>
+<div class="line"><a id="l00754" name="l00754"></a><span class="lineno">  754</span><span class="keyword">template</span>&lt;concepts::FloatingPo<span class="keywordtype">int</span> T&gt;</div>
+<div class="foldopen" id="foldopen00755" data-start="{" data-end="}">
+<div class="line"><a id="l00755" name="l00755"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a59eb74acdf2db8afe431a5bf0481f509">  755</a></span><a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">FloatBuffer::FloatBuffer</a>(std::vector&lt;T&gt; buffer) :</div>
+<div class="line"><a id="l00756" name="l00756"></a><span class="lineno">  756</span>  m_pholder_(std::make_unique&lt;detail_::ContiguousModel&lt;T&gt;&gt;(std::move(buffer))) {</div>
+<div class="line"><a id="l00757" name="l00757"></a><span class="lineno">  757</span>}</div>
 </div>
-<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span> </div>
-<div class="foldopen" id="foldopen00703" data-start="{" data-end="}">
-<div class="line"><a id="l00703" name="l00703"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a8830755b14fdcea4d0b742be31953569">  703</a></span><span class="keyword">inline</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp; <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a8830755b14fdcea4d0b742be31953569">FloatBuffer::operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp; other) {</div>
-<div class="line"><a id="l00704" name="l00704"></a><span class="lineno">  704</span>    <span class="keywordflow">if</span>(<span class="keyword">this</span> != &amp;other) {</div>
-<div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span>        <span class="keywordflow">if</span>(other.is_holding_())</div>
-<div class="line"><a id="l00706" name="l00706"></a><span class="lineno">  706</span>            m_pholder_ = other.m_pholder_-&gt;clone();</div>
-<div class="line"><a id="l00707" name="l00707"></a><span class="lineno">  707</span>        <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00708" name="l00708"></a><span class="lineno">  708</span>            m_pholder_.reset();</div>
-<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>    }</div>
-<div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span>    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
-<div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span>}</div>
+<div class="line"><a id="l00758" name="l00758"></a><span class="lineno">  758</span> </div>
+<div class="line"><a id="l00759" name="l00759"></a><span class="lineno">  759</span><span class="keyword">template</span>&lt;concepts::FPIterator BeginItr, concepts::FPIterator EndItr&gt;</div>
+<div class="foldopen" id="foldopen00760" data-start="{" data-end="}">
+<div class="line"><a id="l00760" name="l00760"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a7cfc18b2a1d3ff20aca110b8b448e6d8">  760</a></span><a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">FloatBuffer::FloatBuffer</a>(BeginItr&amp;&amp; begin, EndItr&amp;&amp; end) :</div>
+<div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span>  <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>(</div>
+<div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span>    std::vector(std::forward&lt;BeginItr&gt;(begin), std::forward&lt;EndItr&gt;(end))) {}</div>
 </div>
-<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span> </div>
-<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span>} <span class="comment">// namespace wtf::buffer</span></div>
+<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span> </div>
+<div class="foldopen" id="foldopen00764" data-start="{" data-end="}">
+<div class="line"><a id="l00764" name="l00764"></a><span class="lineno"><a class="line" href="classwtf_1_1buffer_1_1FloatBuffer.html#a8830755b14fdcea4d0b742be31953569">  764</a></span><span class="keyword">inline</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp; <a class="code hl_function" href="classwtf_1_1buffer_1_1FloatBuffer.html#a8830755b14fdcea4d0b742be31953569">FloatBuffer::operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classwtf_1_1buffer_1_1FloatBuffer.html">FloatBuffer</a>&amp; other) {</div>
+<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span>    <span class="keywordflow">if</span>(<span class="keyword">this</span> != &amp;other) {</div>
+<div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span>        <span class="keywordflow">if</span>(other.is_holding_())</div>
+<div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span>            m_pholder_ = other.m_pholder_-&gt;clone();</div>
+<div class="line"><a id="l00768" name="l00768"></a><span class="lineno">  768</span>        <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00769" name="l00769"></a><span class="lineno">  769</span>            m_pholder_.reset();</div>
+<div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span>    }</div>
+<div class="line"><a id="l00771" name="l00771"></a><span class="lineno">  771</span>    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span>}</div>
+</div>
+<div class="line"><a id="l00773" name="l00773"></a><span class="lineno">  773</span> </div>
+<div class="line"><a id="l00774" name="l00774"></a><span class="lineno">  774</span>} <span class="comment">// namespace wtf::buffer</span></div>
 <div class="ttc" id="aclasswtf_1_1buffer_1_1BufferView_html"><div class="ttname"><a href="classwtf_1_1buffer_1_1BufferView.html">wtf::buffer::BufferView</a></div><div class="ttdoc">A type-erased buffer of floating-point values.</div><div class="ttdef"><b>Definition</b> buffer_view.hpp:39</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html">wtf::buffer::FloatBuffer</a></div><div class="ttdoc">A type-erased buffer of floating-point values.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:37</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a002c06fc30fca256a1b280f9e9a0f0ea"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a002c06fc30fca256a1b280f9e9a0f0ea">wtf::buffer::FloatBuffer::as_view</a></div><div class="ttdeci">auto as_view() const</div><div class="ttdoc">Explicitly converts *this into a BufferView.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:202</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html">wtf::buffer::FloatBuffer</a></div><div class="ttdoc">A type-erased buffer of floating-point values.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:40</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a002c06fc30fca256a1b280f9e9a0f0ea"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a002c06fc30fca256a1b280f9e9a0f0ea">wtf::buffer::FloatBuffer::as_view</a></div><div class="ttdeci">auto as_view() const</div><div class="ttdoc">Explicitly converts *this into a BufferView.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:205</div></div>
 <div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a0c763c97ca7ae1bae432255d6436462f"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a0c763c97ca7ae1bae432255d6436462f">wtf::buffer::FloatBuffer::FloatBuffer</a></div><div class="ttdeci">FloatBuffer(FloatBuffer &amp;&amp;other) noexcept=default</div><div class="ttdoc">Creates a new FloatBuffer by taking the state from other.</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a12aa995db0ed62b437bf81bfae980263"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a12aa995db0ed62b437bf81bfae980263">wtf::buffer::FloatBuffer::FloatBuffer</a></div><div class="ttdeci">FloatBuffer(const FloatBuffer &amp;other)</div><div class="ttdoc">Creates a new FloatBuffer as a copy of other.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:134</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a164cb24d3bcc20a80761edde8ea90e6e"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a164cb24d3bcc20a80761edde8ea90e6e">wtf::buffer::FloatBuffer::as_view</a></div><div class="ttdeci">auto as_view()</div><div class="ttdoc">Explicitly converts *this into a BufferView.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:187</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a1a61270d41b7b3c12b74fa06c27a131a"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a1a61270d41b7b3c12b74fa06c27a131a">wtf::buffer::FloatBuffer::visit_contiguous_buffer</a></div><div class="ttdeci">auto visit_contiguous_buffer(Visitor &amp;&amp;visitor, Args &amp;&amp;... args)</div><div class="ttdoc">Wraps the process of calling a visitor with zero or more FloatBuffer objects.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:684</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a33ae684e80d7ae56007efd7066f7a087"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a33ae684e80d7ae56007efd7066f7a087">wtf::buffer::FloatBuffer::holder_pointer</a></div><div class="ttdeci">typename holder_type::holder_pointer holder_pointer</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:44</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a407663baaba19635328c674d5eea104b"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a407663baaba19635328c674d5eea104b">wtf::buffer::FloatBuffer::at</a></div><div class="ttdeci">const_view_type at(size_type index) const</div><div class="ttdoc">Returns the element with offset index.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:244</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a612bb7307b6b37f8770aadfb69676e47"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a612bb7307b6b37f8770aadfb69676e47">wtf::buffer::FloatBuffer::push_back</a></div><div class="ttdeci">void push_back(value_type &amp;value)</div><div class="ttdoc">Appends the value wrapped by value to the end of the buffer.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:397</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a61554678936dd30fd11f35a5f880c70f"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a61554678936dd30fd11f35a5f880c70f">wtf::buffer::FloatBuffer::reserve</a></div><div class="ttdeci">void reserve(size_type n)</div><div class="ttdoc">Reserves storage for at least n elements.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:487</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a695f2bdcbdcd5772ba203c4e1a56686c"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a695f2bdcbdcd5772ba203c4e1a56686c">wtf::buffer::FloatBuffer::operator==</a></div><div class="ttdeci">bool operator==(const FloatBuffer &amp;other) const</div><div class="ttdoc">Determines if *this is value equal to other.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:291</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a79439d94db5eea1d58d16c5f54669929"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a79439d94db5eea1d58d16c5f54669929">wtf::buffer::FloatBuffer::at</a></div><div class="ttdeci">view_type at(size_type index)</div><div class="ttdoc">Returns the element with offset index.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:227</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a80ed37c2637d98388e48a0736eb1695b"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a80ed37c2637d98388e48a0736eb1695b">wtf::buffer::FloatBuffer::holder_type</a></div><div class="ttdeci">detail_::BufferHolder holder_type</div><div class="ttdoc">Type defining the API for accessing the type-erased value.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:40</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a8830755b14fdcea4d0b742be31953569"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a8830755b14fdcea4d0b742be31953569">wtf::buffer::FloatBuffer::operator=</a></div><div class="ttdeci">FloatBuffer &amp; operator=(const FloatBuffer &amp;other)</div><div class="ttdoc">Overrides the state of *this with a deep copy of other.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:703</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_ab7b47ad64dd179aedd90ddc6bc26dde8"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#ab7b47ad64dd179aedd90ddc6bc26dde8">wtf::buffer::FloatBuffer::push_back</a></div><div class="ttdeci">void push_back(T value)</div><div class="ttdoc">Appends value to the end of the buffer.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:364</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_ac7282e501eb469c92e94864586fa7262"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#ac7282e501eb469c92e94864586fa7262">wtf::buffer::FloatBuffer::is_contiguous</a></div><div class="ttdeci">bool is_contiguous() const</div><div class="ttdoc">Does the held buffer store the values contiguously?</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:275</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_ad49a068877bda94f7b2e337f1766188c"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#ad49a068877bda94f7b2e337f1766188c">wtf::buffer::FloatBuffer::push_back</a></div><div class="ttdeci">void push_back(fp::FloatView&lt; FloatType &gt; value)</div><div class="ttdoc">Appends the value aliased by value to the end of the buffer.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:459</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a12aa995db0ed62b437bf81bfae980263"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a12aa995db0ed62b437bf81bfae980263">wtf::buffer::FloatBuffer::FloatBuffer</a></div><div class="ttdeci">FloatBuffer(const FloatBuffer &amp;other)</div><div class="ttdoc">Creates a new FloatBuffer as a copy of other.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:137</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a164cb24d3bcc20a80761edde8ea90e6e"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a164cb24d3bcc20a80761edde8ea90e6e">wtf::buffer::FloatBuffer::as_view</a></div><div class="ttdeci">auto as_view()</div><div class="ttdoc">Explicitly converts *this into a BufferView.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:190</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a1a61270d41b7b3c12b74fa06c27a131a"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a1a61270d41b7b3c12b74fa06c27a131a">wtf::buffer::FloatBuffer::visit_contiguous_buffer</a></div><div class="ttdeci">auto visit_contiguous_buffer(Visitor &amp;&amp;visitor, Args &amp;&amp;... args)</div><div class="ttdoc">Wraps the process of calling a visitor with zero or more FloatBuffer objects.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:687</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a33ae684e80d7ae56007efd7066f7a087"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a33ae684e80d7ae56007efd7066f7a087">wtf::buffer::FloatBuffer::holder_pointer</a></div><div class="ttdeci">typename holder_type::holder_pointer holder_pointer</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:47</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a407663baaba19635328c674d5eea104b"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a407663baaba19635328c674d5eea104b">wtf::buffer::FloatBuffer::at</a></div><div class="ttdeci">const_view_type at(size_type index) const</div><div class="ttdoc">Returns the element with offset index.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:247</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a4b0b9e4d365633861f11c712f3bc4c45"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a4b0b9e4d365633861f11c712f3bc4c45">wtf::buffer::FloatBuffer::concatenate</a></div><div class="ttdeci">FloatBuffer concatenate(std::span&lt; const FloatBuffer &gt; buffers)</div><div class="ttdoc">Concatenates a series of FloatBuffer objects into a single buffer.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:718</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a612bb7307b6b37f8770aadfb69676e47"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a612bb7307b6b37f8770aadfb69676e47">wtf::buffer::FloatBuffer::push_back</a></div><div class="ttdeci">void push_back(value_type &amp;value)</div><div class="ttdoc">Appends the value wrapped by value to the end of the buffer.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:400</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a61554678936dd30fd11f35a5f880c70f"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a61554678936dd30fd11f35a5f880c70f">wtf::buffer::FloatBuffer::reserve</a></div><div class="ttdeci">void reserve(size_type n)</div><div class="ttdoc">Reserves storage for at least n elements.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:490</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a695f2bdcbdcd5772ba203c4e1a56686c"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a695f2bdcbdcd5772ba203c4e1a56686c">wtf::buffer::FloatBuffer::operator==</a></div><div class="ttdeci">bool operator==(const FloatBuffer &amp;other) const</div><div class="ttdoc">Determines if *this is value equal to other.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:294</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a79439d94db5eea1d58d16c5f54669929"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a79439d94db5eea1d58d16c5f54669929">wtf::buffer::FloatBuffer::at</a></div><div class="ttdeci">view_type at(size_type index)</div><div class="ttdoc">Returns the element with offset index.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:230</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a80ed37c2637d98388e48a0736eb1695b"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a80ed37c2637d98388e48a0736eb1695b">wtf::buffer::FloatBuffer::holder_type</a></div><div class="ttdeci">detail_::BufferHolder holder_type</div><div class="ttdoc">Type defining the API for accessing the type-erased value.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:43</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_a8830755b14fdcea4d0b742be31953569"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#a8830755b14fdcea4d0b742be31953569">wtf::buffer::FloatBuffer::operator=</a></div><div class="ttdeci">FloatBuffer &amp; operator=(const FloatBuffer &amp;other)</div><div class="ttdoc">Overrides the state of *this with a deep copy of other.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:764</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_ab7b47ad64dd179aedd90ddc6bc26dde8"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#ab7b47ad64dd179aedd90ddc6bc26dde8">wtf::buffer::FloatBuffer::push_back</a></div><div class="ttdeci">void push_back(T value)</div><div class="ttdoc">Appends value to the end of the buffer.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:367</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_ac7282e501eb469c92e94864586fa7262"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#ac7282e501eb469c92e94864586fa7262">wtf::buffer::FloatBuffer::is_contiguous</a></div><div class="ttdeci">bool is_contiguous() const</div><div class="ttdoc">Does the held buffer store the values contiguously?</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:278</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_ad49a068877bda94f7b2e337f1766188c"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#ad49a068877bda94f7b2e337f1766188c">wtf::buffer::FloatBuffer::push_back</a></div><div class="ttdeci">void push_back(fp::FloatView&lt; FloatType &gt; value)</div><div class="ttdoc">Appends the value aliased by value to the end of the buffer.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:462</div></div>
 <div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_ade6375aa4f57ea7404ffcb6c8bbe430c"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#ade6375aa4f57ea7404ffcb6c8bbe430c">wtf::buffer::FloatBuffer::operator=</a></div><div class="ttdeci">FloatBuffer &amp; operator=(FloatBuffer &amp;&amp;other) noexcept=default</div><div class="ttdoc">Overrides the state of *this with the state in other.</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_ae1dc02940581e3fe8e02bbdbcc91f504"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#ae1dc02940581e3fe8e02bbdbcc91f504">wtf::buffer::FloatBuffer::operator!=</a></div><div class="ttdeci">bool operator!=(const FloatBuffer &amp;other) const</div><div class="ttdoc">Is this buffer different from other?</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:312</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_ae9e9cedcc837402ad572898642c19bca"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#ae9e9cedcc837402ad572898642c19bca">wtf::buffer::FloatBuffer::push_back</a></div><div class="ttdeci">void push_back(const value_type &amp;value)</div><div class="ttdoc">Appends the value wrapped by value to the end of the buffer.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:425</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_af4d452340ab895507bc0d315bafdaeb1"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#af4d452340ab895507bc0d315bafdaeb1">wtf::buffer::FloatBuffer::size</a></div><div class="ttdeci">size_type size() const noexcept</div><div class="ttdoc">Returns the number of elements in the buffer.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:259</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_ae1dc02940581e3fe8e02bbdbcc91f504"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#ae1dc02940581e3fe8e02bbdbcc91f504">wtf::buffer::FloatBuffer::operator!=</a></div><div class="ttdeci">bool operator!=(const FloatBuffer &amp;other) const</div><div class="ttdoc">Is this buffer different from other?</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:315</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_ae9e9cedcc837402ad572898642c19bca"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#ae9e9cedcc837402ad572898642c19bca">wtf::buffer::FloatBuffer::push_back</a></div><div class="ttdeci">void push_back(const value_type &amp;value)</div><div class="ttdoc">Appends the value wrapped by value to the end of the buffer.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:428</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_af4d452340ab895507bc0d315bafdaeb1"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#af4d452340ab895507bc0d315bafdaeb1">wtf::buffer::FloatBuffer::size</a></div><div class="ttdeci">size_type size() const noexcept</div><div class="ttdoc">Returns the number of elements in the buffer.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:262</div></div>
 <div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_afc62a8eb534601e52ce5873aae4979c2"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#afc62a8eb534601e52ce5873aae4979c2">wtf::buffer::FloatBuffer::FloatBuffer</a></div><div class="ttdeci">FloatBuffer() noexcept=default</div><div class="ttdoc">Creates an empty buffer.</div></div>
-<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_afebcbe94251a42b9941933aabf3294be"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#afebcbe94251a42b9941933aabf3294be">wtf::buffer::FloatBuffer::make_float_buffer</a></div><div class="ttdeci">FloatBuffer make_float_buffer(enums::FloatKind kind, SizeType n=0)</div><div class="ttdoc">Creates an empty FloatBuffer by selecting its element type at runtime.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:575</div></div>
+<div class="ttc" id="aclasswtf_1_1buffer_1_1FloatBuffer_html_afebcbe94251a42b9941933aabf3294be"><div class="ttname"><a href="classwtf_1_1buffer_1_1FloatBuffer.html#afebcbe94251a42b9941933aabf3294be">wtf::buffer::FloatBuffer::make_float_buffer</a></div><div class="ttdeci">FloatBuffer make_float_buffer(enums::FloatKind kind, SizeType n=0)</div><div class="ttdoc">Creates an empty FloatBuffer by selecting its element type at runtime.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:578</div></div>
 <div class="ttc" id="aclasswtf_1_1buffer_1_1detail___1_1BufferHolder_html"><div class="ttname"><a href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html">wtf::buffer::detail_::BufferHolder</a></div><div class="ttdoc">Defines the interface between the type-erased and typed buffer.</div><div class="ttdef"><b>Definition</b> buffer_holder.hpp:31</div></div>
 <div class="ttc" id="aclasswtf_1_1buffer_1_1detail___1_1BufferHolder_html_a049b31cff676c3cf6d23f2f8f3df2395"><div class="ttname"><a href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#a049b31cff676c3cf6d23f2f8f3df2395">wtf::buffer::detail_::BufferHolder::size_type</a></div><div class="ttdeci">std::size_t size_type</div><div class="ttdoc">Type used for indexing.</div><div class="ttdef"><b>Definition</b> buffer_holder.hpp:55</div></div>
 <div class="ttc" id="aclasswtf_1_1buffer_1_1detail___1_1BufferHolder_html_a4c7c8f0d1d017a3f0911025f6cbfaf2d"><div class="ttname"><a href="classwtf_1_1buffer_1_1detail___1_1BufferHolder.html#a4c7c8f0d1d017a3f0911025f6cbfaf2d">wtf::buffer::detail_::BufferHolder::const_view_type</a></div><div class="ttdeci">fp::FloatView&lt; const value_type &gt; const_view_type</div><div class="ttdoc">Type of a const view to an element of *this.</div><div class="ttdef"><b>Definition</b> buffer_holder.hpp:46</div></div>
@@ -449,7 +488,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="ttc" id="aclasswtf_1_1fp_1_1FloatView_html"><div class="ttname"><a href="classwtf_1_1fp_1_1FloatView.html">wtf::fp::FloatView</a></div><div class="ttdoc">Aliases an existing floating-point value.</div><div class="ttdef"><b>Definition</b> float_view.hpp:49</div></div>
 <div class="ttc" id="aconceptwtf_1_1concepts_1_1WTFFloat_html"><div class="ttname"><a href="conceptwtf_1_1concepts_1_1WTFFloat.html">wtf::concepts::WTFFloat</a></div><div class="ttdoc">Determines if T is a wtf::Float object.</div><div class="ttdef"><b>Definition</b> wtf_float.hpp:28</div></div>
 <div class="ttc" id="anamespacewtf_1_1buffer_html"><div class="ttname"><a href="namespacewtf_1_1buffer.html">wtf::buffer</a></div><div class="ttdoc">Contains classes and functions for interacting with type-erased buffers.</div><div class="ttdef"><b>Definition</b> buffer.hpp:28</div></div>
-<div class="ttc" id="anamespacewtf_1_1buffer_html_aa69393a81a4a6602c2666425621e952b"><div class="ttname"><a href="namespacewtf_1_1buffer.html#aa69393a81a4a6602c2666425621e952b">wtf::buffer::make_float_buffer</a></div><div class="ttdeci">auto make_float_buffer(Args &amp;&amp;... args)</div><div class="ttdoc">Wraps calling the FloatBuffer ctor.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:533</div></div>
+<div class="ttc" id="anamespacewtf_1_1buffer_html_aa69393a81a4a6602c2666425621e952b"><div class="ttname"><a href="namespacewtf_1_1buffer.html#aa69393a81a4a6602c2666425621e952b">wtf::buffer::make_float_buffer</a></div><div class="ttdeci">auto make_float_buffer(Args &amp;&amp;... args)</div><div class="ttdoc">Wraps calling the FloatBuffer ctor.</div><div class="ttdef"><b>Definition</b> float_buffer.hpp:536</div></div>
 <div class="ttc" id="anamespacewtf_html_a746023b756b44de96d0dd25e8af54c30"><div class="ttname"><a href="namespacewtf.html#a746023b756b44de96d0dd25e8af54c30">wtf::default_fp_types</a></div><div class="ttdeci">std::tuple&lt; float, double, long double &gt; default_fp_types</div><div class="ttdoc">A tuple holding C++'s default, real, floating-point types.</div><div class="ttdef"><b>Definition</b> types.hpp:23</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
