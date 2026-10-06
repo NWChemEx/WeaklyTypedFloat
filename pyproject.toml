@@ -16,6 +16,12 @@
 requires = [
     "scikit-build-core>=0.10",
     "setuptools-scm>=8",
+    # Ecosystem packages this build resolves from installed wheels rather
+    # than fetching from git master, so the wheel links against exactly the
+    # binaries users get at runtime and ships only its own files. Mirror
+    # [project].dependencies; leave the floors unbounded so the newest
+    # release is always resolved.
+    "nwchemex-nwxcmake>=0.1.0",
 ]
 build-backend = "scikit_build_core.build"
 
@@ -39,6 +45,11 @@ dev = ["pytest", "pre-commit"]
 [tool.scikit-build]
 metadata.version.provider = "scikit_build_core.metadata.setuptools_scm"
 wheel.packages = []
+# Ship only this project's own install rules ("wtf") plus third-party
+# dependencies this build had to fetch itself ("Unspecified", CMake's default
+# component). Ecosystem dependencies are resolved from their own wheels, and
+# their files belong to those wheels.
+install.components = ["wtf", "Unspecified"]
 build-dir = "build"
 
 [tool.setuptools_scm]
